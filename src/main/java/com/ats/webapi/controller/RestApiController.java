@@ -7,7 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,6 +36,7 @@ import com.ats.webapi.repository.FlavourRepository;
 import com.ats.webapi.repository.FranchiseForDispatchRepository;
 import com.ats.webapi.repository.FranchiseSupRepository;
 import com.ats.webapi.repository.FranchiseeRepository;
+import com.ats.webapi.repository.GenerateBillRepository;
 import com.ats.webapi.repository.GetBillDetailsRepository;
 import com.ats.webapi.repository.GetRegSpCakeOrdersRepository;
 import com.ats.webapi.repository.GetReorderByStockTypeRepository;
@@ -1104,7 +1108,7 @@ public class RestApiController {
 	// BillLogRepo saveBillLogRepo;
 
 	@RequestMapping(value = { "/insertBillData" }, method = RequestMethod.POST)
-	public @ResponseBody Info postBillData(@RequestBody PostBillDataCommon postBillDataCommon)
+	public @ResponseBody List<PostBillHeader> postBillData(@RequestBody PostBillDataCommon postBillDataCommon)
 			throws ParseException, JsonParseException, JsonMappingException, IOException {
 
 		List<PostBillHeader> jsonBillHeader = null;
@@ -1128,7 +1132,7 @@ public class RestApiController {
 			System.out.println("Exc in insertBillData rest Api " + e.getMessage());
 			e.printStackTrace();
 		}
-		return info;
+		return jsonBillHeader;
 
 	}
 
@@ -1468,7 +1472,35 @@ public class RestApiController {
 		jsonResult = orderService.placeOrder(orderJson);
 		return jsonResult;
 	}
+	// Place Item Manual Order
+		@Autowired
+		GenerateBillRepository generateBillRepository;
+		
+		@RequestMapping(value = { "/placeManualOrder" }, method = RequestMethod.POST)
+		public @ResponseBody List<GenerateBill> placeManualOrder(@RequestBody List<Orders> orderJson)
+				throws ParseException, JsonParseException, JsonMappingException, IOException {
+			List<GenerateBill> billList=null;
+			List<Orders> jsonResult;
+			OrderLog log = new OrderLog();
+			log.setFrId(orderJson.get(0).getFrId());
+			log.setJson(orderJson.toString());
+			logRespository.save(log);
 
+			jsonResult = orderService.placeOrder(orderJson);
+			ArrayList<Integer> list = new ArrayList<Integer>();
+
+			if(!jsonResult.isEmpty())
+			{
+				for(int i=0;i<jsonResult.size();i++)
+				{
+					list.add(jsonResult.get(i).getOrderId());
+				}
+				
+				 billList=generateBillRepository.getBillOfOrder(list);
+			}
+			
+			return billList;
+		}
 	// Place SpCake Order
 	@RequestMapping(value = { "/placeSpCakeOrder" }, method = RequestMethod.POST)
 

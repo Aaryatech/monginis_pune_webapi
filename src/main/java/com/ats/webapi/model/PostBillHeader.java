@@ -77,7 +77,9 @@ public class PostBillHeader implements Serializable {
 	@Column(name="igst_sum")
 	private float igstSum;
 	
-
+	@Column(name="disc_amt")//new
+	private float discAmt;
+	
 	@Transient
 	List<PostBillDetail> postBillDetailsList;
 	
@@ -231,15 +233,23 @@ public class PostBillHeader implements Serializable {
 		this.igstSum = igstSum;
 	}
 
+	public float getDiscAmt() {
+		return discAmt;
+	}
+
+	public void setDiscAmt(float discAmt) {
+		this.discAmt = discAmt;
+	}
+
 	@Override
 	public String toString() {
 		return "PostBillHeader [billNo=" + billNo + ", taxApplicable=" + taxApplicable + ", invoiceNo=" + invoiceNo
 				+ ", billDate=" + billDate + ", frId=" + frId + ", frCode=" + frCode + ", grandTotal=" + grandTotal
 				+ ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax + ", status=" + status + ", DelStatus="
 				+ DelStatus + ", remark=" + remark + ", time=" + time + ", billDateTime=" + billDateTime + ", sgstSum="
-				+ sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", postBillDetailsList="
-				+ postBillDetailsList + "]";
+				+ sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", discAmt=" + discAmt
+				+ ", postBillDetailsList=" + postBillDetailsList + "]";
 	}
 
-
+	
 }

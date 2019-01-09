@@ -71,6 +71,8 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
 	public List<Item> findByItemGrp1InAndDelStatusOrderByItemGrp2AscItemNameAsc(List<String> catIdList, int i);
 
+	public List<Item> findByDelStatusAndIdIn(int i, List<Integer> itemids);
+
 
 	
 } 

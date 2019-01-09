@@ -37,6 +37,7 @@ import com.ats.webapi.repository.GetReorderByStockTypeRepository;
 import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.ItemResponseRepository;
 import com.ats.webapi.repository.ItemStockRepository;
+import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.MessageRepository;
 import com.ats.webapi.repository.OrderLogRespository;
 import com.ats.webapi.repository.RouteRepository;
@@ -137,6 +138,8 @@ public class RestApiController {
 		return date;
 
 	}
+	@Autowired
+	private MainMenuConfigurationRepository mainMenuConfigurationRepository;
 	@Autowired
 	ConfigureFrListRepository configureFrListRepository;
 	@Autowired
@@ -2977,7 +2980,13 @@ public class RestApiController {
 		franchiseeAndMenu.setAllFranchisee(allFranchisee);
 		return franchiseeAndMenu;
 	}
+	@RequestMapping(value = { "/getNonConfMenus" }, method = RequestMethod.GET)
+	public @ResponseBody List<AllMenus> getNonConfMenus() {
 
+		List<AllMenus> allMenu = mainMenuConfigurationRepository.getAllNonConfMenus();
+		
+		return allMenu;
+	}
 	// Get Item
 	@RequestMapping(value = { "/getItem" }, method = RequestMethod.POST)
 	public @ResponseBody Item findItem(@RequestParam("id") int id) {

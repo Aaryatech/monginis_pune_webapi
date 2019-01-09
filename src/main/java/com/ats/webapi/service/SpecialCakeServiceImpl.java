@@ -129,7 +129,7 @@ public class SpecialCakeServiceImpl implements SpecialCakeService{
 
 	@Override
 	public List<String> searchSpecialCakeSpCodes(List<Integer>items,int frId,int menuId) {
-	    List<String> spCodeList=confiSpCodeRepository.findSpCode(items,frId,menuId);
+	    List<String> spCodeList=confiSpCodeRepository.findSpCode(items);//,frId,menuId
 
 		return spCodeList;
 	}

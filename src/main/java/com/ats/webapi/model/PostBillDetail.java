@@ -75,6 +75,9 @@ public class PostBillDetail {
 	@Column(name="base_rate")
 	private float baseRate;
 	
+	@Column(name="disc_per")//new
+	private float discPer;
+	
 	
 	@Column(name="taxable_amt")
 	private float taxableAmt;
@@ -100,6 +103,15 @@ public class PostBillDetail {
 	private int  isGrngvnApplied;
 	
 	
+	
+	public float getDiscPer() {
+		return discPer;
+	}
+
+	public void setDiscPer(float discPer) {
+		this.discPer = discPer;
+	}
+
 	public int getGrnType() {
 		return grnType;
 	}
@@ -319,12 +331,13 @@ public class PostBillDetail {
 				+ catId + ", itemId=" + itemId + ", orderQty=" + orderQty + ", billQty=" + billQty + ", orderId="
 				+ orderId + ", rateType=" + rateType + ", rate=" + rate + ", mrp=" + mrp + ", grandTotal=" + grandTotal
 				+ ", sgstPer=" + sgstPer + ", sgstRs=" + sgstRs + ", cgstPer=" + cgstPer + ", cgstRs=" + cgstRs
-				+ ", igstPer=" + igstPer + ", igstRs=" + igstRs + ", baseRate=" + baseRate + ", taxableAmt="
-				+ taxableAmt + ", remark=" + remark + ", totalTax=" + totalTax + ", delStatus=" + delStatus
-				+ ", grnType=" + grnType + ", expiryDate=" + expiryDate + ", isGrngvnApplied=" + isGrngvnApplied + "]";
+				+ ", igstPer=" + igstPer + ", igstRs=" + igstRs + ", baseRate=" + baseRate + ", discPer=" + discPer
+				+ ", taxableAmt=" + taxableAmt + ", remark=" + remark + ", totalTax=" + totalTax + ", delStatus="
+				+ delStatus + ", grnType=" + grnType + ", expiryDate=" + expiryDate + ", isGrngvnApplied="
+				+ isGrngvnApplied + "]";
 	}
 
-	
+
 	
 	
 }

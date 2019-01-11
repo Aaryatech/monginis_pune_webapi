@@ -40,6 +40,7 @@ import com.ats.webapi.repository.ItemStockRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.MessageRepository;
 import com.ats.webapi.repository.OrderLogRespository;
+import com.ats.webapi.repository.RouteMasterRepository;
 import com.ats.webapi.repository.RouteRepository;
 import com.ats.webapi.repository.SpCakeOrderHisRepository;
 import com.ats.webapi.repository.SpCakeOrderUpdateRepository;
@@ -378,6 +379,9 @@ public class RestApiController {
 
 	@Autowired
 	SpecialCakeRepository specialcakeRepository;
+	
+	@Autowired
+	RouteMasterRepository routeMasterRepository;
 
 	@RequestMapping(value = { "/changeAdminUserPass" }, method = RequestMethod.POST)
 	public @ResponseBody Info changeAdminUserPass(@RequestBody User user) {
@@ -1879,7 +1883,7 @@ public class RestApiController {
 	// Save Route
 	@RequestMapping(value = { "/insertRoute" }, method = RequestMethod.POST)
 	@ResponseBody
-	public String saveRoute(@RequestParam("routeName") String routeName) {
+	public String insertRoute(@RequestParam("routeName") String routeName,@RequestParam("acbType") int acbType,@RequestParam("seqNo") int seqNo) {
 		String jsonResult = "";
 
 		System.out.println("input route " + routeName.toString());
@@ -1890,6 +1894,17 @@ public class RestApiController {
 
 		jsonResult = JsonUtil.javaToJson(route);
 		jsonResult = routeService.save(route);
+
+		return jsonResult;
+	}
+	
+	//Akshay
+	@RequestMapping(value = { "/saveRoute" }, method = RequestMethod.POST)
+	@ResponseBody
+	public RouteMaster saveRoute(@RequestBody RouteMaster routeMaster) {
+		 
+ 
+		RouteMaster jsonResult = routeMasterRepository.save(routeMaster);
 
 		return jsonResult;
 	}
@@ -2191,6 +2206,16 @@ public class RestApiController {
 
 		return routeList;
 	}
+	
+	// Show Route List
+		@RequestMapping(value = { "/showRouteListNew" }, method = RequestMethod.GET)
+		@ResponseBody
+		public List<RouteMaster> showRouteListNew() {
+
+			List<RouteMaster> routeList=routeMasterRepository.findByDelStatusOrderByRouteNameAsc(0);
+ 
+			return routeList;
+		}
 
 	// show Special Cake
 	@RequestMapping(value = { "/showSpecialCakeList" }, method = RequestMethod.GET)
@@ -3008,6 +3033,13 @@ public class RestApiController {
 		Route route = routeService.findRoute(routeId);
 		return route;
 	}
+	
+	// Get Route
+		@RequestMapping(value = { "/getRouteNew" }, method = RequestMethod.GET)
+		public @ResponseBody RouteMaster getRouteNew(@RequestParam("routeId") int routeId) {
+			RouteMaster route = routeMasterRepository.findByRouteId(routeId);
+			return route;
+		}
 
 	// Get Message
 	@RequestMapping(value = { "/getMessage" }, method = RequestMethod.GET)

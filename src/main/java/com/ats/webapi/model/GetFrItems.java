@@ -1,16 +1,10 @@
 package com.ats.webapi.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 
 public class GetFrItems {
 	
-		private int id;
+	private int id;
 	
 	private String itemId;
 	
@@ -59,6 +53,18 @@ public class GetFrItems {
 	
 	private int minQty;
 	
+	private float discPer;//new
+	
+	
+	
+	public float getDiscPer() {
+		return discPer;
+	}
+
+	public void setDiscPer(float discPer) {
+		this.discPer = discPer;
+	}
+
 	public double getItemRate3() {
 		return itemRate3;
 	}
@@ -256,18 +262,12 @@ public class GetFrItems {
 	public String toString() {
 		return "GetFrItems [id=" + id + ", itemId=" + itemId + ", itemName=" + itemName + ", itemGrp1=" + itemGrp1
 				+ ", itemGrp2=" + itemGrp2 + ", itemGrp3=" + itemGrp3 + ", itemRate1=" + itemRate1 + ", itemRate2="
-				+ itemRate2 + ", itemMrp1=" + itemMrp1 + ", itemMrp2=" + itemMrp2 + ", itemImage=" + itemImage
-				+ ", itemTax1=" + itemTax1 + ", itemTax2=" + itemTax2 + ", itemTax3=" + itemTax3 + ", itemIsUsed="
-				+ itemIsUsed + ", itemSortId=" + itemSortId + ", grnTwo=" + grnTwo + ", itemQty=" + itemQty
-				+ ", delStatus=" + delStatus + ", subCatName=" + subCatName + ", menuId=" + menuId + "]";
+				+ itemRate2 + ", itemMrp1=" + itemMrp1 + ", itemMrp2=" + itemMrp2 + ", itemMrp3=" + itemMrp3
+				+ ", itemImage=" + itemImage + ", itemTax1=" + itemTax1 + ", itemTax2=" + itemTax2 + ", itemTax3="
+				+ itemTax3 + ", itemIsUsed=" + itemIsUsed + ", itemSortId=" + itemSortId + ", grnTwo=" + grnTwo
+				+ ", itemQty=" + itemQty + ", delStatus=" + delStatus + ", subCatName=" + subCatName + ", menuId="
+				+ menuId + ", itemRate3=" + itemRate3 + ", minQty=" + minQty + ", discPer=" + discPer + "]";
 	}
 
-
-
-	
-
-	
-
-	
 	
 }

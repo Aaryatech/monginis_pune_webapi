@@ -80,6 +80,7 @@ public class OrderServiceImpl implements OrderService {
 					} else {
 						prevOrder.setOrderQty(o.getOrderQty());
 						prevOrder.setEditQty(o.getOrderQty());//21-July-change-for editQty
+						prevOrder.setIsPositive(o.getIsPositive());//10-jan-19-change-for editQty
 						updatedOrder = orderRepository.save(prevOrder);
 						
 					}

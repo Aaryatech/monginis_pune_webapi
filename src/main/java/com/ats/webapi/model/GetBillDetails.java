@@ -112,9 +112,19 @@ public class GetBillDetails implements Serializable {
 		@Column(name="is_grngvn_applied")
 		private int  isGrngvnApplied;
 		
+		@Column(name="disc_per")
+		private float discPer;
 		
 		
 		
+		public float getDiscPer() {
+			return discPer;
+		}
+
+		public void setDiscPer(float discPer) {
+			this.discPer = discPer;
+		}
+
 		public int getIsGrngvnApplied() {
 			return isGrngvnApplied;
 		}
@@ -367,10 +377,9 @@ public class GetBillDetails implements Serializable {
 					+ ", taxableAmt=" + taxableAmt + ", remark=" + remark + ", delStatus=" + delStatus + ", itemName="
 					+ itemName + ", catName=" + catName + ", totalTax=" + totalTax + ", baseRate=" + baseRate
 					+ ", grnType=" + grnType + ", expiryDate=" + expiryDate + ", isGrngvnApplied=" + isGrngvnApplied
-					+ "]";
+					+ ", discPer=" + discPer + "]";
 		}
 
-		
 		
 		
 }

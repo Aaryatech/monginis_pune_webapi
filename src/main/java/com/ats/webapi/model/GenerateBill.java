@@ -22,7 +22,7 @@ public class GenerateBill {
 	int  frId;
 	
 	@Column(name="is_positive")
-	int  isPositive;
+	float  isPositive;
 	
 	@Column(name="menu_id")
 	int  menuId;
@@ -248,11 +248,11 @@ public class GenerateBill {
 		this.itemName = itemName;
 	}
 
-	public int getIsPositive() {
+	public float getIsPositive() {
 		return isPositive;
 	}
 
-	public void setIsPositive(int isPositive) {
+	public void setIsPositive(float isPositive) {
 		this.isPositive = isPositive;
 	}
 

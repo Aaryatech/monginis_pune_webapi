@@ -58,7 +58,7 @@ public class GetBillDetailPrint {
 	
 	@Column(name="sgst_rs")
 	private float sgstRs;
-	
+
 	@Column(name="cgst_per")
 	private float cgstPer;
 	
@@ -115,6 +115,30 @@ public class GetBillDetailPrint {
 	@Column(name="sub_cat_id")
 	private int  subCatId;
 	
+	@Column(name="disc_per")
+	private float discPer;//new
+	
+	@Column(name="disc_amt")
+	private float discAmt;//new
+	
+	
+	
+	
+	public float getDiscPer() {
+		return discPer;
+	}
+
+	public void setDiscPer(float discPer) {
+		this.discPer = discPer;
+	}
+
+	public float getDiscAmt() {
+		return discAmt;
+	}
+
+	public void setDiscAmt(float discAmt) {
+		this.discAmt = discAmt;
+	}
 
 	public int getBillDetailNo() {
 		return billDetailNo;
@@ -382,9 +406,9 @@ public class GetBillDetailPrint {
 				+ ", taxableAmt=" + taxableAmt + ", remark=" + remark + ", delStatus=" + delStatus + ", itemName="
 				+ itemName + ", catName=" + catName + ", totalTax=" + totalTax + ", baseRate=" + baseRate + ", grnType="
 				+ grnType + ", expiryDate=" + expiryDate + ", isGrngvnApplied=" + isGrngvnApplied + ", itemHsncd="
-				+ itemHsncd + ", itemUom=" + itemUom + ", subCatId=" + subCatId + "]";
+				+ itemHsncd + ", itemUom=" + itemUom + ", subCatId=" + subCatId + ", discPer=" + discPer + ", discAmt="
+				+ discAmt + "]";
 	}
-
+    
 	
-
 }

@@ -34,6 +34,7 @@ import com.ats.webapi.repository.FranchiseeRepository;
 import com.ats.webapi.repository.GetBillDetailsRepository;
 import com.ats.webapi.repository.GetRegSpCakeOrdersRepository;
 import com.ats.webapi.repository.GetReorderByStockTypeRepository;
+import com.ats.webapi.repository.ItemDiscConfiguredRepository;
 import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.ItemResponseRepository;
 import com.ats.webapi.repository.ItemStockRepository;
@@ -139,6 +140,9 @@ public class RestApiController {
 		return date;
 
 	}
+	@Autowired
+	ItemDiscConfiguredRepository itemDiscConfiguredRepository;
+	
 	@Autowired
 	private MainMenuConfigurationRepository mainMenuConfigurationRepository;
 	@Autowired
@@ -2866,7 +2870,8 @@ public class RestApiController {
 
 	// 3
 
-	@RequestMapping(value = "/getFrItems", method = RequestMethod.POST)
+
+@RequestMapping(value = "/getFrItems", method = RequestMethod.POST)
 	public @ResponseBody List<GetFrItems> getFrItems(@RequestParam List<Integer> items, @RequestParam String frId,
 			@RequestParam String date, @RequestParam String menuId) {
 
@@ -2884,7 +2889,9 @@ public class RestApiController {
 			try {
 				orderList = prevItemOrderService.findFrItemOrders(items, frId, date, menuId);
 
+				
 				for (int i = 0; i < itemList.size(); i++) {
+					
 
 					ItemWithSubCat item = itemList.get(i);
 
@@ -2923,7 +2930,13 @@ public class RestApiController {
 						}
 
 					}
-
+					float  discPer=0.0f;
+					try {//new change of discPer
+						discPer=itemDiscConfiguredRepository.findByIdAndFrId(item.getId(),Integer.parseInt(frId));
+						getFrItems.setDiscPer(discPer);
+					}catch (Exception e) {
+						// TODO: handle exception
+					}
 					frItemList.add(getFrItems);
 
 				}

@@ -3025,6 +3025,14 @@ public class RestApiController {
 		
 		return allMenu;
 	}
+	@RequestMapping(value = { "/getAllMenuList" }, method = RequestMethod.GET)
+	public @ResponseBody List<AllMenus> getAllMenuList() {
+
+		List<AllMenus> menus=new ArrayList<AllMenus>();
+		 menus=mainMenuConfigurationRepository.findByDelStatusOrderByMenuTitleAsc(0);
+		
+		return menus;
+	}
 	// Get Item
 	@RequestMapping(value = { "/getItem" }, method = RequestMethod.POST)
 	public @ResponseBody Item findItem(@RequestParam("id") int id) {

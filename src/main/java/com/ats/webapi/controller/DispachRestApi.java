@@ -98,7 +98,7 @@ public class DispachRestApi {
 	@RequestMapping(value = { "/getAbcDepatchReport" }, method = RequestMethod.POST)
 	@ResponseBody
 	public List<StaionListWithFranchiseeList> getAbcDepatchReport(@RequestParam("date") String date,@RequestParam("abcType") List<Integer> abcTypeList,
-			@RequestParam("stationNos") List<Integer> stationNos,@RequestParam("routId") int routId) {
+			@RequestParam("stationNos") List<Integer> stationNos,@RequestParam("routId") int routId,@RequestParam("menuIds") List<Integer> menuIds) {
 
 		List<StaionListWithFranchiseeList> stnList = new ArrayList<>();
 		try {
@@ -134,7 +134,7 @@ public class DispachRestApi {
 					System.err.println("index " + index);
 					
 					
-					List<ItemListForDispatchReport> itemList = itemListForDispatchReportRepository.getItemByFrIdAndDate(list.get(j).getFrId(),date,index,stationNos.get(i));
+					List<ItemListForDispatchReport> itemList = itemListForDispatchReportRepository.getItemByFrIdAndDate(list.get(j).getFrId(),date,index,stationNos.get(i),menuIds);
 					list.get(j).setItemList(itemList);
 					
 					try {

@@ -24,7 +24,7 @@ public interface ItemListForDispatchReportRepository extends JpaRepository<ItemL
 			"            t_order \n" + 
 			"        where\n" + 
 			"            production_date=:date \n" + 
-			"            and fr_id in(:frId)\n" + 
+			"            and fr_id in(:frId) and t_order.menu_id in (:menuIds)\n" + 
 			"    )   \n" + 
 			"    And t_order.fr_id=m_franchisee.fr_id \n" + 
 			"    and i.id=t_order.item_id),0 ) as order_qty,\n" + 
@@ -37,7 +37,7 @@ public interface ItemListForDispatchReportRepository extends JpaRepository<ItemL
 			"            t_order \n" + 
 			"        where\n" + 
 			"            production_date=:date \n" + 
-			"            and fr_id in(:frId)\n" + 
+			"            and fr_id in(:frId) and t_order.menu_id in (:menuIds)\n" + 
 			"    )   \n" + 
 			"    And t_order.fr_id=m_franchisee.fr_id \n" + 
 			"    and i.id=t_order.item_id),0 ) as edit_qty\n" + 
@@ -49,7 +49,7 @@ public interface ItemListForDispatchReportRepository extends JpaRepository<ItemL
 			"    item_grp2 asc,\n" + 
 			"    item_sort_id asc",nativeQuery=true)
 	List<ItemListForDispatchReport> getItemByFrIdAndDate(@Param("frId") int frId,@Param("date")  String date, @Param("index") int index,
-			@Param("stationN0") int stationN0); 
+			@Param("stationN0") int stationN0, @Param("menuIds") List<Integer> menuIds); 
 	
 	/*@Query(value="select\n" + 
 			"    @rownum \\:= @rownum + 1 AS id,\n" + 

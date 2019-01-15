@@ -2700,7 +2700,17 @@ public class RestApiController {
 		return items;
 
 	}
-
+	@RequestMapping(value = "/getDiscById", method = RequestMethod.POST)
+	public @ResponseBody float findByIdAndFrId(@RequestParam int id,@RequestParam int frId) {
+		float  discPer=0.0f;
+		try {
+		discPer=itemDiscConfiguredRepository.findByIdAndFrId(id,frId);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return discPer;
+	}
 	// Get Items By Category order by sub cat and sort id
 	@RequestMapping(value = "/getItemsByCatIdAndSortId", method = RequestMethod.POST)
 	public @ResponseBody List<Item> getItemsByCatIdAndSortId(@RequestParam String itemGrp1) {

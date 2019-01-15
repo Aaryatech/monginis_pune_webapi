@@ -17,7 +17,7 @@ public interface ConfigureFrRepository extends JpaRepository<ConfigureFranchisee
 
 	public ConfigureFranchisee findBySettingId(int setting_id);
 
-	@Query(value = "select menu_id from m_fr_configure WHERE fr_id=:frId ", nativeQuery = true)
+	@Query(value = "select menu_id from m_fr_configure WHERE setting_id in (select menu_id from m_fr_menu_configure where fr_id=:frId) ", nativeQuery = true)
 	public List<Integer> findConfiguredMenuId(@Param("frId") int frId);
 
 	// 23 march

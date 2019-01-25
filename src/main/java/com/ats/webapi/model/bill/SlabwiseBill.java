@@ -9,7 +9,11 @@ import javax.persistence.Id;
 public class SlabwiseBill implements Serializable{
 
 	@Id
+	private String itemHsncd;
+	
 	private float taxPer;
+	
+	private float billQty;
 	
 	private float taxableAmt;
 	
@@ -20,6 +24,24 @@ public class SlabwiseBill implements Serializable{
 	private float totalTax;
 	
 	private float grandTotal;
+
+	
+	
+	public float getBillQty() {
+		return billQty;
+	}
+
+	public void setBillQty(float billQty) {
+		this.billQty = billQty;
+	}
+
+	public String getItemHsncd() {
+		return itemHsncd;
+	}
+
+	public void setItemHsncd(String itemHsncd) {
+		this.itemHsncd = itemHsncd;
+	}
 
 	public float getTaxPer() {
 		return taxPer;
@@ -71,9 +93,10 @@ public class SlabwiseBill implements Serializable{
 
 	@Override
 	public String toString() {
-		return "SlabwiseBill [taxPer=" + taxPer + ", taxableAmt=" + taxableAmt + ", cgstAmt=" + cgstAmt + ", sgstAmt="
-				+ sgstAmt + ", totalTax=" + totalTax + ", grandTotal=" + grandTotal + "]";
+		return "SlabwiseBill [itemHsncd=" + itemHsncd + ", taxPer=" + taxPer + ", taxableAmt=" + taxableAmt
+				+ ", cgstAmt=" + cgstAmt + ", sgstAmt=" + sgstAmt + ", totalTax=" + totalTax + ", grandTotal="
+				+ grandTotal + "]";
 	}
-	
+     
 	
 }

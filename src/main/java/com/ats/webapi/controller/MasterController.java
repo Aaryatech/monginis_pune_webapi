@@ -1,10 +1,13 @@
 package com.ats.webapi.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -61,6 +64,7 @@ import com.ats.webapi.repository.GetFrMenuConfigureRepository;
 import com.ats.webapi.repository.GetSpCakeSupRepository;
 import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.ItemSupRepository;
+import com.ats.webapi.repository.OrderRepository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
 import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
 import com.ats.webapi.repository.SpCakeListRepository;
@@ -142,7 +146,8 @@ public class MasterController {
 	@Autowired
 	GetFrMenuConfigureRepository getFrMenuConfigureRepository;
 	
-
+	@Autowired
+	OrderRepository orderRepository;
 	
 	// ----------------------------GET Flavours By Type--------------------------------
 		@RequestMapping(value = { "/getFlavoursByType" }, method = RequestMethod.POST)
@@ -1008,6 +1013,7 @@ public class MasterController {
 					}
 					
 					return info;
+					
 					/*PostFrItemStockHeader postFrItemStockHeaders = new PostFrItemStockHeader();
 					List<PostFrItemStockHeader> postFrItemStockHeaderList = new ArrayList<PostFrItemStockHeader>();
 
@@ -1028,6 +1034,36 @@ public class MasterController {
 					}*/
 
 				}
+				@RequestMapping(value = "/updateOrderDetails", method = RequestMethod.POST)
+				public @ResponseBody Info updateOrderDetails(@RequestParam List<Integer> orderIds,@RequestParam String delDate)
+				{
+					Info info=new Info();
+					 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+						 System.err.println(orderIds.toString());
+						 Date date = new Date();
+						 try {
+							date = df.parse(delDate);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						int isUpdated=orderRepository.updateOrderDelivery(orderIds,date);
+						if(isUpdated>0)
+						{
+							info.setError(false);
+							info.setMessage("Order Updated Successfully");
+						}else
+						{
+							info.setError(true);
+							info.setMessage("Orders Not Updated");
+						}
+						
+					
+					
+					return info;
+				}
+				
+				
 				@RequestMapping(value = "/getFrMenuConfigureList", method = RequestMethod.GET)
 				public @ResponseBody List<GetFrMenuConfigure> getFrMenuConfigureList() {
 

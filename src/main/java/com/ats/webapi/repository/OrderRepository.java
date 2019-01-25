@@ -1,6 +1,6 @@
 package com.ats.webapi.repository;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,4 +35,16 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
 	@Query("UPDATE Orders t SET t.isBillGenerated =1  WHERE t.itemId IN(:orderItemId) AND production_date=:prodDate AND t.isBillGenerated=0")
 	int updateStatus(@Param("orderItemId")List<String> orderItemId, @Param("prodDate")String prodDate);
 
+	
+	@Transactional
+	@Modifying
+	@Query("UPDATE Orders t SET t.deliveryDate=:delDate  WHERE t.orderId IN(:orderIds)")
+	int updateOrderDelivery(@Param("orderIds")List<Integer> orderIds,@Param("delDate")Date delDate);
+
+	
+	/*@Transactional
+	@Modifying
+	@Query("UPDATE Orders t SET t.isBillGenerated =1  WHERE t.itemId IN(:orderItemId) AND production_date=:prodDate AND t.isBillGenerated=0")
+	int updateOrderItemShelf(@Param("orderIds")List<String> orderIds,@Param("itemShelf") int itemShelf);
+*/
 }

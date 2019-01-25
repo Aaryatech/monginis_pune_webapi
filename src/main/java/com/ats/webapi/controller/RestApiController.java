@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +43,8 @@ import com.ats.webapi.repository.ItemStockRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.MessageRepository;
 import com.ats.webapi.repository.OrderLogRespository;
+import com.ats.webapi.repository.PostFrOpStockDetailRepository;
+import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
 import com.ats.webapi.repository.RouteMasterRepository;
 import com.ats.webapi.repository.RouteRepository;
 import com.ats.webapi.repository.SpCakeOrderHisRepository;
@@ -140,6 +144,9 @@ public class RestApiController {
 		return date;
 
 	}
+	@Autowired
+	PostFrOpStockHeaderRepository postFrOpStockHeaderRepository;
+
 	@Autowired
 	ItemDiscConfiguredRepository itemDiscConfiguredRepository;
 	
@@ -3898,6 +3905,8 @@ public class RestApiController {
 		ConfigureFranchisee configureFranchisee = connfigureService.findFranchiseeById(settingId);
 		return configureFranchisee;
 	}
+	@Autowired
+	PostFrOpStockDetailRepository postFrOpStockDetailRepository;
 
 	// update config franchisee 11 sept
 	@RequestMapping(value = { "/updateConfFr" }, method = RequestMethod.POST)
@@ -3928,8 +3937,45 @@ public class RestApiController {
 			configureFranchisee.setSettingType(settingType);
 
 			configureFranchisee.setToTime(toTime);
-
 			String jsonResult = connfigureService.configureFranchisee(configureFranchisee);
+
+			try {
+            //-------------------------------------------------------------------------------------
+			AllFrIdNameList allFrIdNamesList = allFrIdNameService.getFrIdAndName();
+   
+			for(int i=0;i<allFrIdNamesList.getFrIdNamesList().size();i++) {
+				
+			List<PostFrItemStockHeader> prevStockHeader=postFrOpStockHeaderRepository.findByFrIdAndIsMonthClosedAndCatId(allFrIdNamesList.getFrIdNamesList().get(i).getFrId(),0,configureFranchisee.getCatId());
+			//--------------------------------------------------------------------------------------------
+			List<PostFrItemStockDetail> postFrItemStockDetailList = new ArrayList<PostFrItemStockDetail>();
+			List<Integer> ids = Stream.of(configureFranchisee.getItemShow().split(","))
+	                .map(Integer::parseInt)
+	                .collect(Collectors.toList());
+			  System.err.println("16 ids --"+ids.toString());
+			List<Item> itemsList = itemService.findAllItemsByItemId(ids);
+			  System.err.println("17 itemsList --"+itemsList.toString());
+			for (int k = 0; k < itemsList.size(); k++) {
+
+				PostFrItemStockDetail	prevFrItemStockDetail=postFrOpStockDetailRepository.findByItemIdAndOpeningStockHeaderId(itemsList.get(k).getId(),prevStockHeader.get(0).getOpeningStockHeaderId());
+				  System.err.println("18 prevFrItemStockDetail --"+prevFrItemStockDetail);
+				if(prevFrItemStockDetail==null) {
+				    PostFrItemStockDetail	postFrItemStockDetail = new PostFrItemStockDetail();
+					postFrItemStockDetail.setOpeningStockHeaderId(prevStockHeader.get(0).getOpeningStockHeaderId());//first stock header (month closed 0 status))
+					postFrItemStockDetail.setOpeningStockDetailId(0);
+					postFrItemStockDetail.setRegOpeningStock(0);
+				    postFrItemStockDetail.setItemId(itemsList.get(k).getId());
+				    postFrItemStockDetail.setRemark("");
+				    postFrItemStockDetailList.add(postFrItemStockDetail);
+				    System.err.println("19 postFrItemStockDetail --"+postFrItemStockDetail.toString());
+				 }
+			}
+		    postFrOpStockDetailRepository.save(postFrItemStockDetailList);
+		    System.err.println("20 postFrItemStockDetailList --"+postFrItemStockDetailList.toString());
+		    //---------------------------------------------------------------------------------------
+			}
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
 			if (jsonResult == null) {
 				info.setError(true);
 				info.setMessage("fr confi update failure");

@@ -23,7 +23,7 @@ public interface ItemListForDispatchReportRepository extends JpaRepository<ItemL
 			"        from\n" + 
 			"            t_order \n" + 
 			"        where\n" + 
-			"            production_date=:date \n" + 
+			"            delivery_date=:date \n" + 
 			"            and fr_id in(:frId) and t_order.menu_id in (:menuIds)\n" + 
 			"    )   \n" + 
 			"    And t_order.fr_id=m_franchisee.fr_id \n" + 
@@ -36,7 +36,7 @@ public interface ItemListForDispatchReportRepository extends JpaRepository<ItemL
 			"        from\n" + 
 			"            t_order \n" + 
 			"        where\n" + 
-			"            production_date=:date \n" + 
+			"            delivery_date=:date \n" + 
 			"            and fr_id in(:frId) and t_order.menu_id in (:menuIds)\n" + 
 			"    )   \n" + 
 			"    And t_order.fr_id=m_franchisee.fr_id \n" + 

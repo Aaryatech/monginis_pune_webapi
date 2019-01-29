@@ -43,6 +43,7 @@ import com.ats.webapi.model.GetRegSpCakeOrders;
 import com.ats.webapi.model.GetSpCkSupplement;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
+import com.ats.webapi.model.ItemForMOrder;
 import com.ats.webapi.model.ItemSup;
 import com.ats.webapi.model.ItemSupList;
 import com.ats.webapi.model.PostFrItemStockDetail;
@@ -62,6 +63,7 @@ import com.ats.webapi.repository.FranchiseSupRepository;
 import com.ats.webapi.repository.FranchiseeRepository;
 import com.ats.webapi.repository.GetFrMenuConfigureRepository;
 import com.ats.webapi.repository.GetSpCakeSupRepository;
+import com.ats.webapi.repository.ItemForMOrderRepository;
 import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.ItemSupRepository;
 import com.ats.webapi.repository.OrderRepository;
@@ -149,6 +151,8 @@ public class MasterController {
 	@Autowired
 	OrderRepository orderRepository;
 	
+	@Autowired
+	 ItemForMOrderRepository itemRepositoryForMOrderRepository;
 	// ----------------------------GET Flavours By Type--------------------------------
 		@RequestMapping(value = { "/getFlavoursByType" }, method = RequestMethod.POST)
 		public @ResponseBody List<Flavour> getFlavoursByType(@RequestParam("type") int type) {
@@ -1109,5 +1113,19 @@ public class MasterController {
 					return details;
 
 				}
+				@RequestMapping(value = "/getItemListForMOrder", method = RequestMethod.POST)
+				public @ResponseBody List<ItemForMOrder> getItemListForMOrder(@RequestParam("itemGrp1")int itemGrp1,@RequestParam("frId")int frId) {
 
+					List<ItemForMOrder> itemList;
+					try {
+						itemList = itemRepositoryForMOrderRepository.getItemListForMOrder(itemGrp1,frId);
+					}
+					catch (Exception e) {
+						itemList=new ArrayList<>();
+						e.printStackTrace();
+
+					}
+					return itemList;
+
+				}
 }

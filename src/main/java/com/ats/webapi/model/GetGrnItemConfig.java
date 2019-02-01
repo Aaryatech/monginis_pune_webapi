@@ -79,6 +79,20 @@ public class GetGrnItemConfig implements Serializable {
 	@Column(name="invoice_no")
 	private String invoiceNo;
 	
+	private float discPer;//new field added on 1 Feb 2019
+	
+	
+	
+	
+
+	public float getDiscPer() {
+		return discPer;
+	}
+
+	public void setDiscPer(float discPer) {
+		this.discPer = discPer;
+	}
+
 	@PostLoad
 	public void onLoad() {
 		
@@ -236,7 +250,8 @@ public class GetGrnItemConfig implements Serializable {
 				+ ", autoGrnQty=" + autoGrnQty + ", itemName=" + itemName + ", grnType=" + grnType + ", billNo="
 				+ billNo + ", billDateTime=" + billDateTime + ", rate=" + rate + ", billDate=" + billDate + ", mrp="
 				+ mrp + ", billQty=" + billQty + ", sgstPer=" + sgstPer + ", cgstPer=" + cgstPer + ", igstPer="
-				+ igstPer + ", menuId=" + menuId + ", catId=" + catId + ", invoiceNo=" + invoiceNo + "]";
+				+ igstPer + ", menuId=" + menuId + ", catId=" + catId + ", invoiceNo=" + invoiceNo + ", discPer="
+				+ discPer + "]";
 	}
 
 }

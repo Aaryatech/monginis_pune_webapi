@@ -67,7 +67,7 @@ public class GetGrnItemConfig implements Serializable {
 	private float igstPer;
 	
 	
-	
+	 
 	
 	//newly Added
 	@Column(name="menu_id")

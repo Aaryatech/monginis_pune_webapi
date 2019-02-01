@@ -80,11 +80,46 @@ public class PostBillHeader implements Serializable {
 	@Column(name="disc_amt")//new
 	private float discAmt;
 	
+	@Column(name="party_name")
+	private String partyName;//new for m order
+	
+	@Column(name="party_gstin")//new for m order
+	private String partyGstin;
+	
+	@Column(name="party_address")
+	private String partyAddress;//new for m order
+	
+	
+	
 	@Transient
 	List<PostBillDetail> postBillDetailsList;
 	
 	
 	
+	public String getPartyName() {
+		return partyName;
+	}
+
+	public void setPartyName(String partyName) {
+		this.partyName = partyName;
+	}
+
+	public String getPartyGstin() {
+		return partyGstin;
+	}
+
+	public void setPartyGstin(String partyGstin) {
+		this.partyGstin = partyGstin;
+	}
+
+	public String getPartyAddress() {
+		return partyAddress;
+	}
+
+	public void setPartyAddress(String partyAddress) {
+		this.partyAddress = partyAddress;
+	}
+
 	public List<PostBillDetail> getPostBillDetailsList() {
 		return postBillDetailsList;
 	}

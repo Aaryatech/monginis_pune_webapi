@@ -135,15 +135,20 @@ public class ReportsController {
 		List<DispatchReport> dispatchReportList=reportsService.getDispatchItemReport(billDateYMD, frId, categories);
 		return dispatchReportList;
 		
-	}
+	}  
 	//---------------------------------PDispatch Item Report-----------------------------------------
 		@RequestMapping(value = "/getPDispatchItemReport", method = RequestMethod.POST)
 		public @ResponseBody List<PDispatchReport> getPDispatchItemReport(@RequestParam("productionDate") String productionDate,
 				 @RequestParam("frId") List<String> frId,@RequestParam("categories") List<String> categories) {
 			
 			String productionDateYMD = Common.convertToYMD(productionDate);
-			List<PDispatchReport> dispatchReportList=pDispatchReportRepository.getPDispatchItemReport(productionDateYMD, frId, categories);
-			return dispatchReportList;
+			
+				System.out.println(" fr.................");
+				List<PDispatchReport> dispatchReportList=pDispatchReportRepository.getPDispatchItemReport(productionDateYMD, frId, categories);
+				return dispatchReportList;
+				
+
+			
 			
 		}
 	//------------------------------------------------------------------------------------------------

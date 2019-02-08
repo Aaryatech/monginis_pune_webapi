@@ -1,6 +1,8 @@
 package com.ats.webapi.model;
 
 public class SpCakeOrderRes {
+	
+	
 	SpCakeOrders spCakeOrder;
 	ErrorMessage errorMessage;
 	public SpCakeOrders getSpCakeOrder() {

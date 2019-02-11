@@ -16,9 +16,11 @@ import com.ats.webapi.model.Discount;
 import com.ats.webapi.model.Franchisee;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
+import com.ats.webapi.model.SpecialCake;
 import com.ats.webapi.repository.DiscountRepository;
 import com.ats.webapi.repository.FranchiseeRepository;
 import com.ats.webapi.repository.ItemRepository;
+import com.ats.webapi.repository.SpecialCakeRepository;
 @RestController
 public class DiscountController {
 	
@@ -28,6 +30,8 @@ public class DiscountController {
 	private ItemRepository itemRepository;
 	@Autowired
 	private FranchiseeRepository franchiseeRepository;
+	@Autowired
+	SpecialCakeRepository specialCakeRepository;
 	
 	@RequestMapping(value = { "/saveDiscount" }, method = RequestMethod.POST)
 	public @ResponseBody Info saveDiscount(@RequestBody Discount discount) {
@@ -83,14 +87,26 @@ public class DiscountController {
 						 List<Integer> itemids = Stream.of(discList.get(i).getItemId().split(","))
 						            .map(Integer::parseInt)
 						            .collect(Collectors.toList());
-						 
-						 List<Item> itemList= itemRepository.findByDelStatusAndIdIn(0,itemids);
+						 if(discList.get(i).getCategoryId()!=5) {
+							 
+						    List<Item> itemList= itemRepository.findByDelStatusAndIdIn(0,itemids);
 							String itemNames="";
 							for(int j=0;j<itemList.size();j++)
 							{
 								itemNames=itemList.get(j).getItemName()+","+itemNames;
 							}
 							discList.get(i).setItemId(itemNames);
+						
+						 }else
+						 {
+							 List<SpecialCake> spList= specialCakeRepository.findByDelStatusAndSpIdIn(0,itemids);
+								String itemNames="";
+								for(int j=0;j<spList.size();j++)
+								{
+									itemNames=spList.get(j).getSpName()+","+itemNames;
+								}
+								discList.get(i).setItemId(itemNames);
+						 }
 
 					 }
 				 }

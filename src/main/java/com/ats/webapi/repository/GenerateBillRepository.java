@@ -15,7 +15,7 @@ public interface GenerateBillRepository extends JpaRepository<GenerateBill, Inte
 	
 	@Query(value=" SELECT t_order.order_id ,t_order.is_positive,t_order.fr_id, t_order.menu_id,t_order.grn_type ,t_order.item_id,t_order.edit_qty as order_qty,"
 			+ " t_order.order_rate,t_order.order_mrp ,t_order.delivery_date, m_franchisee.fr_name,m_franchisee.is_same_state,m_franchisee.fr_code,m_franchisee.fr_rate_cat, m_fr_menu_show.menu_title,"
-			+ " m_item.item_name,m_item.item_grp1,m_item.item_grp2, m_item.item_tax1, m_item.item_tax2, m_item.item_tax3,m_item.item_shelf_life from t_order,m_franchisee, m_fr_menu_show ,"
+			+ " m_item.item_name,m_item.item_grp1,m_item.item_grp2, m_item.item_tax1, m_item.item_tax2, m_item.item_tax3,m_item.item_shelf_life,m_franchisee.fr_name as party_name,m_franchisee.fr_address as party_address,m_franchisee.fr_gst_no as party_gstin from t_order,m_franchisee, m_fr_menu_show ,"
 			+ " m_item where t_order.fr_id IN (:frId) AND t_order.delivery_date=:delDate "
 			+ " AND t_order.menu_id IN (:menuId) AND m_franchisee.fr_id=t_order.fr_id AND "
 			+ " t_order.menu_id=m_fr_menu_show.menu_id AND t_order.item_id=m_item.id AND t_order.is_bill_generated IN(0,1) AND t_order.edit_qty!=0 ORDER BY m_franchisee.fr_id,m_item.item_grp1,m_item.item_grp2,m_item.item_name " + 
@@ -25,7 +25,7 @@ public interface GenerateBillRepository extends JpaRepository<GenerateBill, Inte
 	 
 	@Query(value=" SELECT t_order.order_id ,t_order.is_positive,t_order.fr_id, t_order.menu_id,t_order.grn_type ,t_order.item_id,t_order.edit_qty as order_qty,"
 			+ " t_order.order_rate,t_order.order_mrp ,t_order.delivery_date, m_franchisee.fr_name,m_franchisee.is_same_state,m_franchisee.fr_code,m_franchisee.fr_rate_cat, m_fr_menu_show.menu_title,"
-			+ " m_item.item_name,m_item.item_grp1,m_item.item_grp2,m_item.item_tax1, m_item.item_tax2, m_item.item_tax3,m_item.item_shelf_life from t_order,m_franchisee, m_fr_menu_show ,"
+			+ " m_item.item_name,m_item.item_grp1,m_item.item_grp2,m_item.item_tax1, m_item.item_tax2, m_item.item_tax3,m_item.item_shelf_life,m_franchisee.fr_name as party_name,m_franchisee.fr_address as party_address,m_franchisee.fr_gst_no as party_gstin from t_order,m_franchisee, m_fr_menu_show ,"
 			+ " m_item where t_order.delivery_date=:delDate "
 			+ " AND t_order.menu_id IN (:menuId) AND m_franchisee.fr_id=t_order.fr_id AND "
 			+ " t_order.menu_id=m_fr_menu_show.menu_id AND t_order.item_id=m_item.id AND t_order.is_bill_generated IN(0,1) AND t_order.edit_qty!=0 ORDER BY m_franchisee.fr_id,m_item.item_grp1,m_item.item_grp2,m_item.item_name " + 
@@ -37,7 +37,7 @@ public interface GenerateBillRepository extends JpaRepository<GenerateBill, Inte
 	
 	@Query(value=" SELECT t_order.order_id, t_order.is_positive,t_order.fr_id, t_order.menu_id,t_order.grn_type ,t_order.item_id,t_order.edit_qty as order_qty,"
 			+ " t_order.order_rate,t_order.order_mrp ,t_order.delivery_date, m_franchisee.fr_name,m_franchisee.is_same_state,m_franchisee.fr_code,m_franchisee.fr_rate_cat, m_fr_menu_show.menu_title,"
-			+ " m_item.item_name,m_item.item_grp1,m_item.item_grp2,m_item.item_tax1, m_item.item_tax2, m_item.item_tax3,m_item.item_shelf_life from t_order,m_franchisee, m_fr_menu_show ,"
+			+ " m_item.item_name,m_item.item_grp1,m_item.item_grp2,m_item.item_tax1, m_item.item_tax2, m_item.item_tax3,m_item.item_shelf_life,m_franchisee.fr_name as party_name,m_franchisee.fr_address as party_address,m_franchisee.fr_gst_no as party_gstin from t_order,m_franchisee, m_fr_menu_show ,"
 			+ " m_item where t_order.delivery_date=:delDate "
 			+ "  AND m_franchisee.fr_id=t_order.fr_id AND "
 			+ " t_order.menu_id=m_fr_menu_show.menu_id AND t_order.item_id=m_item.id AND t_order.is_bill_generated IN(0,1) AND t_order.edit_qty!=0 ORDER BY m_franchisee.fr_id,m_item.item_grp1,m_item.item_grp2,m_item.item_name " + 
@@ -49,7 +49,7 @@ public interface GenerateBillRepository extends JpaRepository<GenerateBill, Inte
 	
 	@Query(value=" SELECT t_order.order_id ,t_order.is_positive,t_order.fr_id, t_order.menu_id,t_order.grn_type,t_order.item_id,t_order.edit_qty as order_qty,"
 			+ " t_order.order_rate,t_order.order_mrp ,t_order.delivery_date, m_franchisee.fr_name,m_franchisee.fr_code,m_franchisee.is_same_state,m_franchisee.fr_rate_cat, m_fr_menu_show.menu_title,"
-			+ " m_item.item_name,m_item.item_grp1,m_item.item_grp2,m_item.item_tax1, m_item.item_tax2, m_item.item_tax3,m_item.item_shelf_life from t_order,m_franchisee, m_fr_menu_show ,"
+			+ " m_item.item_name,m_item.item_grp1,m_item.item_grp2,m_item.item_tax1, m_item.item_tax2, m_item.item_tax3,m_item.item_shelf_life,m_franchisee.fr_name as party_name,m_franchisee.fr_address as party_address,m_franchisee.fr_gst_no as party_gstin from t_order,m_franchisee, m_fr_menu_show ,"
 			+ " m_item where t_order.fr_id IN (:frId) AND t_order.delivery_date=:delDate "
 			+ " AND m_franchisee.fr_id=t_order.fr_id AND "
 			+ " t_order.menu_id=m_fr_menu_show.menu_id AND t_order.item_id=m_item.id AND t_order.is_bill_generated IN(0,1) AND t_order.edit_qty!=0 ORDER BY m_franchisee.fr_id,m_item.item_grp1,m_item.item_grp2,m_item.item_name " + 
@@ -58,7 +58,7 @@ public interface GenerateBillRepository extends JpaRepository<GenerateBill, Inte
 
 	@Query(value=" SELECT t_order.order_id ,t_order.is_positive,t_order.fr_id, t_order.menu_id,t_order.grn_type,t_order.item_id,t_order.edit_qty as order_qty,"
 			+ " t_order.order_rate,t_order.order_mrp ,t_order.delivery_date, m_franchisee.fr_name,m_franchisee.fr_code,m_franchisee.is_same_state,m_franchisee.fr_rate_cat, m_fr_menu_show.menu_title,"
-			+ " m_item.item_name,m_item.item_grp1,m_item.item_grp2,m_item.item_tax1, m_item.item_tax2, m_item.item_tax3,m_item.item_shelf_life from t_order,m_franchisee, m_fr_menu_show ,"
+			+ " m_item.item_name,m_item.item_grp1,m_item.item_grp2,m_item.item_tax1, m_item.item_tax2, m_item.item_tax3,m_item.item_shelf_life,m_franchisee.fr_name as party_name,m_franchisee.fr_address as party_address,m_franchisee.fr_gst_no as party_gstin from t_order,m_franchisee, m_fr_menu_show ,"
 			+ " m_item where  t_order.order_id IN (:idList) and  m_franchisee.fr_id=t_order.fr_id AND "
 			+ " t_order.menu_id=m_fr_menu_show.menu_id AND t_order.item_id=m_item.id AND t_order.is_bill_generated IN(0,1) AND t_order.edit_qty!=0 ORDER BY m_franchisee.fr_id,m_item.item_grp1,m_item.item_grp2,m_item.item_name " + 
 			"",nativeQuery=true)

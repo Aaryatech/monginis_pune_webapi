@@ -81,6 +81,18 @@ public class ItemForMOrder implements Serializable {
 	
     private float discPer;
 
+    private int orderQty;
+    
+    
+    
+	public int getOrderQty() {
+		return orderQty;
+	}
+
+	public void setOrderQty(int orderQty) {
+		this.orderQty = orderQty;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -273,9 +285,8 @@ public class ItemForMOrder implements Serializable {
 				+ ", itemImage=" + itemImage + ", itemTax1=" + itemTax1 + ", itemTax2=" + itemTax2 + ", itemTax3="
 				+ itemTax3 + ", itemIsUsed=" + itemIsUsed + ", itemSortId=" + itemSortId + ", grnTwo=" + grnTwo
 				+ ", delStatus=" + delStatus + ", itemRate3=" + itemRate3 + ", minQty=" + minQty + ", shelfLife="
-				+ shelfLife + ", discPer=" + discPer + "]";
+				+ shelfLife + ", discPer=" + discPer + ", orderQty=" + orderQty + "]";
 	}
-   
-    
+
 	
 }

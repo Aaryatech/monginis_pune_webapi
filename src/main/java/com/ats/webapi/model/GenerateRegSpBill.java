@@ -80,7 +80,42 @@ public class GenerateRegSpBill {
 		@Column(name="item_shelf_life")
 		private int item_shelf_life;
 
+		@Column(name="party_name")
+		private String  partyName;//new
 		
+		@Column(name="party_gstin")//new
+		private String  partyGstin;
+		
+		@Column(name="party_address")//new
+		private String  partyAddress;
+		
+		
+		
+		
+		public String getPartyName() {
+			return partyName;
+		}
+
+		public void setPartyName(String partyName) {
+			this.partyName = partyName;
+		}
+
+		public String getPartyGstin() {
+			return partyGstin;
+		}
+
+		public void setPartyGstin(String partyGstin) {
+			this.partyGstin = partyGstin;
+		}
+
+		public String getPartyAddress() {
+			return partyAddress;
+		}
+
+		public void setPartyAddress(String partyAddress) {
+			this.partyAddress = partyAddress;
+		}
+
 		public int getIsSameState() {
 			return isSameState;
 		}

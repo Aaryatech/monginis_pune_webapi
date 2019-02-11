@@ -1,9 +1,6 @@
 package com.ats.webapi.service;
 
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,6 +222,9 @@ public class GenerateBillServiceImpl implements GenerateBillService {
 			generateBill.setRateType(regSpBill.getRateCat());
 			generateBill.setSubCatId(regSpBill.getItemGrp2());
 			generateBill.setIsSameState(regSpBill.getIsSameState());
+			generateBill.setPartyName(regSpBill.getPartyName());
+			generateBill.setPartyAddress(regSpBill.getPartyAddress());
+			generateBill.setPartyGstin(regSpBill.getPartyGstin());
 			generateBillList.add(generateBill);
 			
 			System.out.println("converted Bill : "+generateBillList.toString());
@@ -245,6 +245,7 @@ public class GenerateBillServiceImpl implements GenerateBillService {
 			GenerateBill generateBill = new GenerateBill();
 
 			generateBill.setCatId(spBill.getCatId());
+			generateBill.setIsPositive(spBill.getDisc());
 			generateBill.setDeliveryDate(spBill.getSpDeliveryDate());
 			generateBill.setFrCode(spBill.getFrCode());
 			generateBill.setFrId(spBill.getFrId());
@@ -265,7 +266,9 @@ public class GenerateBillServiceImpl implements GenerateBillService {
 			generateBill.setRateType(spBill.getRateType());
 			generateBill.setSubCatId(spBill.getSubCatId());
 			generateBill.setIsSameState(spBill.getIsSameState());
-
+            generateBill.setPartyName(spBill.getPartyName());
+            generateBill.setPartyAddress(spBill.getPartyAddress());
+            generateBill.setPartyGstin(spBill.getPartyGstin());
 			generateBillList.add(generateBill);
 		}
 

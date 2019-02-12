@@ -79,8 +79,55 @@ public class GetSpCkOrder {
 	@Column(name="order_photo2")
 	 private String orderPhoto;
 
+	private float slipMrp;//new for slip
+	
+	private String slipNo;//new for slip
+	
+	private String frCity;//new for slip
+	@Column(name="fr_r_type") 
+	private String frRType;//new for slip
 	
 	
+	public String getFrRType() {
+		return frRType;
+	}
+
+
+	public void setFrRType(String frRType) {
+		this.frRType = frRType;
+	}
+
+
+	public float getSlipMrp() {
+		return slipMrp;
+	}
+
+
+	public void setSlipMrp(float slipMrp) {
+		this.slipMrp = slipMrp;
+	}
+
+
+	public String getSlipNo() {
+		return slipNo;
+	}
+
+
+	public void setSlipNo(String slipNo) {
+		this.slipNo = slipNo;
+	}
+
+
+	public String getFrCity() {
+		return frCity;
+	}
+
+
+	public void setFrCity(String frCity) {
+		this.frCity = frCity;
+	}
+
+
 	public String getItemId() {
 		return itemId;
 	}
@@ -299,8 +346,12 @@ public class GetSpCkOrder {
 				+ ", rmAmount=" + rmAmount + ", spDeliveryDate=" + spDeliveryDate + ", itemId=" + itemId
 				+ ", spDeliveryPlace=" + spDeliveryPlace + ", spCustName=" + spCustName + ", spEvents=" + spEvents
 				+ ", spEventsName=" + spEventsName + ", spCustMobNo=" + spCustMobNo + ", spfName=" + spfName
-				+ ", cusChoicePhoto=" + cusChoicePhoto + ", orderPhoto=" + orderPhoto + "]";
+				+ ", cusChoicePhoto=" + cusChoicePhoto + ", orderPhoto=" + orderPhoto + ", slipMrp=" + slipMrp
+				+ ", slipNo=" + slipNo + ", frCity=" + frCity + "]";
 	}
+
+
+	
     
 	}
 	

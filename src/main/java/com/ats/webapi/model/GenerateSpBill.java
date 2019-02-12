@@ -72,8 +72,60 @@ public class GenerateSpBill {
 	@Column(name="sp_delivery_date") // delivery Date
 	Date  spDeliveryDate;
 
-
+	@Column(name="disc")
+	private float disc;//% of disc added on 6 feb 19 for disc to fr
 	
+	@Column(name="party_name")
+	private String  partyName;//new
+	
+	@Column(name="party_gstin")//new
+	private String  partyGstin;
+	
+	@Column(name="party_address")//new
+	private String  partyAddress;
+	
+	
+	
+	public String getPartyName() {
+		return partyName;
+	}
+
+
+	public void setPartyName(String partyName) {
+		this.partyName = partyName;
+	}
+
+
+	public String getPartyGstin() {
+		return partyGstin;
+	}
+
+
+	public void setPartyGstin(String partyGstin) {
+		this.partyGstin = partyGstin;
+	}
+
+
+	public String getPartyAddress() {
+		return partyAddress;
+	}
+
+
+	public void setPartyAddress(String partyAddress) {
+		this.partyAddress = partyAddress;
+	}
+
+
+	public float getDisc() {
+		return disc;
+	}
+
+
+	public void setDisc(float disc) {
+		this.disc = disc;
+	}
+
+
 	public int getSpOrderNo() {
 		return spOrderNo;
 	}
@@ -263,16 +315,8 @@ public class GenerateSpBill {
 				+ ", menuId=" + menuId + ", spId=" + spId + ", spBackendRate=" + spBackendRate + ", spGrandTotal="
 				+ spGrandTotal + ", frName=" + frName + ", menuTitle=" + menuTitle + ", spName=" + spName + ", catId="
 				+ catId + ", frCode=" + frCode + ", rateType=" + rateType + ", subCatId=" + subCatId + ", spTax1="
-				+ spTax1 + ", spTax2=" + spTax2 + ", spTax3=" + spTax3 + ", spDeliveryDate=" + spDeliveryDate + "]";
+				+ spTax1 + ", spTax2=" + spTax2 + ", spTax3=" + spTax3 + ", spDeliveryDate=" + spDeliveryDate
+				+ ", disc=" + disc + "]";
 	}
-
-
-	
-	
-	
-	
-	
-	
-	
-	
+    
 }

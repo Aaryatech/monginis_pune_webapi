@@ -62,8 +62,42 @@ public class FrBillHeaderForPrint implements Serializable {
 	@Column(name="is_same_state")
 	private String isSameState;
 	
+	
+	@Column(name="party_name")//new -08 feb 19
+	private String partyName;
+	
+	@Column(name="party_gstin")
+	private String partyGstin;//new -08 feb 19
+	
+	@Column(name="party_address")
+	private String partyAddress;//new -08 feb 19
+	
 	@Transient
 	Company company;
+
+	public String getPartyName() {
+		return partyName;
+	}
+
+	public void setPartyName(String partyName) {
+		this.partyName = partyName;
+	}
+
+	public String getPartyGstin() {
+		return partyGstin;
+	}
+
+	public void setPartyGstin(String partyGstin) {
+		this.partyGstin = partyGstin;
+	}
+
+	public String getPartyAddress() {
+		return partyAddress;
+	}
+
+	public void setPartyAddress(String partyAddress) {
+		this.partyAddress = partyAddress;
+	}
 
 	public Company getCompany() {
 		return company;
@@ -199,7 +233,8 @@ public class FrBillHeaderForPrint implements Serializable {
 				+ ", invoiceNo=" + invoiceNo + ", billDate=" + billDate + ", frId=" + frId + ", frCode=" + frCode
 				+ ", grandTotal=" + grandTotal + ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax + ", status="
 				+ status + ", DelStatus=" + DelStatus + ", remark=" + remark + ", frAddress=" + frAddress
-				+ ", isSameState=" + isSameState + ", company=" + company + "]";
+				+ ", isSameState=" + isSameState + ", partyName=" + partyName + ", partyGstin=" + partyGstin
+				+ ", partyAddress=" + partyAddress + ", company=" + company + "]";
 	}
 
 	

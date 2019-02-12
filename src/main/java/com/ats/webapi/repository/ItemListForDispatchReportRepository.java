@@ -46,12 +46,12 @@ public interface ItemListForDispatchReportRepository extends JpaRepository<ItemL
 			"where \n" + 
 			"    del_status=0 \n" + 
 			"    and item_mrp2=:stationN0 order by \n" + 
-			"    item_grp2 asc,\n" + 
+			"    item_grp2 asc , \n" + 
 			"    item_sort_id asc",nativeQuery=true)
 	List<ItemListForDispatchReport> getItemByFrIdAndDate(@Param("frId") int frId,@Param("date")  String date, @Param("index") int index,
 			@Param("stationN0") int stationN0, @Param("menuIds") List<Integer> menuIds); 
 	
-	/*@Query(value="select\n" + 
+	/*@Query(value="select\n" +  
 			"    @rownum \\:= @rownum + 1 AS id,\n" + 
 			"    i.id as item_id, \n" + 
 			"    i.item_name,\n" + 

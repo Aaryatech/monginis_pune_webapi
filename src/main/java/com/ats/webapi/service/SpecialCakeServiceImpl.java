@@ -38,6 +38,7 @@ public class SpecialCakeServiceImpl implements SpecialCakeService{
 	
 	@Autowired
 	SpCakeSupRepository spCakeSupRepository;
+	
 	@Autowired
 	GetSpCakeSupRepository getSpCakeSupRepository;
 	@Autowired
@@ -107,9 +108,13 @@ public class SpecialCakeServiceImpl implements SpecialCakeService{
 		
 		OrderSpecialCake specialCake=null;
 		SearchSpCakeResponse searchSpCakeResponse=new SearchSpCakeResponse();
+		SpCakeSupplement  spCakeresponse=new SpCakeSupplement();
 		ErrorMessage errorMessage=new ErrorMessage();
 		
 	    specialCake=orderSpCakeRepository.findBySpCode(spCode);
+	    int spId=specialCake.getSpId();
+	    
+	    
 		if(specialCake==null)
 		{
 			errorMessage.setError(true);
@@ -118,10 +123,12 @@ public class SpecialCakeServiceImpl implements SpecialCakeService{
 		}
 		else
 		{
+			spCakeresponse=spCakeSupRepository.findBySpId(spId);
 			errorMessage.setError(false);
 			errorMessage.setMessage("Special Cake Found Successfully");
 			searchSpCakeResponse.setErrorMessage(errorMessage);
 			searchSpCakeResponse.setSpecialCake(specialCake);
+			searchSpCakeResponse.setSpCakeSup(spCakeresponse);
 		}
 		
 		return searchSpCakeResponse;

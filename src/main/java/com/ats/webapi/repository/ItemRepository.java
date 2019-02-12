@@ -30,10 +30,23 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 			"",nativeQuery=true)
 	public int findMaxId();
 
+	
 	public List<Item> findByItemGrp1AndDelStatusOrderByItemGrp1AscItemGrp2AscItemNameAsc(String itemGrp1, int i);
+//coalesce((select m_item_sup.short_name from m_item_sup where m_item_sup.item_id=i.id),0) as
+	
+	
+	
+	//
+	@Query(value="select i.id,i.item_id,i.item_grp1,i.item_grp2,i.item_grp3,i.item_rate1,i.item_rate2,"
+			+ "i.item_rate3,i.item_mrp1,i.item_mrp2,i.item_mrp3,i.item_image,i.item_tax1,i.item_tax2,"
+			+ "i.item_tax3,i.item_is_used,i.item_sort_id,i.grn_two,i.del_status,i.min_qty,i.item_shelf_life "
+			+ " ,coalesce((select m_item_sup.short_name from m_item_sup where m_item_sup.item_id=i.id),0) "
+			+ "as item_name from m_item i  where i.del_status=:delStatus order by i.item_grp2 asc ,i.item_sort_id asc ",nativeQuery=true)
+	public List<Item> findByDelStatusOrderByItemGrp2AscItemSortIdAsc(@Param("delStatus")int i);
 
-	public List<Item> findByDelStatusOrderByItemGrp2AscItemSortIdAsc(int i);
-
+	
+	
+	
 	@Query(value="select * from m_item where m_item.id IN (Select m_item_sup.item_id from m_item_sup where m_item_sup.is_allow_bday=:isAllowBday) AND m_item.del_status=:delStatus",nativeQuery=true)
 	public List<Item> findByIsAllowBirthayAndDelStatus(@Param("isAllowBday")int isAllowBday,@Param("delStatus") int delStatus);
 

@@ -1079,7 +1079,15 @@ public class RestApiController {
 		return frNameIdByRouteIdList;
 
 	}
+	@RequestMapping(value = "/getFranchiseForDispatchByFrIds", method = RequestMethod.POST)
+	public @ResponseBody List<FranchiseForDispatch> getFranchiseForDispatchByFrIds(@RequestParam("frIds") List<String> frIds) {
 
+		List<FranchiseForDispatch> frNameIdByRouteIdList = franchiseForDispatchRepository
+				.getFranchiseForDispatchByFrIds(frIds);
+
+		return frNameIdByRouteIdList;
+
+	}
 	@RequestMapping(value = "/getBillDetails", method = RequestMethod.POST)
 	public @ResponseBody GetBillDetailsList getBillDetails(@RequestParam("billNo") int billNo) {
 		System.out.println("inside rest");
@@ -2742,6 +2750,20 @@ public class RestApiController {
 	public @ResponseBody List<SubCategory> getSubCateListByCatId(@RequestParam("catId") int catId) {
 
 		List<SubCategory> subCategoryList = subCategoryService.findSubCatByCatId(catId);
+		return subCategoryList;
+
+	}
+	
+	@RequestMapping(value = "/getSubCatListByCatIdInForDisp", method = RequestMethod.POST)
+	public @ResponseBody List<SubCategory> getSubCatListByCatIdInForDisp(@RequestParam("catId") List<String> catId,@RequestParam("isAllCatSelected")boolean isAllCatSelected) {
+		List<SubCategory> subCategoryList=null;
+		if(isAllCatSelected==false) {
+		 subCategoryList = subCategoryService.getSubCatListByCatIdInForDisp(catId);
+		}else
+		{
+			SubCatergoryList subCategoryListRes = subCategoryService.findAllSubCategories();
+			subCategoryList=subCategoryListRes.getSubCategory();
+		}
 		return subCategoryList;
 
 	}

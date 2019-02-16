@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ats.webapi.model.HsnwiseBillExcelSummary;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.SellBillDataCommon;
 import com.ats.webapi.model.SellBillDetail;
@@ -20,6 +21,7 @@ import com.ats.webapi.model.bill.ExpressBillService;
 import com.ats.webapi.model.bill.GetItemHsnCode;
 import com.ats.webapi.model.bill.SlabwiseBill;
 import com.ats.webapi.model.bill.SlabwiseBillList;
+import com.ats.webapi.repository.HsnwiseBillExcelSummaryRepository;
 import com.ats.webapi.repository.SlabwiseDetailsRepository;
 import com.ats.webapi.repository.UpdateSellBillTimeStampRepo;
 
@@ -34,7 +36,8 @@ public class BillingController {
 	
 	@Autowired
 	UpdateSellBillTimeStampRepo  updateSellBillTimeStampRepo;
-	
+	@Autowired
+	HsnwiseBillExcelSummaryRepository hsnwiseBillExcelSummaryRepository;
 	
 	@RequestMapping(value = { "/updateSellBillTimeStamp" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateSellBillTimeStamp(@RequestParam("sellBillNo") int sellBillNo,
@@ -164,5 +167,17 @@ public class BillingController {
 		}
 		return slabwiseBillList;
 	}
-	
+	@RequestMapping(value = { "/getHsnwiseBillDataForExcel" }, method = RequestMethod.POST)
+	public @ResponseBody List<HsnwiseBillExcelSummary> getHsnwiseBillDataForExcel(@RequestParam("billNoList") List<String> billNos,@RequestParam("all")int all,@RequestParam("fromDate")String fromDate,@RequestParam("toDate")String toDate) {
+		List<HsnwiseBillExcelSummary> hsnwiseBills=new ArrayList<HsnwiseBillExcelSummary>();
+		if(all==0) {
+		hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcel(billNos);
+		}
+		else
+		{
+			hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelAll(fromDate,toDate);
+
+		}
+		return hsnwiseBills;
+	}
 }

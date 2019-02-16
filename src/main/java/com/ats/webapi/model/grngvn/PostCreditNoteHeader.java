@@ -70,6 +70,27 @@ public class PostCreditNoteHeader implements Serializable {
 	@Column(name = "is_deposited")
 	int isDeposited; // default 0 when actually deposited in bank set value
 
+	int exInt1;//new for pune billno of bill
+	
+	String exVarchar1;//new for pune  invno of bill
+	
+	
+	public int getExInt1() {
+		return exInt1;
+	}
+
+	public void setExInt1(int exInt1) {
+		this.exInt1 = exInt1;
+	}
+
+	public String getExVarchar1() {
+		return exVarchar1;
+	}
+
+	public void setExVarchar1(String exVarchar1) {
+		this.exVarchar1 = exVarchar1;
+	}
+
 	public int getCrnId() {
 		return crnId;
 	}
@@ -205,7 +226,8 @@ public class PostCreditNoteHeader implements Serializable {
 				+ crnGrandTotal + ", crnFinalAmt=" + crnFinalAmt + ", roundOff=" + roundOff + ", userId=" + userId
 				+ ", createdDateTime=" + createdDateTime + ", isTallySync=" + isTallySync + ", isGrn=" + isGrn
 				+ ", postCreditNoteDetails=" + postCreditNoteDetails + ", grnGvnSrNoList=" + grnGvnSrNoList
-				+ ", isDeposited=" + isDeposited + "]";
+				+ ", isDeposited=" + isDeposited + ", exInt1=" + exInt1 + ", exVarchar1=" + exVarchar1 + "]";
 	}
+     
 
 }

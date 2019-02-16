@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.commons.Common;
+import com.ats.webapi.model.CrnDetailsSummary;
+import com.ats.webapi.model.CrnHsnwiseExcelReport;
 import com.ats.webapi.model.grngvn.GetCreditNoteHeaders;
 import com.ats.webapi.model.grngvn.GetCreditNoteHeadersList;
 import com.ats.webapi.model.grngvn.GetCreditNoteReport;
@@ -19,6 +21,8 @@ import com.ats.webapi.model.grngvn.GetCreditNoteReportList;
 import com.ats.webapi.model.grngvn.GetCrnDetails;
 import com.ats.webapi.model.grngvn.GetCrnDetailsList;
 import com.ats.webapi.model.grngvn.PostCreditNoteDetails;
+import com.ats.webapi.repository.CrnDetailSummaryRepository;
+import com.ats.webapi.repository.CrnHsnwiseExcelReportRepository;
 import com.ats.webapi.repository.getcreditnote.GetCreditNoteDetailRepo;
 import com.ats.webapi.repository.getcreditnote.GetCreditNoteHeaderRepo;
 import com.ats.webapi.repository.getcreditnote.GetCreditNoteReportRepo;
@@ -35,8 +39,11 @@ public class GetCreditNoteApi {
 	@Autowired
 	GetCreditNoteReportRepo getCreditNoteReportRepo;
 	
+	@Autowired
+	CrnDetailSummaryRepository crnDetailSummaryRepository;
 	//27/04
-	
+	@Autowired
+	CrnHsnwiseExcelReportRepository crnHsnwiseExcelReportRepository;
 	
 	@RequestMapping(value = { "/getCreditNoteReport" }, method = RequestMethod.POST)
 	public @ResponseBody GetCreditNoteReportList getCreditNoteReport( @RequestParam("crnIdList") List<String> crnIdList)
@@ -126,6 +133,21 @@ public class GetCreditNoteApi {
 
 		return returnList;
 	}
+	@RequestMapping(value = { "/getCrnDetailsSummary" }, method = RequestMethod.POST)
+	public @ResponseBody List<CrnDetailsSummary>  getCrnDetailsSummary(@RequestParam("crnId") List<String> crnId) {
+
+		List<CrnDetailsSummary> details = new ArrayList<CrnDetailsSummary>();
+
+		try {
+
+			details = crnDetailSummaryRepository.getCrnDetailsSummaryById(crnId);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return details;
+	}
 
 	@RequestMapping(value = { "/getCreditNoteHeadersByCrnIds" }, method = RequestMethod.POST)
 	public @ResponseBody GetCreditNoteHeadersList getCreditNoteHeadersByCrnIds(
@@ -146,4 +168,22 @@ public class GetCreditNoteApi {
 		}
 		return headerResponse;
 	}
+	
+	@RequestMapping(value = { "/getCrnHsnwiseExcelReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<CrnHsnwiseExcelReport> getCrnHsnwiseExcelReport(@RequestParam("crnIdList") List<String> crnIdList)
+
+	{
+		List<CrnHsnwiseExcelReport> report = new ArrayList<CrnHsnwiseExcelReport>();
+
+		try {
+
+			report = crnHsnwiseExcelReportRepository.getCrnHsnwiseExcelReport(crnIdList);
+		} catch (Exception e) {
+			System.out.println("Exce In getting crn Report " + e.getMessage());
+
+			e.printStackTrace();
+		}
+		return report;
+	}
+	
 }

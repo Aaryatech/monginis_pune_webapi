@@ -760,10 +760,11 @@ public class MasterController {
 				// Get Items By Category order by sub cat and sort id
 				@RequestMapping(value = "/getItemsByCatIdForDisp", method = RequestMethod.POST)
 				public @ResponseBody List<Item> getItemsByCatIdForDisp(@RequestParam List<String> catIdList) {
-		           
+
 					List<Item> items=null;
 					try {
-					 items = itemRepository.findByItemGrp1InAndDelStatusOrderByItemGrp2AscItemNameAsc(catIdList,0);
+					 items = itemRepository.findByItemGrp2InAndDelStatusOrderByItemGrp2AscItemNameAsc(catIdList,0);
+					 System.err.println(items.toString()+"items");
 					}/*findByItemGrp1InAndDelStatusOrderByItemGrp2AscItemSortIdAsc*/
 					catch(Exception e)
 					{
@@ -781,6 +782,21 @@ public class MasterController {
 					List<SubCategory> subCategoryList;
 					try {
 					 subCategoryList = subCategoryRepository.findByCatIdInAndDelStatus(catId);
+					}
+					catch (Exception e) {
+						subCategoryList=new ArrayList<>();
+						e.printStackTrace();
+
+					}
+					return subCategoryList;
+
+				}
+				@RequestMapping(value = "/getSubCatListForDis")
+				public @ResponseBody List<SubCategory> getSubCatListForDis(@RequestParam List<Integer> catId) {
+
+					List<SubCategory> subCategoryList=null;
+					try {
+					 subCategoryList = subCategoryRepository.findBySubCatIdInAndDelStatus(catId,0);
 					}
 					catch (Exception e) {
 						subCategoryList=new ArrayList<>();

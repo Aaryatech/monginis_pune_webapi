@@ -88,6 +88,9 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	
 	@Query(value="select item_mrp2 from m_item where del_status=:delStatus group by item_mrp2",nativeQuery=true)
 	public List<Double> itemListGroupByStationNo(@Param("delStatus") int delStatus);
+	
+//	@Query(value="select * from m_item where m_item.item_grp2 IN (:catIdList) and m_item.del_status=:i",nativeQuery=true)
+	public List<Item> findByItemGrp2InAndDelStatusOrderByItemGrp2AscItemNameAsc(List<String> catIdList,int delStatus);
 
 
 	

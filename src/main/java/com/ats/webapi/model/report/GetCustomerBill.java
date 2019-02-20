@@ -12,6 +12,8 @@ import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class GetCustomerBill {
 	
@@ -101,6 +103,13 @@ public class GetCustomerBill {
 	private int intDiscAmt;
 
 
+	private String userGstNo;//new
+
+	private String userPhone;//new
+	
+	private String billType;//new
+
+	
 	@PostLoad
 	private void onLoad() {
 	    this.intBillAmt = Math.round(bill_amount);
@@ -109,6 +118,36 @@ public class GetCustomerBill {
 	}
 
 	
+	public String getBillType() {
+		return billType;
+	}
+
+
+	public void setBillType(String billType) {
+		this.billType = billType;
+	}
+
+
+	public String getUserGstNo() {
+		return userGstNo;
+	}
+
+
+	public void setUserGstNo(String userGstNo) {
+		this.userGstNo = userGstNo;
+	}
+
+
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
+
 	public String getHsnCode() {
 		return hsnCode;
 	}
@@ -142,7 +181,7 @@ public class GetCustomerBill {
 	public void setInvoiceNo(String invoiceNo) {
 		this.invoiceNo = invoiceNo;
 	}
-
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getBillDate() {
 		return billDate;
 	}
@@ -340,13 +379,15 @@ public class GetCustomerBill {
 	public String toString() {
 		return "GetCustomerBill [sellBillDetailNo=" + sellBillDetailNo + ", sellBillNo=" + sellBillNo + ", invoiceNo="
 				+ invoiceNo + ", billDate=" + billDate + ", frId=" + frId + ", frName=" + frName + ", frMob=" + frMob
-				+ ", frAddress=" + frAddress + ", custName=" + custName + ", itemId=" + itemId + ", itemName="
-				+ itemName + ", taxableAmt=" + taxableAmt + ", cgstPer=" + cgstPer + ", sgstPer=" + sgstPer
-				+ ", igstPer=" + igstPer + ", discountPer=" + discountPer + ", discountAmt=" + discountAmt + ", gstn="
-				+ gstn + ", bill_amount=" + bill_amount + ", mrp=" + mrp + ", qty=" + qty + ", igstRs=" + igstRs
-				+ ", cgstRs=" + cgstRs + ", sgstRs=" + sgstRs + ", intBillAmt=" + intBillAmt + ", intDiscAmt="
-				+ intDiscAmt + "]";
+				+ ", frAddress=" + frAddress + ", custName=" + custName + ", itemId=" + itemId + ", hsnCode=" + hsnCode
+				+ ", itemName=" + itemName + ", taxableAmt=" + taxableAmt + ", cgstPer=" + cgstPer + ", sgstPer="
+				+ sgstPer + ", igstPer=" + igstPer + ", discountPer=" + discountPer + ", discountAmt=" + discountAmt
+				+ ", gstn=" + gstn + ", bill_amount=" + bill_amount + ", mrp=" + mrp + ", qty=" + qty + ", igstRs="
+				+ igstRs + ", cgstRs=" + cgstRs + ", sgstRs=" + sgstRs + ", intBillAmt=" + intBillAmt + ", intDiscAmt="
+				+ intDiscAmt + ", userGstNo=" + userGstNo + ", userPhone=" + userPhone + ", billType=" + billType + "]";
 	}
+
+    
 
 		  
 }

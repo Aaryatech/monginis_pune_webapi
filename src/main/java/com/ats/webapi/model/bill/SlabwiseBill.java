@@ -9,6 +9,8 @@ import javax.persistence.Id;
 public class SlabwiseBill implements Serializable{
 
 	@Id
+	private int billDetailNo;
+
 	private String itemHsncd;
 	
 	private float taxPer;
@@ -91,12 +93,20 @@ public class SlabwiseBill implements Serializable{
 		this.grandTotal = grandTotal;
 	}
 
+	public int getBillDetailNo() {
+		return billDetailNo;
+	}
+
+	public void setBillDetailNo(int billDetailNo) {
+		this.billDetailNo = billDetailNo;
+	}
+
 	@Override
 	public String toString() {
-		return "SlabwiseBill [itemHsncd=" + itemHsncd + ", taxPer=" + taxPer + ", taxableAmt=" + taxableAmt
-				+ ", cgstAmt=" + cgstAmt + ", sgstAmt=" + sgstAmt + ", totalTax=" + totalTax + ", grandTotal="
-				+ grandTotal + "]";
+		return "SlabwiseBill [billDetailNo=" + billDetailNo + ", itemHsncd=" + itemHsncd + ", taxPer=" + taxPer
+				+ ", billQty=" + billQty + ", taxableAmt=" + taxableAmt + ", cgstAmt=" + cgstAmt + ", sgstAmt="
+				+ sgstAmt + ", totalTax=" + totalTax + ", grandTotal=" + grandTotal + "]";
 	}
-     
+    
 	
 }

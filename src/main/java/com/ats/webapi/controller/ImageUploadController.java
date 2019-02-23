@@ -105,6 +105,16 @@ public class ImageUploadController {
    			 path =Paths.get(ITEM_FOLDER + imageName);
 
             }
+           /* else if(type.equalsIgnoreCase("ph1"))
+            {
+   			 path =Paths.get(ITEM_FOLDER + imageName);
+
+            }
+            else if(type.equalsIgnoreCase("ph2"))
+            {
+   			 path =Paths.get(ITEM_FOLDER + imageName);
+
+            }*/
 			byte[] bytes = file.getBytes();
 			
 			Files.write(path, bytes);

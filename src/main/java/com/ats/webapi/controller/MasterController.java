@@ -825,7 +825,7 @@ public class MasterController {
 				@RequestMapping(value = { "/getRegSpCakeOrderHistory" }, method = RequestMethod.POST)
 				@ResponseBody
 				public List<GetRegSpCakeOrders> getRegSpCakeOrderHistory(
-						@RequestParam String spDeliveryDt,@RequestParam int  frId,@RequestParam int catId) {
+						@RequestParam String spDeliveryDt,@RequestParam int  frId,@RequestParam List<String> catId) {
 					List<GetRegSpCakeOrders> regSpCakeOrder = regularSpCkOrderService.getRegSpCakeOrderHistory(spDeliveryDt, frId,catId);
 					return regSpCakeOrder;
 				}

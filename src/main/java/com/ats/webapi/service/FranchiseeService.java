@@ -3,6 +3,7 @@ package com.ats.webapi.service;
 import java.util.List;
 
 import com.ats.webapi.model.ErrorMessage;
+import com.ats.webapi.model.FrLoginResponse;
 import com.ats.webapi.model.FrTarget;
 import com.ats.webapi.model.FrTargetList;
 import com.ats.webapi.model.FrTotalSale;
@@ -42,5 +43,7 @@ public interface FranchiseeService {
 	public Info updateFranchiseSupUsrPwd(int frId, String pass2, String pass3);
 
 	public FranchiseSup getFrSupByFrId(int frId);
+
+	public FrLoginResponse getLogin(String fr_code, String fr_password);
 	
 }

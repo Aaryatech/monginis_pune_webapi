@@ -159,7 +159,7 @@ public class RegularSpCkOrderServiceImpl implements RegularSpCkOrderService{
 
 
 	@Override
-	public List<GetRegSpCakeOrders> getRegSpCakeOrderHistory(String spDeliveryDt, int frId,int catId) {
+	public List<GetRegSpCakeOrders> getRegSpCakeOrderHistory(String spDeliveryDt, int frId,List<String> catId) {
 
 		List<GetRegSpCakeOrders> regularSpCkOrdersList=null;
 		try {

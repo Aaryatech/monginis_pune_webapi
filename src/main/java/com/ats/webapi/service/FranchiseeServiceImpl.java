@@ -396,5 +396,124 @@ public class FranchiseeServiceImpl implements FranchiseeService {
 		FranchiseSup franchiseSup=franchiseSupRepository.findFranchiseSupByFrId(frId);
 		return franchiseSup;
 	}
+
+	@Override
+	public FrLoginResponse getLogin(String frCode, String frPassword) {
+	
+		String dbFrCode = null;
+		String dbPassword = null;
+		String jsonFr = "{}";
+        Franchise dbFranchisee=new Franchise();
+
+			
+			FrLoginResponse frLoginResponse = new FrLoginResponse();
+			LoginInfo loginInfo=new LoginInfo();
+			try {
+				dbFranchisee = franchiseRepository.findByFrCodeAndDelStatus(frCode,0);
+				System.out.println(" details "+dbFranchisee.toString());
+				
+				dbFrCode = dbFranchisee.getFrCode();
+				dbPassword = dbFranchisee.getFrPassword();
+			} catch (Exception e) {
+				
+				System.out.println("Exception while finding prev fr "+e.getMessage());
+				frLoginResponse = new FrLoginResponse();
+				frLoginResponse.setFranchisee(dbFranchisee);
+				loginInfo.setError(true);
+				loginInfo.setAccessRight(0);
+
+				loginInfo.setMessage("Franchisee Not Registerd");
+				frLoginResponse.setLoginInfo(loginInfo);
+				jsonFr = JsonUtil.javaToJson(frLoginResponse);
+			}
+			try {
+				if (dbFranchisee.getFrCode() == null || dbFranchisee.getFrPassword() == null||dbFranchisee.getFrCode().equalsIgnoreCase("")||dbFranchisee.getFrPassword().equalsIgnoreCase("")) {
+
+				
+					System.out.println("Exception fr details null ");
+					
+					 frLoginResponse.setFranchisee(dbFranchisee);
+					 loginInfo.setError(true);
+ 					loginInfo.setAccessRight(0);
+					 loginInfo.setMessage("Franchisee Not Registered");
+					 frLoginResponse.setLoginInfo(loginInfo);
+					jsonFr = JsonUtil.javaToJson(frLoginResponse);
+					
+				} else if (dbFrCode.equalsIgnoreCase(frCode) && dbPassword.equals(frPassword)) {
+					
+				
+					frLoginResponse.setFranchisee(dbFranchisee);
+					loginInfo.setError(false);
+					loginInfo.setAccessRight(1);
+					loginInfo.setMessage("Franchisee displayed Successfully");
+					frLoginResponse.setLoginInfo(loginInfo);
+					jsonFr = JsonUtil.javaToJson(frLoginResponse);
+
+				} else if (dbFrCode.equalsIgnoreCase(frCode) && dbPassword != frPassword) {
+					
+					FranchiseSup franchiseSup=franchiseSupRepository.findFranchiseSupByFrId(dbFranchisee.getFrId());
+
+					System.out.println("FranchiseSup"+franchiseSup.toString());
+                    if(franchiseSup!=null) {
+                    	
+                    	if(franchiseSup.getPass1().equals(frPassword))
+                    	{
+                    		frLoginResponse.setFranchisee(dbFranchisee);
+        					loginInfo.setError(false);
+        					loginInfo.setAccessRight(1);
+        					loginInfo.setMessage("Franchisee displayed Successfully");
+        					frLoginResponse.setLoginInfo(loginInfo);
+        					jsonFr = JsonUtil.javaToJson(frLoginResponse);
+                    	}
+                    	else
+                    		if(franchiseSup.getPass2().equals(frPassword))
+                    		{
+                    			frLoginResponse.setFranchisee(dbFranchisee);
+            					loginInfo.setError(false);
+            					loginInfo.setAccessRight(2);
+            					loginInfo.setMessage("Franchisee displayed Successfully");
+            					frLoginResponse.setLoginInfo(loginInfo);
+            					jsonFr = JsonUtil.javaToJson(frLoginResponse);
+                    		}
+                    		else
+                        		if(franchiseSup.getPass3().equals(frPassword))
+                        		{
+                        			frLoginResponse.setFranchisee(dbFranchisee);
+                					loginInfo.setError(false);
+                					loginInfo.setAccessRight(3);
+                					loginInfo.setMessage("Franchisee displayed Successfully");
+                					frLoginResponse.setLoginInfo(loginInfo);
+                					jsonFr = JsonUtil.javaToJson(frLoginResponse);
+                        		}
+                        		else
+                        		{
+
+            						frLoginResponse = new FrLoginResponse();
+            					 loginInfo.setError(true);
+             					loginInfo.setAccessRight(0);
+
+            					 loginInfo.setMessage("Invalid login details");
+            					 frLoginResponse.setLoginInfo(loginInfo);
+            					 jsonFr = JsonUtil.javaToJson(frLoginResponse);
+                        		}
+					
+                    }
+                    
+				}
+			} catch (Exception e) {
+				System.out.println("Exception while converting prev fr "+e.getMessage());
+				frLoginResponse = new FrLoginResponse();
+				 frLoginResponse.setFranchisee(dbFranchisee);
+				 loginInfo.setError(true);
+					loginInfo.setAccessRight(0);
+
+				 loginInfo.setMessage("Franchisee Not Registered");
+			     frLoginResponse.setLoginInfo(loginInfo);
+				jsonFr = JsonUtil.javaToJson(frLoginResponse);
+			}
+			return frLoginResponse;
+
+		}
+	
 	
 }

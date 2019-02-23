@@ -5,12 +5,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,6 +28,11 @@ import com.ats.webapi.model.grngvn.GrnGvnHeader;
 import com.ats.webapi.model.grngvn.PostCreditNoteHeader;
 import com.ats.webapi.model.grngvn.PostCreditNoteHeaderList;
 import com.ats.webapi.model.grngvn.TempGrnGvnBeanUp;
+import com.ats.webapi.model.phpwebservice.Admin;
+import com.ats.webapi.model.phpwebservice.Flavor;
+import com.ats.webapi.model.phpwebservice.GetLogin;
+import com.ats.webapi.model.phpwebservice.SpecialCakeBean;
+import com.ats.webapi.model.phpwebservice.SpecialCakeBeanList;
 import com.ats.webapi.model.remarks.GetAllRemarksList;
 import com.ats.webapi.repository.ConfigureFrListRepository;
 import com.ats.webapi.repository.FlavourRepository;
@@ -126,7 +129,6 @@ import com.ats.webapi.service.MaterialRcNote.SettingService;
 import com.ats.webapi.util.JsonUtil;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 public class RestApiController {
@@ -1079,7 +1081,15 @@ public class RestApiController {
 		return frNameIdByRouteIdList;
 
 	}
+	@RequestMapping(value = "/getFranchiseForDispatchByFrIds", method = RequestMethod.POST)
+	public @ResponseBody List<FranchiseForDispatch> getFranchiseForDispatchByFrIds(@RequestParam("frIds") List<String> frIds) {
 
+		List<FranchiseForDispatch> frNameIdByRouteIdList = franchiseForDispatchRepository
+				.getFranchiseForDispatchByFrIds(frIds);
+
+		return frNameIdByRouteIdList;
+
+	}
 	@RequestMapping(value = "/getBillDetails", method = RequestMethod.POST)
 	public @ResponseBody GetBillDetailsList getBillDetails(@RequestParam("billNo") int billNo) {
 		System.out.println("inside rest");
@@ -1634,7 +1644,7 @@ public class RestApiController {
 
 	// Search Special Cake Order History
 	@RequestMapping("/orderHistory")
-	public @ResponseBody ItemOrderList searchOrderHistory(@RequestParam int catId, @RequestParam String deliveryDt,
+	public @ResponseBody ItemOrderList searchOrderHistory(@RequestParam List<String> catId, @RequestParam String deliveryDt,
 			@RequestParam int frId) throws ParseException {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -2742,6 +2752,20 @@ public class RestApiController {
 	public @ResponseBody List<SubCategory> getSubCateListByCatId(@RequestParam("catId") int catId) {
 
 		List<SubCategory> subCategoryList = subCategoryService.findSubCatByCatId(catId);
+		return subCategoryList;
+
+	}
+	
+	@RequestMapping(value = "/getSubCatListByCatIdInForDisp", method = RequestMethod.POST)
+	public @ResponseBody List<SubCategory> getSubCatListByCatIdInForDisp(@RequestParam("catId") List<String> catId,@RequestParam("isAllCatSelected")boolean isAllCatSelected) {
+		List<SubCategory> subCategoryList=null;
+		if(isAllCatSelected==false) {
+		 subCategoryList = subCategoryService.getSubCatListByCatIdInForDisp(catId);
+		}else
+		{
+			SubCatergoryList subCategoryListRes = subCategoryService.findAllSubCategories();
+			subCategoryList=subCategoryListRes.getSubCategory();
+		}
 		return subCategoryList;
 
 	}
@@ -4329,5 +4353,142 @@ public class RestApiController {
 		System.out.println("Res  :" + regSpCakeOrder.toString());
 		return regSpCakeOrder;
 	}
+	
+	//web service anmol android 21-02-19
+	@RequestMapping(value = { "/getLogin" }, method = RequestMethod.POST)
+	@ResponseBody
+	public GetLogin getLogin(@RequestParam("fr_code") String fr_code, @RequestParam("fr_password") String fr_password) {
 
+		FrLoginResponse frLogRes = franchiseeService.getLogin(fr_code, fr_password);
+		
+		List<Event> eventsList = eventService.findAllEvent();
+		
+		GetLogin loginRes=new GetLogin();
+		
+		if(frLogRes.getLoginInfo().isError()==false) {
+			
+			System.err.println("LOgin Success" );
+			
+			loginRes.setStatus("success");
+			
+			Admin admin=new Admin();
+			
+			admin.setError(false);
+			admin.setFr_id(""+frLogRes.getFranchisee().getFrId());
+			admin.setFr_name(frLogRes.getFranchisee().getFrName());
+			admin.setFr_email(frLogRes.getFranchisee().getFrEmail());
+			admin.setFr_image(frLogRes.getFranchisee().getFrImage());
+			admin.setType(""+frLogRes.getFranchisee().getFrRateCat());
+			
+			loginRes.setAdmin(admin);
+			
+		}
+		else {
+			
+			loginRes.setStatus("failed");
+		}
+		List<Flavor> flavor = new ArrayList<Flavor>();
+		
+		for(Event event:eventsList) {
+			
+			Flavor flvr=new Flavor();
+			
+			flvr.setDel_status(""+event.getDelStatus());
+			flvr.setSpe_id(""+event.getSpeId());
+			flvr.setSpe_name(event.getSpeName());
+			
+			flavor.add(flvr);
+		}
+		loginRes.setFlavor(flavor);
+		
+		System.out.println("frLogRes" + frLogRes);
+		
+		return loginRes;
+
+	}
+	// php web service anmol 21-02-19
+		@RequestMapping(value = { "/getAllSpCakes" }, method = RequestMethod.GET)
+		@ResponseBody
+		public SpecialCakeBeanList getAllSpCakes() {
+			SpecialCakeBeanList spBeanList = new SpecialCakeBeanList();
+
+			try {
+
+				List<SpecialCake> jsonSpecialCakeList = specialcakeService.showAllSpecialCake();
+				System.err.println("Sp cake Size " + jsonSpecialCakeList.size());
+
+				List<Event> eventsList = eventService.findAllEvent();
+				List<SpecialCakeBean> spList = new ArrayList<SpecialCakeBean>();
+				
+				if (jsonSpecialCakeList.isEmpty() == false) {
+					 
+					  spBeanList.setStatus("success");
+					  
+					 }
+				
+					List<Integer> eIds;
+					for (SpecialCake spCake : jsonSpecialCakeList) {
+
+						SpecialCakeBean bean = new SpecialCakeBean();
+
+						bean.setDel_status(""+spCake.getDelStatus());
+						bean.setErp_link_code(""+spCake.getErpLinkcode());
+						bean.setIs_used(""+spCake.getIsUsed());
+						bean.setSp_book_b4(""+spCake.getSpBookb4());
+						bean.setSp_code(""+spCake.getSpCode());
+						bean.setSp_id(""+spCake.getSpId());
+						bean.setSp_image(""+spCake.getSpImage());
+						bean.setSp_max_wt(""+spCake.getSpMaxwt());
+						bean.setSp_min_wt(""+spCake.getSpMinwt());
+						bean.setSp_name(""+spCake.getSpName());
+						bean.setSp_pho_upload(""+spCake.getSpPhoupload());
+						bean.setSp_tax1(""+spCake.getSpTax1());
+						bean.setSp_tax2(""+spCake.getSpTax2());
+						bean.setSp_tax3(""+spCake.getSpTax3());
+						bean.setSp_type(""+spCake.getSpType());
+						bean.setSpr_add_on_rate(""+spCake.getMrpRate3());
+						bean.setSpr_id(""+spCake.getSprId());
+						bean.setSpr_name(""+spCake.getMrpRate1());
+						bean.setSpr_rate(""+spCake.getMrpRate2());
+
+						eIds = new ArrayList<Integer>();
+
+					String events=spCake.getSpeIdlist();
+
+						// Remove whitespace and split by comma
+						List<String> result = Arrays.asList(events.split("\\s*,\\s*"));
+						//System.err.println("Sp Name " + spCake.getSpName());
+						//System.err.println("EVENT ARRAYList " + result.toString());
+
+						String eventNameList = "";
+						for (int j = 0; j < result.size(); j++) {
+
+							String strEventId = result.get(j);
+							int eventId = Integer.parseInt(strEventId);
+
+							for (Event event : eventsList) {
+
+								if (event.getSpeId() == eventId) {
+
+									eventNameList = eventNameList + event.getSpeName() + ",";
+								}
+							}
+
+						}
+						bean.setSpe_id_list(eventNameList);
+						spList.add(bean);
+
+					
+				}
+				spBeanList.setSp_cake(spList);
+
+			} catch (Exception e) {
+				
+				System.err.println("Exception in getting sp cake List for Php web service @Rest /getAllSpCakes"+e.getMessage());
+				e.printStackTrace();
+				
+			}
+			return spBeanList;
+
+		}
 }

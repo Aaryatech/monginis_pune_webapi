@@ -814,10 +814,13 @@ public class FrStockApiController {
 
 	@RequestMapping(value = "/getCurrentMonthOfCatId", method = RequestMethod.POST)
 	public @ResponseBody List<PostFrItemStockHeader> getCurrentMonthOfCatId(@RequestParam("frId") int frId) {
-
-		List<PostFrItemStockHeader> getCurrentMonthOfCatId = postFrOpStockHeaderRepository
-				.findByFrIdAndIsMonthClosed(frId, 0);
-
+		List<PostFrItemStockHeader> getCurrentMonthOfCatId = new ArrayList<PostFrItemStockHeader>();
+		try {
+			getCurrentMonthOfCatId = postFrOpStockHeaderRepository.findByFrIdAndIsMonthClosed(frId, 0);
+		} catch (Exception e) {
+			System.err.println("Exce in getCurrentMonthOfCatId " + e.getMessage());
+			e.printStackTrace();
+		}
 		return getCurrentMonthOfCatId;
 
 	}

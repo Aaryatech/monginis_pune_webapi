@@ -109,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public ItemOrderList searchOrderHistory(int catId, Date deliveryDate, int frId) {
+	public ItemOrderList searchOrderHistory(List<String> catId, Date deliveryDate, int frId) {
 		List<ItemOrderHis> orderList = null;
 		ErrorMessage errorMessage;
 		ItemOrderList itemOrderList;

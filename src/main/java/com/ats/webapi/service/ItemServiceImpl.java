@@ -284,6 +284,13 @@ public class ItemServiceImpl implements ItemService{
 		return items;
 	}
 
+	@Override
+	public List<Item> getOtherItemsForFr(int frId, int catId) {
+		 
+		 List<Item> items=itemRepository.getOtherItemsForFr(frId, catId);
+			return items;
+	}
+
 	
 
 }

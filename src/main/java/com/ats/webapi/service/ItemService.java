@@ -3,6 +3,8 @@ package com.ats.webapi.service;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
+
 import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.GetItemSup;
 import com.ats.webapi.model.Info;
@@ -21,6 +23,8 @@ public interface ItemService {
 	public List<Item> findFrItems(String itemGrp1);
  	public List<Item> getAllItems();
 	public List<Item> findItemsByItemId(List<Integer> itemList);
+	
+	public List<Item> getOtherItemsForFr(int frId, int catId);
 	public ItemSup saveItemSup(ItemSup itemSup);
 	public Info deleteItemSup(List<String> itemId);
 	public ItemSupList getItemSupList();

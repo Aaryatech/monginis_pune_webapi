@@ -33,8 +33,22 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	
 	public List<Item> findByItemGrp1AndDelStatusOrderByItemGrp1AscItemGrp2AscItemNameAsc(String itemGrp1, int i);
 //coalesce((select m_item_sup.short_name from m_item_sup where m_item_sup.item_id=i.id),0) as
-	
-	
+	//Sachin 25 FEB
+	@Query(value="SELECT m_item.* FROM m_item WHERE  FIND_IN_SET(m_item.id ,(SELECT " + 
+			"        m_fr_configure.item_show " + 
+			"        FROM " + 
+			"        m_fr_configure     WHERE " + 
+			"        m_fr_configure.cat_id=:catId AND m_fr_configure.is_del=0 " + 
+			"        AND m_fr_configure.setting_id in ( " + 
+			"            select " + 
+			"                menu_id  " + 
+			"            from " + 
+			"                m_fr_menu_configure " + 
+			"            where " + 
+			"                fr_id=:frId" + 
+			"        ))  )",nativeQuery=true)
+	public List<Item> getOtherItemsForFr(@Param("frId") int frId,@Param("catId") int catId);
+
 	
 	//
 	@Query(value="select i.id,i.item_id,i.item_grp1,i.item_grp2,i.item_grp3,i.item_rate1,i.item_rate2,"

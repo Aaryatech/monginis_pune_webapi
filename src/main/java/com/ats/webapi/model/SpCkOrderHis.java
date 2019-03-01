@@ -138,8 +138,20 @@ public class SpCkOrderHis implements Serializable{
 
     private String spfName;
 
-
+    private int isBillGenerated;
+    
     private String spName;
+
+    
+
+	public int getIsBillGenerated() {
+		return isBillGenerated;
+	}
+
+
+	public void setIsBillGenerated(int isBillGenerated) {
+		this.isBillGenerated = isBillGenerated;
+	}
 
 
 	public int getSpOrderNo() {
@@ -576,9 +588,9 @@ public class SpCkOrderHis implements Serializable{
 				+ spTotalAddRate + ", spBackendRate=" + spBackendRate + ", spSubTotal=" + spSubTotal + ", spAdvance="
 				+ spAdvance + ", rmAmount=" + rmAmount + ", tax1=" + tax1 + ", tax2=" + tax2 + ", tax1Amt=" + tax1Amt
 				+ ", tax2Amt=" + tax2Amt + ", orderPhoto=" + orderPhoto + ", orderDate=" + orderDate + ", orderPhoto2="
-				+ orderPhoto2 + ", isSlotUsed=" + isSlotUsed + ", spfName=" + spfName + ", spName=" + spName + "]";
+				+ orderPhoto2 + ", isSlotUsed=" + isSlotUsed + ", spfName=" + spfName + ", isBillGenerated="
+				+ isBillGenerated + ", spName=" + spName + "]";
 	}
+
     
-
-
 }

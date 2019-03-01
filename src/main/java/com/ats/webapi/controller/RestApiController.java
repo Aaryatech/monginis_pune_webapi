@@ -1583,6 +1583,15 @@ public class RestApiController {
 		return searchSpCakeResponse;
 
 	}
+	// Search Special Cake By SpecialCake SpId
+		@RequestMapping(value = { "/searchSpecialCakeBySpId" }, method = RequestMethod.POST)
+		public @ResponseBody SearchSpCakeResponse searchSpecialCakeBySpId(@RequestParam int spId) {
+
+			SearchSpCakeResponse searchSpCakeResponse = specialcakeService.searchSpecialCakeBySpId(spId);
+
+			return searchSpCakeResponse;
+
+		}
 
 	// Search Special Cake Configured spCode of Franchisee
 	@RequestMapping("/searchSpCodes")
@@ -1597,9 +1606,9 @@ public class RestApiController {
 
 	// Search Special Cake Order History
 	@RequestMapping("/SpCakeOrderHistory")
-	public @ResponseBody SpCkOrderHisList searchSpCakeOrderHistory(@RequestParam String spDeliveryDt, String frCode) {
+	public @ResponseBody SpCkOrderHisList searchSpCakeOrderHistory(@RequestParam List<String> catId,@RequestParam String spDeliveryDt, String frCode) {
 
-		SpCkOrderHisList spCakeOrderList = spCakeOrdersService.searchOrderHistory(spDeliveryDt, frCode);
+		SpCkOrderHisList spCakeOrderList = spCakeOrdersService.searchOrderHistory(catId,spDeliveryDt, frCode);
 		return spCakeOrderList;
 
 	}
@@ -2087,7 +2096,7 @@ public class RestApiController {
 			@RequestParam("mrpRate1") float mrpRate1, @RequestParam("mrpRate2") float mrpRate2,
 			@RequestParam("mrpRate3") float mrpRate3, @RequestParam("spRate1") float spRate1,
 			@RequestParam("spRate2") float spRate2, @RequestParam("spRate3") float spRate3,
-			@RequestParam("isSlotUsed") int isSlotUsed) {
+			@RequestParam("isSlotUsed") int isSlotUsed,@RequestParam("noOfChars") int noOfChars) {
 
 		SpecialCake specialCakeRes = null;
 		try {
@@ -2126,6 +2135,7 @@ public class RestApiController {
 			specialcake.setSpRate2(spRate2);
 			specialcake.setSpRate3(spRate3);
 			specialcake.setIsSlotUsed(isSlotUsed);
+			specialcake.setNoOfChars(noOfChars);
 
 			System.out.println("*********Special Cake:***************" + specialcake.toString());
 
@@ -2902,25 +2912,6 @@ public class RestApiController {
 		return itemResponse;
 
 	}
-	
-	// Get Items By Item->FR Id and Delete Status 0
-		@RequestMapping(value = "/getOtherItemsForFr", method = RequestMethod.POST)
-		public @ResponseBody ItemResponse getOtherItemsForFr(@RequestParam int frId,@RequestParam int catId) {
-
-			ItemResponse itemResponse = new ItemResponse();
-			ErrorMessage errorMessage = new ErrorMessage();
-			List<Item> items = itemService.getOtherItemsForFr(frId, catId);
-			if (items != null) {
-				itemResponse.setItemList(items);
-				errorMessage.setError(false);
-				errorMessage.setMessage("Success");
-			} else {
-				errorMessage.setError(true);
-				errorMessage.setMessage("No Items Found");
-			}
-			return itemResponse;
-
-		}
 
 	//
 	@RequestMapping(value = "/getFrMenus11", method = RequestMethod.POST)
@@ -3414,7 +3405,7 @@ public class RestApiController {
 			@RequestParam("mrpRate1") float mrpRate1, @RequestParam("mrpRate2") float mrpRate2,
 			@RequestParam("mrpRate3") float mrpRate3, @RequestParam("spRate1") float spRate1,
 			@RequestParam("spRate2") float spRate2, @RequestParam("spRate3") float spRate3,
-			@RequestParam("isUsed") int isUsed, @RequestParam("isSlotUsed") int isSlotUsed) {
+			@RequestParam("isUsed") int isUsed, @RequestParam("isSlotUsed") int isSlotUsed,@RequestParam("noOfChars") int noOfChars) {
 
 		SpecialCake specialCake = specialcakeService.findSpecialCake(id);
 		Info info = new Info();
@@ -3451,6 +3442,7 @@ public class RestApiController {
 			specialCake.setSpRate2(spRate2);
 			specialCake.setSpRate3(spRate3);
 			specialCake.setIsSlotUsed(isSlotUsed);
+			specialCake.setNoOfChars(noOfChars);//new
 
 			System.out.println("*********Special Cake:***************" + specialCake.getIsSlotUsed());
 
@@ -4510,4 +4502,22 @@ public class RestApiController {
 			return spBeanList;
 
 		}
+		// Get Items By Item->FR Id and Delete Status 0
+				@RequestMapping(value = "/getOtherItemsForFr", method = RequestMethod.POST)
+				public @ResponseBody ItemResponse getOtherItemsForFr(@RequestParam int frId,@RequestParam int catId) {
+
+					ItemResponse itemResponse = new ItemResponse();
+					ErrorMessage errorMessage = new ErrorMessage();
+					List<Item> items = itemService.getOtherItemsForFr(frId, catId);
+					if (items != null) {
+						itemResponse.setItemList(items);
+						errorMessage.setError(false);
+						errorMessage.setMessage("Success");
+					} else {
+						errorMessage.setError(true);
+						errorMessage.setMessage("No Items Found");
+					}
+					return itemResponse;
+
+				}
 }

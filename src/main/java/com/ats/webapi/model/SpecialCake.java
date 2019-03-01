@@ -113,9 +113,15 @@ public class SpecialCake implements Serializable {
 	@Column(name="is_slot_used")
 	private int isSlotUsed;
 		
+	private int noOfChars;//new 
 	
 	
-	
+	public int getNoOfChars() {
+		return noOfChars;
+	}
+	public void setNoOfChars(int noOfChars) {
+		this.noOfChars = noOfChars;
+	}
 	public int getIsSlotUsed() {
 		return isSlotUsed;
 	}
@@ -318,9 +324,7 @@ public class SpecialCake implements Serializable {
 				+ ", spDesc=" + spDesc + ", orderQty=" + orderQty + ", orderDiscount=" + orderDiscount
 				+ ", isCustChoiceCk=" + isCustChoiceCk + ", isAddonRateAppli=" + isAddonRateAppli + ", mrpRate1="
 				+ mrpRate1 + ", mrpRate2=" + mrpRate2 + ", mrpRate3=" + mrpRate3 + ", spRate1=" + spRate1 + ", spRate2="
-				+ spRate2 + ", spRate3=" + spRate3 + ", isSlotUsed=" + isSlotUsed + "]";
+				+ spRate2 + ", spRate3=" + spRate3 + ", isSlotUsed=" + isSlotUsed + ", noOfChars=" + noOfChars + "]";
 	}
-	
-
-	
+	 
 }

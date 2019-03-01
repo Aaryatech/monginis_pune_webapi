@@ -1,6 +1,4 @@
 package com.ats.webapi.model;
-
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -169,10 +167,39 @@ public class SpCakeOrders  {
 	@Column(name = "ex_var2")
 	private String exVar2;
 
+	@Column(name = "cust_gstin")
+	private String custGstin;
+	
+	@Column(name = "cust_email")
+	private String custEmail;
+	
+	@Column(name = "slip_no")
+	private String slipNo;
+	
+	public String getSlipNo() {
+		return slipNo;
+	}
 
-	
-	
-    
+	public void setSlipNo(String slipNo) {
+		this.slipNo = slipNo;
+	}
+
+	public String getCustGstin() {
+		return custGstin;
+	}
+
+	public void setCustGstin(String custGstin) {
+		this.custGstin = custGstin;
+	}
+
+	public String getCustEmail() {
+		return custEmail;
+	}
+
+	public void setCustEmail(String custEmail) {
+		this.custEmail = custEmail;
+	}
+
 	public float getExtraCharges() {
 		return extraCharges;
 	}
@@ -556,7 +583,6 @@ public class SpCakeOrders  {
 		this.isSlotUsed = isSlotUsed;
 	}
 	
-	
 	public int getIsBillGenerated() {
 		return isBillGenerated;
 	}
@@ -581,11 +607,10 @@ public class SpCakeOrders  {
 				+ ", tax2Amt=" + tax2Amt + ", orderPhoto=" + orderPhoto + ", orderDate=" + orderDate + ", orderPhoto2="
 				+ orderPhoto2 + ", isSlotUsed=" + isSlotUsed + ", isBillGenerated=" + isBillGenerated + ", isAllocated="
 				+ isAllocated + ", extraCharges=" + extraCharges + ", disc=" + disc + ", exInt1=" + exInt1 + ", exInt2="
-				+ exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + "]";
+				+ exInt2 + ", exVar1=" + exVar1 + ", exVar2=" + exVar2 + ", custGstin=" + custGstin + ", custEmail="
+				+ custEmail + ", slipNo=" + slipNo + "]";
 	}
 
 	
-	
-
 
 }

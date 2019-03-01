@@ -70,6 +70,7 @@ import com.ats.webapi.repository.OrderRepository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
 import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
 import com.ats.webapi.repository.SpCakeListRepository;
+import com.ats.webapi.repository.SpCakeOrdersRepository;
 import com.ats.webapi.repository.SpCkDeleteOrderRepository;
 import com.ats.webapi.repository.SubCategoryRepository;
 import com.ats.webapi.repository.SubCategoryResRepository;
@@ -124,7 +125,7 @@ public class MasterController {
 	FranchiseSupRepository franchiseSupRepository;
 	
 	@Autowired
-	private SubCategoryRepository subCategoryRepository;
+	SubCategoryRepository subCategoryRepository;
 	
 	@Autowired
 	ConfigureFrRepository configureFrRepository;
@@ -153,6 +154,29 @@ public class MasterController {
 	
 	@Autowired
 	 ItemForMOrderRepository itemRepositoryForMOrderRepository;
+	
+
+	@Autowired
+	SpCakeOrdersRepository spCakeOrdersRepository;
+	
+	 @RequestMapping(value = { "/updateBillStatusToProduction" }, method = RequestMethod.POST)
+		public @ResponseBody Info updateBillStatusToProduction(@RequestParam("spOrderNo") int spOrderNo,@RequestParam("billStatus") int billStatus) {
+
+			int res = spCakeOrdersRepository.updateSpBillStatus(spOrderNo,billStatus);
+
+			Info infoRes=new Info();
+			if(res>=1)
+			{
+				infoRes.setError(false);
+				infoRes.setMessage("Bill Status Updated");
+			}
+			else
+			{
+				infoRes.setError(true);
+				infoRes.setMessage("Bill Status Update Failed");
+			}
+			return infoRes;
+		}
 	// ----------------------------GET Flavours By Type--------------------------------
 		@RequestMapping(value = { "/getFlavoursByType" }, method = RequestMethod.POST)
 		public @ResponseBody List<Flavour> getFlavoursByType(@RequestParam("type") int type) {

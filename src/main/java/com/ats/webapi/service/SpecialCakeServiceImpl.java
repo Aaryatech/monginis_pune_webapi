@@ -194,6 +194,34 @@ public class SpecialCakeServiceImpl implements SpecialCakeService{
 		
 		return spList;
 	}
+
+	@Override
+	public SearchSpCakeResponse searchSpecialCakeBySpId(int spId) {
+		OrderSpecialCake specialCake=null;
+		SearchSpCakeResponse searchSpCakeResponse=new SearchSpCakeResponse();
+		SpCakeSupplement  spCakeresponse=new SpCakeSupplement();
+		ErrorMessage errorMessage=new ErrorMessage();
+		
+	    specialCake=orderSpCakeRepository.findBySpId(spId);
+	 
+		if(specialCake==null)
+		{
+			errorMessage.setError(true);
+			errorMessage.setMessage("Special Cake Not Found");
+			searchSpCakeResponse.setErrorMessage(errorMessage);
+		}
+		else
+		{
+			spCakeresponse=spCakeSupRepository.findBySpId(spId);
+			errorMessage.setError(false);
+			errorMessage.setMessage("Special Cake Found Successfully");
+			searchSpCakeResponse.setErrorMessage(errorMessage);
+			searchSpCakeResponse.setSpecialCake(specialCake);
+			searchSpCakeResponse.setSpCakeSup(spCakeresponse);
+		}
+		
+		return searchSpCakeResponse;
+	}
 	
 
 }

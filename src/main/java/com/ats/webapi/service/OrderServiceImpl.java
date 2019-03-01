@@ -114,8 +114,13 @@ public class OrderServiceImpl implements OrderService {
 		ErrorMessage errorMessage;
 		ItemOrderList itemOrderList;
 		try {
-			orderList = itemOrderHisRepository.findByMenuIdInAndDeliveryDate(catId, deliveryDate, frId);
+			
+			if(catId.contains("-1")) {
+				orderList = itemOrderHisRepository.findByMenuIdInAndDeliveryDateAll(deliveryDate, frId);
 
+			}else {
+			orderList = itemOrderHisRepository.findByMenuIdInAndDeliveryDate(catId, deliveryDate, frId);
+			}
 			if (orderList == null) {
 				errorMessage = new ErrorMessage();
 				itemOrderList = new ItemOrderList();

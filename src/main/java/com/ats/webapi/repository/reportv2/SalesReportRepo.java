@@ -47,6 +47,6 @@ public interface SalesReportRepo extends JpaRepository<SalesReport, Integer> {
 			+ " m_franchisee WHERE m_franchisee.fr_id IN (:frIdList)   ORDER BY  m_franchisee.fr_id ", nativeQuery = true)
 
 	List<SalesReport> getSalesReportSpecFr(@Param("fromDate") String fromDate, @Param("toDate") String toDate,
-			 @Param("frIdList") String frIdList);
+			 @Param("frIdList") List<String> frIdList);
 
 }

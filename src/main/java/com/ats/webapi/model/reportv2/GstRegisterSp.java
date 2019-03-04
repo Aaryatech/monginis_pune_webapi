@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -11,9 +12,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class GstRegisterSp {
 	
 	@Id
+	private int billDetailNo;
+
 	private String hsnCode;
 	
-	private int billDetailNo;
 
 	private String invoiceNo;
 

@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class CrNoteRegItem {
 
 	@Id
+	private int crndId;
+
 	private String hsnCode;
 	
 	private int crnId;
@@ -170,13 +172,21 @@ public class CrNoteRegItem {
 		this.crnAmt = crnAmt;
 	}
 
+	public int getCrndId() {
+		return crndId;
+	}
+
+	public void setCrndId(int crndId) {
+		this.crndId = crndId;
+	}
+
 	@Override
 	public String toString() {
-		return "CrNoteRegItem [hsnCode=" + hsnCode + ", crnId=" + crnId + ", crnDate=" + crnDate + ", invoiceNo="
-				+ invoiceNo + ", billDate=" + billDate + ", frName=" + frName + ", frCode=" + frCode + ", frGstNo="
-				+ frGstNo + ", crnQty=" + crnQty + ", crnTaxable=" + crnTaxable + ", cgstPer=" + cgstPer + ", sgstPer="
-				+ sgstPer + ", igstPer=" + igstPer + ", cgstAmt=" + cgstAmt + ", sgstAmt=" + sgstAmt + ", igstAmt="
-				+ igstAmt + ", crnAmt=" + crnAmt + "]";
+		return "CrNoteRegItem [crndId=" + crndId + ", hsnCode=" + hsnCode + ", crnId=" + crnId + ", crnDate=" + crnDate
+				+ ", invoiceNo=" + invoiceNo + ", billDate=" + billDate + ", frName=" + frName + ", frCode=" + frCode
+				+ ", frGstNo=" + frGstNo + ", crnQty=" + crnQty + ", crnTaxable=" + crnTaxable + ", cgstPer=" + cgstPer
+				+ ", sgstPer=" + sgstPer + ", igstPer=" + igstPer + ", cgstAmt=" + cgstAmt + ", sgstAmt=" + sgstAmt
+				+ ", igstAmt=" + igstAmt + ", crnAmt=" + crnAmt + "]";
 	}
 	
 }

@@ -12,7 +12,7 @@ public interface GstRegisterSpRepo extends JpaRepository<GstRegisterSp, Integer>
 	
 	//for Sp Cake hsn code
 	
-		@Query(value = " select t_bill_detail.bill_detail_no, t_bill_header.invoice_no," + 
+		@Query(value = " select t_bill_header.invoice_no, t_bill_detail.bill_detail_no," + 
 				"	  t_bill_header.bill_date, m_franchisee.fr_name, m_franchisee.fr_gst_no," + 
 				"	  t_bill_detail.bill_no, t_bill_detail.cgst_per, t_bill_detail.sgst_per," + 
 				"	  t_bill_detail.cgst_per+sgst_per as tax_per," + 
@@ -25,7 +25,7 @@ public interface GstRegisterSpRepo extends JpaRepository<GstRegisterSp, Integer>
 				"	  ROUND(SUM(t_bill_detail.bill_qty), 2) as bill_qty, m_spcake_sup.sp_hsncd as " + 
 				"	  hsn_code from t_bill_detail, t_bill_header," + 
 				"	  m_franchisee,m_sp_cake,m_spcake_sup where " + 
-				"	  t_bill_header.bill_no=t_bill_detail.bill_no AND " + 
+				"	  t_bill_header.bill_no=t_bill_detail.bill_no AND t_bill_detail.cat_id=5 and " + 
 				"	  m_sp_cake.sp_id=t_bill_detail.item_id AND m_sp_cake.sp_id=m_spcake_sup.sp_id " + 
 				"	  AND t_bill_header.bill_date BETWEEN :fromDate AND :toDate AND " + 
 				"	  m_franchisee.fr_id=t_bill_header.fr_id GROUP BY m_spcake_sup.sp_hsncd," + 
@@ -33,7 +33,7 @@ public interface GstRegisterSpRepo extends JpaRepository<GstRegisterSp, Integer>
 
 		List<GstRegisterSp> getGstRegisterAllFrSp(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
 
-		@Query(value = " select t_bill_detail.bill_detail_no, t_bill_header.invoice_no," + 
+		@Query(value = " select  t_bill_header.invoice_no ," + 
 				"	  t_bill_header.bill_date, m_franchisee.fr_name, m_franchisee.fr_gst_no," + 
 				"	  t_bill_detail.bill_no, t_bill_detail.cgst_per, t_bill_detail.sgst_per," + 
 				"	  t_bill_detail.cgst_per+sgst_per as tax_per," + 
@@ -46,7 +46,7 @@ public interface GstRegisterSpRepo extends JpaRepository<GstRegisterSp, Integer>
 				"	  ROUND(SUM(t_bill_detail.bill_qty), 2) as bill_qty, m_spcake_sup.sp_hsncd as " + 
 				"	  hsn_code from t_bill_detail, t_bill_header," + 
 				"	  m_franchisee,m_sp_cake,m_spcake_sup where " + 
-				"	  t_bill_header.bill_no=t_bill_detail.bill_no AND " + 
+				"	  t_bill_header.bill_no=t_bill_detail.bill_no AND t_bill_detail.cat_id=5 and  " + 
 				"	  m_sp_cake.sp_id=t_bill_detail.item_id AND m_sp_cake.sp_id=m_spcake_sup.sp_id " + 
 				"	  AND t_bill_header.bill_date BETWEEN :fromDate AND :toDate AND " + 
 				"	  m_franchisee.fr_id=t_bill_header.fr_id AND m_franchisee.fr_id IN (:frIdList) "

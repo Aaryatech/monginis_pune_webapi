@@ -11,9 +11,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class GstRegisterItem {
 
 	@Id
+	private int billDetailNo;
+
 	private String hsnCode;
 
-	private int billDetailNo;
 
 	private String invoiceNo;
 

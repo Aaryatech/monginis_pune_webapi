@@ -40,7 +40,7 @@ public class ReportControllerV2 {
 	CrNoteRegItemRepo getCrNoteRegItemRepo;
 
 	@RequestMapping(value = { "/getSalesReportV2" }, method = RequestMethod.POST)
-	public @ResponseBody List<SalesReport> getSalesReportV2(@RequestParam("frIdList") String frIdList,
+	public @ResponseBody List<SalesReport> getSalesReportV2(@RequestParam("frIdList") List<String> frIdList,
 			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
 
 		List<SalesReport> saleList = new ArrayList<>();
@@ -66,27 +66,23 @@ public class ReportControllerV2 {
 		if (frIdList.contains("-1")) {
 
 			List<GstRegisterItem> saleList1 = new ArrayList<>();
-			;
 			List<GstRegisterSp> saleList2 = new ArrayList<>();
-			;
-
+		
 			saleList1 = getGstRegisterItemRepo.getGstRegisterAllFrItem(fromDate, toDate);
 			gstList.setGstRegItemList(saleList1);
+			
 			saleList2 = getGstRegisterSpRepo.getGstRegisterAllFrSp(fromDate, toDate);
-
 			gstList.setGstRegSpList(saleList2);
 
 		} else {
 
 			List<GstRegisterItem> saleList1 = new ArrayList<>();
-			;
 			List<GstRegisterSp> saleList2 = new ArrayList<>();
-			;
 
 			saleList1 = getGstRegisterItemRepo.getGstRegisterSpecFrItem(fromDate, toDate, frIdList);
 			gstList.setGstRegItemList(saleList1);
+			
 			saleList2 = getGstRegisterSpRepo.getGstRegisterSpecFrSp(fromDate, toDate, frIdList);
-
 			gstList.setGstRegSpList(saleList2);
 
 		}

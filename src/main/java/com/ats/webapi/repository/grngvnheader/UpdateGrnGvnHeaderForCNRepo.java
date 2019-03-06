@@ -14,9 +14,12 @@ public interface UpdateGrnGvnHeaderForCNRepo extends JpaRepository<UpdateGrnGvnH
 
 	@Transactional
 	@Modifying
-	@Query(" UPDATE UpdateGrnGvnHeaderForCN  SET creditNoteId=:creditNoteId,isCreditNote=:isCreditNote "
-			+ " WHERE grnGvnHeaderId=:grnGvnHeaderId ")
+	@Query(" UPDATE UpdateGrnGvnHeaderForCN  SET creditNoteId=concat(creditNoteId,:creditNoteId,',') ,isCreditNote=:isCreditNote "
+			+ " WHERE  grnGvnHeaderId=:grnGvnHeaderId ")
 		int updateGrnGvnHeaderForCN(@Param("creditNoteId") int creditNoteId,@Param("isCreditNote") 
 		int isCreditNote,@Param("grnGvnHeaderId") int grnGvnHeaderId);
+
+	@Query(value=" select 1 from t_grn_gvn_header where  FIND_IN_SET(:crnSrNo,credit_note_id) AND   grn_gvn_header_id=:grnGvnHeaderId",nativeQuery=true)
+	int isCrnNoPresent(@Param("crnSrNo")int crnSrNo,@Param("grnGvnHeaderId") int grnGvnHeaderId);
 	
 }

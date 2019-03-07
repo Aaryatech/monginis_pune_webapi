@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.model.grngvnreport.GGReportByDate;
 import com.ats.webapi.model.grngvnreport.GGReportGrpByFrId;
+import com.ats.webapi.model.grngvnreport.GGReportGrpByItemId;
 import com.ats.webapi.model.grngvnreport.GGReportGrpByMonthDate;
 import com.ats.webapi.repository.ggreport.GGReportByDateRepo;
 import com.ats.webapi.repository.ggreport.GGReportGrpByFrIdRepo;
+import com.ats.webapi.repository.ggreport.GGReportGrpByItemIdRepo;
 import com.ats.webapi.repository.ggreport.GGreportGrpByDateMonthRepo;
 
 @RestController
@@ -28,6 +30,10 @@ public class GrnGvnReportController {
 	
 	@Autowired
 	GGReportByDateRepo gGReportByDateRepo;//r1
+	
+	@Autowired
+	GGReportGrpByItemIdRepo gGReportGrpByItemIdRepo;
+
 	
 	//r1
 	//report 1
@@ -146,6 +152,44 @@ public class GrnGvnReportController {
 
 		return grpByDateList;
 	}
+	
+	@RequestMapping(value = { "/gGReportGrpByItemId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GGReportGrpByItemId> gGReportGrpByItemId(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("isGrn") List<String> isGrn,
+			@RequestParam("frIdList") List<String> frIdList, @RequestParam("catIdList") List<String> catIdList) {
+
+		System.err.println("Parameter received fromDate:  " + fromDate + "toDate : " + toDate + "frIdList  : "
+				+ frIdList + "isGrn : " + isGrn);
+
+		List<GGReportGrpByItemId> grpByFrIdList = null;
+
+		try {
+			if (!frIdList.contains("-1") && !catIdList.contains("-1")) {
+				System.out.println("fr Id List doesn't contain zero ");
+				grpByFrIdList = gGReportGrpByItemIdRepo.getGGReportGrpByFrIdSelFr(fromDate, toDate, isGrn, frIdList,
+						catIdList);
+			} else if (!frIdList.contains("-1") && catIdList.contains("-1")) {
+				grpByFrIdList = gGReportGrpByItemIdRepo.getGGReportGrpByItemId(fromDate, toDate, isGrn, frIdList);
+			}
+
+			else if (frIdList.contains("-1") && !catIdList.contains("-1")) {
+				grpByFrIdList = gGReportGrpByItemIdRepo.getGGReportGrpByItemIdSelFr(fromDate, toDate, isGrn, catIdList);
+			}
+
+			else {
+				System.out.println("fr id list is zero : get For All Fr");
+				grpByFrIdList = gGReportGrpByItemIdRepo.getGGReportGrpByFrIdSelFrAllFr(fromDate, toDate, isGrn);
+			}
+
+		} catch (Exception e) {
+
+			System.err.println("Exce in /GrnGvnReportController : /gGReportGrpByFrId" + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return grpByFrIdList;
+	}
+
 
 	
 

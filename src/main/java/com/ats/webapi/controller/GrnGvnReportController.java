@@ -56,7 +56,7 @@ public class GrnGvnReportController {
 				System.err.println(" frIdList: It is  zero ");
 
 			grpByDateList = gGReportByDateRepo.getGrnGvnReportByDateAllFr(fromDate, toDate, isGrn);
-
+    
 			}
 		} catch (Exception e) {
 

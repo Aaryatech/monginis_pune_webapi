@@ -19,7 +19,7 @@ public class UpdateGrnGvnHeaderForCN {
 	int grnGvnHeaderId;
 	
 	@Column(name = "credit_note_id")
-	private int creditNoteId;
+	private String creditNoteId;
 	
 	@Column(name = "is_credit_note")
 	private int isCreditNote;
@@ -32,11 +32,11 @@ public class UpdateGrnGvnHeaderForCN {
 		this.grnGvnHeaderId = grnGvnHeaderId;
 	}
 
-	public int getCreditNoteId() {
+	public String getCreditNoteId() {
 		return creditNoteId;
 	}
 
-	public void setCreditNoteId(int creditNoteId) {
+	public void setCreditNoteId(String creditNoteId) {
 		this.creditNoteId = creditNoteId;
 	}
 

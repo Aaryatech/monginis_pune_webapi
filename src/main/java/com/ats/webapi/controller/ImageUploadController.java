@@ -22,17 +22,17 @@ import javassist.bytecode.stackmap.BasicBlock.Catch;
 @RestController
 public class ImageUploadController {
 
-	private static String SUGGESTION_URL = "/home/devour/apache-tomcat-9.0.12/webapps/uploadspune/SUGGESTION/";
-	private static String COMPLAINT_URL = "/home/devour/apache-tomcat-9.0.12/webapps/uploadspune/COMPLAINT/";
-	private static String NOTIFICATION_URL = "/home/devour/apache-tomcat-9.0.12/webapps/uploadspune/NOTIFICATION/";
-	private static String FEEDBACK_URL = "/home/devour/apache-tomcat-9.0.12/webapps/uploadspune/FEEDBACK/";
+	private static String SUGGESTION_URL = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/SUGGESTION/";
+	private static String COMPLAINT_URL = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/COMPLAINT/";
+	private static String NOTIFICATION_URL = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/NOTIFICATION/";
+	private static String FEEDBACK_URL = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/FEEDBACK/";
 	
-	public static final String M_SP_CAKE_FOLDER = "/home/devour/apache-tomcat-9.0.12/webapps/uploadspune/MSPCAKE/";
-	public static final String MSG_FOLDER = "/home/devour/apache-tomcat-9.0.12/webapps/uploadspune/MSG/";
-	public static final String FR_FOLDER = "/home/devour/apache-tomcat-9.0.12/webapps/uploadspune/FR/";
-	public static final String ITEM_FOLDER = "/home/devour/apache-tomcat-9.0.12/webapps/uploadspune/ITEM/";
-	public static final String RAW_MAT_IMAGE_FOLDER = "/home/devour/apache-tomcat-9.0.12/webapps/uploadspune/RAWMAT/";
-	public static final String GATE_ENTRY_IMAGE_FOLDER = "/home/devour/apache-tomcat-9.0.12/webapps/uploadspune/GATEENTRY/";
+	public static final String M_SP_CAKE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/MSPCAKE/";
+	public static final String MSG_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/MSG/";
+	public static final String FR_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/FR/";
+	public static final String ITEM_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/ITEM/";
+	public static final String RAW_MAT_IMAGE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/RAWMAT/";
+	public static final String GATE_ENTRY_IMAGE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/GATEENTRY/";
 	
 	//private static String BILL_FOLDER ="/home/maxadmin/Desktop/photos/";
 	

@@ -15,7 +15,7 @@ public interface GrnGvnHeaderRepo extends JpaRepository<GrnGvnHeader, Integer> {
 	
 	List<GrnGvnHeader> findByfrIdAndGrngvnSrnoAndIsGrn(int frId,String grnGvnSrNo,int isGrn);//Front End getGrnHeader using grnSrNo
 	
-	@Query(value=" SELECT * FROM  t_grn_gvn_header WHERE grngvn_date BETWEEN"
+	@Query(value="SELECT * FROM  t_grn_gvn_header WHERE grngvn_date BETWEEN"
 			+ ":fromDate AND :toDate AND fr_id IN (:frIdList) AND is_grn IN(:isGrn) ",nativeQuery=true)
 	List<GrnGvnHeader> findGrnGvnHeader(@Param("fromDate")Date fromDate,@Param("toDate") Date toDate,@Param("frIdList")List<String> frIdList,@Param("isGrn")List<String> isGrn);
 	

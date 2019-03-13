@@ -96,6 +96,11 @@ public class SpecialCakeServiceImpl implements SpecialCakeService{
 		List<SpecialCake> specialCakeList=specialcakeRepository.findByDelStatusOrderBySpNameAsc(0);
 		return specialCakeList;		
 	}
+	@Override
+	public List<SpecialCake> showAllSpecialCakeOrderBySpCode() {
+		List<SpecialCake> specialCakeList=specialcakeRepository.findByDelStatusOrderBySpCodeAsc(0);
+		return specialCakeList;		
+	}
 
 	@Override
 	public SpecialCake findSpecialCake(int spId) {

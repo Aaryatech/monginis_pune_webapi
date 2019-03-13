@@ -12,7 +12,7 @@ import com.ats.webapi.model.CrnDetailsSummary;
 @Repository
 public interface CrnDetailSummaryRepository extends JpaRepository<CrnDetailsSummary, Integer>{
 
-	@Query(value="  SELECT CASE      WHEN detail.cat_id=5 THEN (SELECT\n" + 
+	@Query(value="  SELECT CASE  WHEN  detail.cat_id=5 THEN (SELECT\n" + 
 			"                m_spcake_sup.sp_hsncd \n" + 
 			"            from\n" + 
 			"                m_spcake_sup \n" + 

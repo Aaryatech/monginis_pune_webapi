@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class GrnGvnHeader {
 
 	
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="grn_gvn_header_id")
@@ -34,10 +33,8 @@ public class GrnGvnHeader {
 	@Column(name="grngvn_date")
 	private Date grngvnDate;
 	
-	
 	@Column(name="is_grn")
 	private int isGrn;
-	
 	
 	@Column(name="taxable_amt")
 	private float taxableAmt;
@@ -56,16 +53,12 @@ public class GrnGvnHeader {
 	
 	@Column(name="is_credit_note")
 	private int isCreditNote;
-
 	
 	@Column(name="credit_note_id")
-	private int creditNoteId;
-
+	private String creditNoteId;//changed datatype for , separated crn no
 	
 	@Column(name="approved_datetime")
 	private String approvedDatetime;
-
-	
 	
 	//new Field added on 26 FEB
 	@Column(name = "apr_taxable_amt")
@@ -88,8 +81,6 @@ public class GrnGvnHeader {
 	
 	@Column(name = "apr_r_off")
 	float aprROff;
-		//nw field
-
 	
 	@Transient
 	List<GrnGvn> grnGvn;
@@ -136,7 +127,6 @@ public class GrnGvnHeader {
 	public void setGrngvnDate(Date grngvnDate) {
 		this.grngvnDate = grngvnDate;
 	}
-
 
 
 	public int getIsGrn() {
@@ -212,12 +202,12 @@ public class GrnGvnHeader {
 	}
 
 
-	public int getCreditNoteId() {
+	public String getCreditNoteId() {
 		return creditNoteId;
 	}
 
 
-	public void setCreditNoteId(int creditNoteId) {
+	public void setCreditNoteId(String creditNoteId) {
 		this.creditNoteId = creditNoteId;
 	}
 

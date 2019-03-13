@@ -1081,6 +1081,17 @@ public class RestApiController {
 		return frNameIdByRouteIdList;
 
 	}
+	//sumit
+	@RequestMapping(value = "/getFranchiseForDispatchRouteID", method = RequestMethod.POST)
+	public @ResponseBody List<FranchiseForDispatch> getFranchiseForDispatchRouteID(@RequestParam("routeId") String routeId) {
+
+		List<FranchiseForDispatch> frNameIdByRouteIdList = franchiseForDispatchRepository
+				.getFranchiseForDispatchRouteID(routeId);
+
+		return frNameIdByRouteIdList;
+
+	}
+	
 	@RequestMapping(value = "/getFranchiseForDispatchByFrIds", method = RequestMethod.POST)
 	public @ResponseBody List<FranchiseForDispatch> getFranchiseForDispatchByFrIds(@RequestParam("frIds") List<String> frIds) {
 

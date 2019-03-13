@@ -136,6 +136,26 @@ public class ReportsController {
 		return dispatchReportList;
 		
 	}  
+	
+	//---------------------------------PDispatch Item Report-----------------------------------------
+	//sumit
+			@RequestMapping(value = "/getPDispatchItemReportMenuwise", method = RequestMethod.POST)
+			public @ResponseBody List<PDispatchReport> getPDispatchItemReport(@RequestParam("productionDate") String productionDate,
+					 @RequestParam("frId") List<String> frId,@RequestParam("menu") List<Integer> menu,@RequestParam("ItemId") List<Integer> ItemId) {
+				
+				String productionDateYMD = Common.convertToYMD(productionDate);
+				
+					System.out.println(" fr................."+frId.toString());
+					List<PDispatchReport> dispatchReportList=pDispatchReportRepository.getPDispatchItemReportMenuwise(productionDateYMD, frId,menu,ItemId);
+					System.out.println(" fr................."+dispatchReportList.toString());
+
+					return dispatchReportList;
+					
+			}
+		//------------------------------------------------------------------------------------------------
+	
+	
+	
 	//---------------------------------PDispatch Item Report-----------------------------------------
 		@RequestMapping(value = "/getPDispatchItemReport", method = RequestMethod.POST)
 		public @ResponseBody List<PDispatchReport> getPDispatchItemReport(@RequestParam("productionDate") String productionDate,

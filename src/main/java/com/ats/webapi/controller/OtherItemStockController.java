@@ -21,7 +21,6 @@ import com.ats.webapi.repositories.OtherStockDetailRepo;
 import com.ats.webapi.repositories.OtherStockHeadRepo;
 import com.ats.webapi.repository.othitmstock.OtherItemCurStockRepo;
 import com.ats.webapi.repository.othitmstock.OtherItemStockBetRepo;
-import com.mysql.fabric.xmlrpc.base.Array;
 
 @RestController
 public class OtherItemStockController {

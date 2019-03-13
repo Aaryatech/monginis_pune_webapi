@@ -14,8 +14,7 @@ import com.ats.webapi.model.afe.AfeQuestion;
 import com.ats.webapi.model.taxrate.GetTaxRate;
 import com.ats.webapi.model.taxrate.TaxRate;
 import com.ats.webapi.repository.GetTaxRateRepo;
-import com.ats.webapi.repository.TaxRateRepo;
-import com.mysql.fabric.xmlrpc.base.Array;
+import com.ats.webapi.repository.TaxRateRepo; 
 
 @RestController
 public class TaxRateApiController {

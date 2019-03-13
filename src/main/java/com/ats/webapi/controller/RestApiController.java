@@ -1081,17 +1081,6 @@ public class RestApiController {
 		return frNameIdByRouteIdList;
 
 	}
-	//sumit
-	@RequestMapping(value = "/getFranchiseForDispatchRouteID", method = RequestMethod.POST)
-	public @ResponseBody List<FranchiseForDispatch> getFranchiseForDispatchRouteID(@RequestParam("routeId") String routeId) {
-
-		List<FranchiseForDispatch> frNameIdByRouteIdList = franchiseForDispatchRepository
-				.getFranchiseForDispatchRouteID(routeId);
-
-		return frNameIdByRouteIdList;
-
-	}
-	
 	@RequestMapping(value = "/getFranchiseForDispatchByFrIds", method = RequestMethod.POST)
 	public @ResponseBody List<FranchiseForDispatch> getFranchiseForDispatchByFrIds(@RequestParam("frIds") List<String> frIds) {
 
@@ -2329,7 +2318,19 @@ public class RestApiController {
 		return specialCakeList;
 
 	}
+	@RequestMapping(value = { "/showSpecialCakeListOrderBySpCode" }, method = RequestMethod.GET)
+	@ResponseBody
+	public SpecialCakeList showSpecialCakeListOrderBySpCode() {
+		List<SpecialCake> jsonSpecialCakeList = specialcakeService.showAllSpecialCakeOrderBySpCode();
+		SpecialCakeList specialCakeList = new SpecialCakeList();
+		specialCakeList.setSpecialCake(jsonSpecialCakeList);
+		Info info = new Info();
+		info.setError(false);
+		info.setMessage("SpecialCake list displayed Successfully");
+		specialCakeList.setInfo(info);
+		return specialCakeList;
 
+	}
 	// Show Message List
 	@RequestMapping(value = { "/showMessageList" }, method = RequestMethod.GET)
 	@ResponseBody

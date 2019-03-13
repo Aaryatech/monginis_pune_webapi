@@ -110,7 +110,28 @@ public class GetCreditNoteApi {
 
 		return headerResponse;
 	}
+	@RequestMapping(value = { "/getCrnDetailsByGrnGvnHeaderId" }, method = RequestMethod.POST)
+	public @ResponseBody GetCrnDetailsList getCrnDetailsByGrnGvnHeaderId(@RequestParam("grnGvnHeaderId") int grnGvnHeaderId) {
 
+		GetCrnDetailsList returnList = new GetCrnDetailsList();
+		List<GetCrnDetails> details = new ArrayList<>();
+
+		try {
+
+			details = creditNoteDetailRepo.getCrnDetailsByGrnGvnHeaderId(grnGvnHeaderId);
+
+			returnList.setCrnDetails(details);
+
+			System.out.println("CREDIT NOTE DETAILS " + details);
+
+		} catch (Exception e) {
+			System.err.println("Exce in  Getting Credit note Details " + e.getMessage());
+
+			e.printStackTrace();
+		}
+
+		return returnList;
+	}
 	@RequestMapping(value = { "/getCrnDetails" }, method = RequestMethod.POST)
 	public @ResponseBody GetCrnDetailsList getCrnDetails(@RequestParam("crnId") List<String> crnId) {
 
@@ -148,7 +169,27 @@ public class GetCreditNoteApi {
 
 		return details;
 	}
+	//-------------------------------For Crn Note Frontend--------------------------------
+	@RequestMapping(value = { "/getCrnHeadersByGrnGvnHeaderId" }, method = RequestMethod.POST)
+	public @ResponseBody GetCreditNoteHeadersList getCrnHeadersByGrnGvnHeaderId(
+			@RequestParam("grnGvnHeaderId") int grnGvnHeaderId)
 
+	{
+		GetCreditNoteHeadersList headerResponse = new GetCreditNoteHeadersList();
+		List<GetCreditNoteHeaders> headerList = new ArrayList<>();
+
+		try {
+
+			headerList = getCreditNoteHeaderRepo.getCrnHeadersByGrnGvnHeaderId(grnGvnHeaderId);
+			headerResponse.setCreditNoteHeaders(headerList);
+		} catch (Exception e) {
+			System.out.println("Exce In getting cn Headers " + e.getMessage());
+
+			e.printStackTrace();
+		}
+		return headerResponse;
+	}
+	//----------------------------------------------------------------------------------
 	@RequestMapping(value = { "/getCreditNoteHeadersByCrnIds" }, method = RequestMethod.POST)
 	public @ResponseBody GetCreditNoteHeadersList getCreditNoteHeadersByCrnIds(
 			@RequestParam("crnIdList") List<String> crnIdList)

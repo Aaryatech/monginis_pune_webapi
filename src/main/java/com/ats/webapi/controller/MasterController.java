@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.commons.Firebase;
+import com.ats.webapi.model.AllMenus;
 import com.ats.webapi.model.CategoryList;
 import com.ats.webapi.model.ConfigureFranchisee;
 import com.ats.webapi.model.ErrorMessage;
@@ -44,11 +45,14 @@ import com.ats.webapi.model.GetSpCkSupplement;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
 import com.ats.webapi.model.ItemForMOrder;
+import com.ats.webapi.model.ItemIdOnly;
 import com.ats.webapi.model.ItemSup;
 import com.ats.webapi.model.ItemSupList;
+import com.ats.webapi.model.MCategory;
 import com.ats.webapi.model.PostFrItemStockDetail;
 import com.ats.webapi.model.PostFrItemStockHeader;
 import com.ats.webapi.model.RegularSpCkOrders;
+import com.ats.webapi.model.SectionMaster;
 import com.ats.webapi.model.SpCake;
 import com.ats.webapi.model.SpCakeSupplement;
 import com.ats.webapi.model.SubCategory;
@@ -64,6 +68,7 @@ import com.ats.webapi.repository.FranchiseeRepository;
 import com.ats.webapi.repository.GetFrMenuConfigureRepository;
 import com.ats.webapi.repository.GetSpCakeSupRepository;
 import com.ats.webapi.repository.ItemForMOrderRepository;
+import com.ats.webapi.repository.ItemIdOnlyRepository;
 import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.ItemSupRepository;
 import com.ats.webapi.repository.OrderRepository;
@@ -84,6 +89,7 @@ import com.ats.webapi.service.SpecialCakeService;
 import com.ats.webapi.util.JsonUtil;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.ats.webapi.repository.CategoryRepository;;
   
 @RestController
 public class MasterController {
@@ -154,7 +160,11 @@ public class MasterController {
 	
 	@Autowired
 	 ItemForMOrderRepository itemRepositoryForMOrderRepository;
+	@Autowired
+	 ItemIdOnlyRepository itemIdOnlyRepository;
 	
+	@Autowired
+	CategoryRepository categoryRepository;
 
 	@Autowired
 	SpCakeOrdersRepository spCakeOrdersRepository;
@@ -1177,4 +1187,25 @@ public class MasterController {
 					return itemList;
 
 				}
+				
+				@RequestMapping(value = { "/getItemsByMenuId" }, method = RequestMethod.POST)
+				public @ResponseBody  List<ItemIdOnly> finditmsByMenuIdIn(@RequestParam("menuId") int menuId) {
+					List<ItemIdOnly> itemList;
+							  itemList = itemIdOnlyRepository.finditmsMenuIdIn(0,menuId);
+							  
+							  System.out.println("itemList" +itemList.toString());
+					return itemList;
+				}
+				
+				
+				@RequestMapping(value = { "/getCatidByMenuId" }, method = RequestMethod.POST)
+				public @ResponseBody  List<MCategory> findCatidByMenuIdIn(@RequestParam("menuId") int menuId) {
+					List<MCategory> catlist;
+					catlist = categoryRepository.findCatidByMenuIdIn(menuId);
+							  
+							  System.out.println("itemList" +catlist.toString());
+					return catlist;
+				}
+				
+				
 }

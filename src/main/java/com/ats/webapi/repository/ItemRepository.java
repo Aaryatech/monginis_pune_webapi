@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
+import com.ats.webapi.model.ItemIdOnly;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Integer> {
@@ -106,6 +107,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 //	@Query(value="select * from m_item where m_item.item_grp2 IN (:catIdList) and m_item.del_status=:i",nativeQuery=true)
 	public List<Item> findByItemGrp2InAndDelStatusOrderByItemGrp2AscItemNameAsc(List<String> catIdList,int delStatus);
 
-
+	
+		
 	
 } 

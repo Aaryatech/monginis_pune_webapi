@@ -19,15 +19,20 @@ public interface SpCakeSupRepository extends JpaRepository<SpCakeSupplement, Int
 
 	SpCakeSupplement saveAndFlush(SpCakeSupplement spCakeSupplement);
 
-	@Modifying
+	/*@Modifying
 	@Transactional
 	@Query("Update SpCakeSupplement  SET del_status=1 WHERE sp_id IN(:id)")
 	int deleteSpCakeSup(@Param("id") List<Integer> id);
-
+*/
 	//SpCakeSupplement SpCakeSupplement(String spCode);
 	
 	@Query(value="SELECT m_spcake_sup.id, m_spcake_sup.sp_id,m_spcake_sup.sp_hsncd,m_spcake_sup.sp_uom ,m_spcake_sup.sp_cess ,m_spcake_sup.cut_section ,m_spcake_sup.is_tally_sync,m_spcake_sup.del_status,m_spcake_sup.uom_id FROM m_spcake_sup WHERE m_spcake_sup.sp_id=:spId and m_spcake_sup.del_status=0 ORDER BY m_spcake_sup.id DESC LIMIT 1",nativeQuery=true)
 	public SpCakeSupplement findBySpId(@Param("spId")int spId);
+
+	Long deleteBySpIdIn(List<Integer> id);
+
+	@Query(value="SELECT m_spcake_sup.id, m_spcake_sup.sp_id,m_spcake_sup.sp_hsncd,m_spcake_sup.sp_uom ,m_spcake_sup.sp_cess ,m_spcake_sup.cut_section ,m_spcake_sup.is_tally_sync,m_spcake_sup.del_status,m_spcake_sup.uom_id FROM m_spcake_sup WHERE m_spcake_sup.sp_id=:spId and m_spcake_sup.del_status=0 ORDER BY m_spcake_sup.id",nativeQuery=true)
+	List<SpCakeSupplement> findBySpIdById(@Param("spId")int spId);
 
 
 }

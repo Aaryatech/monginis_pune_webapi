@@ -86,14 +86,14 @@ public class SalesReportController {
 	@RequestMapping(value = { "/getSaleReportBillwise" }, method = RequestMethod.POST)
 	public @ResponseBody List<SalesReportBillwise> getSaleReportBillwise(@RequestParam("frIdList") List<String> frIdList,@RequestParam("fromDate")
 	String fromDate,
-			@RequestParam("toDate") String toDate) {
+			@RequestParam("toDate") String toDate,@RequestParam("catIdList") List<String> catIdList) {
 
 		List<SalesReportBillwise> salesReportBillwiseList = null;
 		try {
 			fromDate = Common.convertToYMD(fromDate);
 			toDate = Common.convertToYMD(toDate);
 			System.out.println("Input received "+fromDate+""+toDate+""+frIdList);
-			salesReportBillwiseList = saleReportBillwiseRepo.getSaleReportBillwise(frIdList, fromDate, toDate);
+			salesReportBillwiseList = saleReportBillwiseRepo.getSaleReportBillwise(frIdList, fromDate, toDate,catIdList);
 			System.out.println("getSaleReportBillwise"+salesReportBillwiseList.toString());
 
 		} catch (Exception e) {
@@ -107,14 +107,14 @@ public class SalesReportController {
 		@RequestMapping(value = { "/getSaleReportBillwiseAllFrSelected" }, method = RequestMethod.POST)
 		public @ResponseBody List<SalesReportBillwise> getSaleReportBillwiseAllFrSelected(@RequestParam("fromDate")
 		String fromDate,
-				@RequestParam("toDate") String toDate) {
+				@RequestParam("toDate") String toDate,@RequestParam("catIdList") List<String> catIdList) {
 
 			List<SalesReportBillwise> salesReportBillwiseList = null;
 			try {
 				fromDate = Common.convertToYMD(fromDate);
 				toDate = Common.convertToYMD(toDate);
 				System.out.println("Input received "+fromDate+""+toDate+"");
-				salesReportBillwiseList = saleReportBillwiseRepo.getSaleReportBillwiseAllFr(fromDate, toDate);
+			    salesReportBillwiseList = saleReportBillwiseRepo.getSaleReportBillwiseAllFr(fromDate, toDate,catIdList);
 				System.out.println("getSaleReportBillwise"+salesReportBillwiseList.toString());
 
 			} catch (Exception e) {
@@ -130,7 +130,7 @@ public class SalesReportController {
 	@RequestMapping(value = { "/getSaleReportBillwiseByFr" }, method = RequestMethod.POST)
 	public @ResponseBody List<SalesReportBillwise> getSaleReportBillwiseByFr(@RequestParam("frIdList") List<String> frIdList,@RequestParam("fromDate")
 	String fromDate,
-			@RequestParam("toDate") String toDate) {
+			@RequestParam("toDate") String toDate,@RequestParam("catIdList") List<String> catIdList) {
 
 		List<SalesReportBillwise> salesReportBillwiseList = null;
 		try {
@@ -138,7 +138,7 @@ public class SalesReportController {
 			toDate = Common.convertToYMD(toDate);
 			System.out.println("Input received " +fromDate+ "" +toDate+ "" +frIdList);
 
-			salesReportBillwiseList = saleReportBillwiseRepo.getSaleReportBillwiseByFr(frIdList, fromDate, toDate);
+			salesReportBillwiseList = saleReportBillwiseRepo.getSaleReportBillwiseByFr(frIdList, fromDate, toDate,catIdList);
 			System.out.println("getSaleReportBillwiseByFr"+salesReportBillwiseList.toString());
 		} catch (Exception e) {
 			System.out.println(" Exce in sale Report Billwise  by Fr " + e.getMessage());
@@ -151,7 +151,7 @@ public class SalesReportController {
 	@RequestMapping(value = { "/getSaleReportBillwiseByFrAllFr" }, method = RequestMethod.POST)
 	public @ResponseBody List<SalesReportBillwise> getSaleReportBillwiseByFrAllFrSel(@RequestParam("fromDate")
 	String fromDate,
-			@RequestParam("toDate") String toDate) {
+			@RequestParam("toDate") String toDate,@RequestParam("catIdList") List<String> catIdList) {
 
 		List<SalesReportBillwise> salesReportBillwiseList = null;
 		try {
@@ -159,7 +159,7 @@ public class SalesReportController {
 			toDate = Common.convertToYMD(toDate);
 			System.out.println("Input received " +fromDate+ "" +toDate+ "");
 
-			salesReportBillwiseList = saleReportBillwiseRepo.getSaleReportBillwiseByFrAllFr(fromDate, toDate);
+			salesReportBillwiseList = saleReportBillwiseRepo.getSaleReportBillwiseByFrAllFr(fromDate, toDate,catIdList);
 			System.out.println("getSaleReportBillwiseByFr"+salesReportBillwiseList.toString());
 		} catch (Exception e) {
 			System.out.println(" Exce in sale Report Billwise  by Fr " + e.getMessage());
@@ -369,14 +369,22 @@ public class SalesReportController {
 	@RequestMapping(value = { "/getSaleReportItemwise" }, method = RequestMethod.POST)
 	public @ResponseBody List<SalesReportItemwise> getSaleReportItemwise(@RequestParam("fromDate")
 	String fromDate,
-			@RequestParam("toDate") String toDate) {
+			@RequestParam("toDate") String toDate,@RequestParam("catId") int catId) {
 
 		List<SalesReportItemwise> salesReportItemwise = null;
 		try {
 			fromDate = Common.convertToYMD(fromDate);
 			toDate = Common.convertToYMD(toDate);
 			System.out.println("Input received "+fromDate+""+toDate);
-			salesReportItemwise = saleReportItemwiseRepo.getSaleReportItemwise(fromDate, toDate);
+			if(catId==5)
+			{
+			 salesReportItemwise = saleReportItemwiseRepo.getSaleReportSpcakewise(fromDate, toDate);
+			}else
+			if(catId!=-3)
+			salesReportItemwise = saleReportItemwiseRepo.getSaleReportItemwise(catId,fromDate, toDate);
+			else
+				salesReportItemwise = saleReportItemwiseRepo.getSaleReportItemwiseExceptTradingPacking(fromDate, toDate);
+
 			System.out.println("salesReportItemwise " +salesReportItemwise.toString());
 
 		} catch (Exception e) {
@@ -414,7 +422,17 @@ if(catIdList.contains("0")) {
 
 					
 				}
-				
+				if(catIdList.contains("5"))
+				{
+					salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCatForSp(frIdList, catIdList, fromDate, toDate);
+					System.out.println("getSaleReportRoyConsoByCatForSp"+salesReportRoyaltyList.toString());
+				}
+				else
+				{
+							salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCat(frIdList, catIdList, fromDate, toDate);
+							System.out.println("getSaleReportBillwise"+salesReportRoyaltyList.toString());
+
+				}
 				System.err.println("New cat ID List" +catIdList );
 }
 			salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCat(frIdList, catIdList, fromDate, toDate);
@@ -461,8 +479,18 @@ if(catIdList.contains("0")) {
 				
 			}
 
-			salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCatAllFr(catIdList, fromDate, toDate);
-			System.out.println("getSaleReportBillwise"+salesReportRoyaltyList.toString());
+			if (catIdList.contains("5")) {
+				salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCatAllFrForSpCake(catIdList,
+						fromDate, toDate);
+				System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyList.toString());
+
+			} else {
+
+				salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCatAllFr(catIdList, fromDate,
+						toDate);
+				System.out.println("getSaleReportBillwise" + salesReportRoyaltyList.toString());
+			}
+
 
 		} catch (Exception e) {
 			System.out.println(" Exce in sales Report Royalty  By Category " + e.getMessage());

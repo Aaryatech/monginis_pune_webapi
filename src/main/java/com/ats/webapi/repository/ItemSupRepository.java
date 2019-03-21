@@ -18,7 +18,7 @@ public interface ItemSupRepository extends JpaRepository<ItemSup, Integer>{
 
 	@Modifying
 	@Transactional
-	@Query("Update ItemSup  SET del_status=1 WHERE item_id IN(:itemId)")
+	@Query("Delete from ItemSup  WHERE item_id IN(:itemId)")
 	int deleteItemSup(@Param("itemId")List<String> itemId);
 	
 
@@ -32,6 +32,9 @@ public interface ItemSupRepository extends JpaRepository<ItemSup, Integer>{
 
     @Query(value="select count(*)+1 as cnt from m_item where item_grp1=:catId and item_grp2=:subCatId",nativeQuery=true)
 	int findItemCount(@Param("catId")int catId,@Param("subCatId") int subCatId);
+
+
+	List<ItemSup> findByItemId(int itemId);
 
 
 }

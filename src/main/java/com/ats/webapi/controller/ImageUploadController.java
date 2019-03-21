@@ -33,7 +33,9 @@ public class ImageUploadController {
 	public static final String ITEM_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/ITEM/";
 	public static final String RAW_MAT_IMAGE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/RAWMAT/";
 	public static final String GATE_ENTRY_IMAGE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/GATEENTRY/";
-	
+	private static final String SP_CAKE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/SPCAKE/";
+	private static final String CUST_CHOICE_PHOTO_CAKE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/CUSTCHOICEPHOTOCAKE/";
+
 	//private static String BILL_FOLDER ="/home/maxadmin/Desktop/photos/";
 	
 	
@@ -105,16 +107,16 @@ public class ImageUploadController {
    			 path =Paths.get(ITEM_FOLDER + imageName);
 
             }
-           /* else if(type.equalsIgnoreCase("ph1"))
+          else if(type.equalsIgnoreCase("ph1"))
             {
-   			 path =Paths.get(ITEM_FOLDER + imageName);
+   			 path =Paths.get(SP_CAKE_FOLDER + imageName);
 
             }
             else if(type.equalsIgnoreCase("ph2"))
             {
-   			 path =Paths.get(ITEM_FOLDER + imageName);
+   			 path =Paths.get(CUST_CHOICE_PHOTO_CAKE_FOLDER + imageName);
 
-            }*/
+            }
 			byte[] bytes = file.getBytes();
 			
 			Files.write(path, bytes);

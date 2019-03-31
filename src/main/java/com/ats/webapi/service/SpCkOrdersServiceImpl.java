@@ -32,10 +32,10 @@ public class SpCkOrdersServiceImpl implements SpCkOrdersService {
     GetSpCakeOrderRepository getSpCakeOrderRepository;
     
 	@Override
-	public List<SpCakeOrdersBean> findSpCakeOrder(List<Integer> frId, String prodDate) {
+	public List<SpCakeOrdersBean> findSpCakeOrder(List<Integer> spMenuId,List<Integer> frId, String prodDate) {
 		List<SpCakeOrdersBean> spCakeOrders=null;
 		try {
-			spCakeOrders=spCakeOrdersRepository.FindAllSpCakeOrder(frId, prodDate);
+			spCakeOrders=spCakeOrdersRepository.FindAllSpCakeOrder(spMenuId,frId, prodDate);
 					
 		
 		}catch (Exception e) {
@@ -46,11 +46,11 @@ public class SpCkOrdersServiceImpl implements SpCkOrdersService {
 
 
 	@Override
-	public List<SpCakeOrdersBean> findSpCakeOrderAllFr(String prodDate) {
+	public List<SpCakeOrdersBean> findSpCakeOrderAllFr(List<Integer> spMenuId,String prodDate) {
 		
 		List<SpCakeOrdersBean> spCakeOrders=null;
 		try {
-			spCakeOrders=spCakeOrdersRepository.FindAllSpCakeOrderAllFr(prodDate);
+			spCakeOrders=spCakeOrdersRepository.FindAllSpCakeOrderAllFr(spMenuId,prodDate);
 					
 		
 		}catch (Exception e) {

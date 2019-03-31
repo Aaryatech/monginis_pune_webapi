@@ -170,9 +170,9 @@ public class MasterController {
 	SpCakeOrdersRepository spCakeOrdersRepository;
 	
 	 @RequestMapping(value = { "/updateBillStatusToProduction" }, method = RequestMethod.POST)
-		public @ResponseBody Info updateBillStatusToProduction(@RequestParam("spOrderNo") int spOrderNo,@RequestParam("billStatus") int billStatus) {
+		public @ResponseBody Info updateBillStatusToProduction(@RequestParam("spOrderNo") List<Integer> spOrderNo,@RequestParam("billStatus") int billStatus) {
 
-			int res = spCakeOrdersRepository.updateSpBillStatus(spOrderNo,billStatus);
+			int res = spCakeOrdersRepository.updateSpBillStatusMul(spOrderNo,billStatus);
 
 			Info infoRes=new Info();
 			if(res>=1)

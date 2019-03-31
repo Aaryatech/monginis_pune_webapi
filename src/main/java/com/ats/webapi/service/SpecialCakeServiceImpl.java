@@ -115,8 +115,9 @@ public class SpecialCakeServiceImpl implements SpecialCakeService{
 		SearchSpCakeResponse searchSpCakeResponse=new SearchSpCakeResponse();
 		SpCakeSupplement  spCakeresponse=new SpCakeSupplement();
 		ErrorMessage errorMessage=new ErrorMessage();
-		
+	    System.err.println("Special Cake Data:"+spCode);
 	    specialCake=orderSpCakeRepository.findBySpCode(spCode);
+	    System.err.println("Special Cake Data:"+specialCake.toString());
 	    int spId=specialCake.getSpId();
 	    
 	    

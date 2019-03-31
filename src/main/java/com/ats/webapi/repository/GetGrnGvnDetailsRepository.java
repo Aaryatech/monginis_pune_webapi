@@ -64,8 +64,8 @@ public interface GetGrnGvnDetailsRepository extends JpaRepository<GetGrnGvnDetai
 			"t_grn_gvn.invoice_no,t_grn_gvn.ref_invoice_date, CAST(t_grn_gvn.approved_datetime_gate AS CHAR) as approved_datetime_gate,\n" + 
 			"CAST(t_grn_gvn.approved_datetime_store AS CHAR) as approved_datetime_store,CAST(t_grn_gvn.approved_datetime_acc AS CHAR) as approved_datetime_acc,\n" + 
 			"m_franchisee.fr_name FROM m_franchisee," 
-			+"m_item,t_grn_gvn WHERE  t_grn_gvn.is_grn=0 AND"
-			+ " t_grn_gvn.item_id=m_item.id AND t_grn_gvn.fr_id=m_franchisee.fr_id AND t_grn_gvn.grn_gvn_header_id=:grnGvnHeaderId "
+			+"t_grn_gvn WHERE  t_grn_gvn.is_grn=0 AND"
+			+ "  t_grn_gvn.fr_id=m_franchisee.fr_id AND t_grn_gvn.grn_gvn_header_id=:grnGvnHeaderId "
 			+ "" + "", nativeQuery = true)
 	
 	List<GetGrnGvnDetails> getFrGvnDetails(@Param("grnGvnHeaderId") int grnGvnHeaderId);

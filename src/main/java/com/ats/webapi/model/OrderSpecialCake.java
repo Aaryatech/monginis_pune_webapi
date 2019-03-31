@@ -248,6 +248,8 @@ public class OrderSpecialCake implements Serializable {
 	public void setSpeIdlist(String speIdlist) {
 		this.speIdlist = speIdlist;
 	}
+	
+	
 	public String getErpLinkcode() {
 		return erpLinkcode;
 	}

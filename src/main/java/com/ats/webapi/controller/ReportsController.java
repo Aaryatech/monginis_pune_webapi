@@ -158,13 +158,13 @@ public class ReportsController {
 	
 	//---------------------------------PDispatch Item Report-----------------------------------------
 		@RequestMapping(value = "/getPDispatchItemReport", method = RequestMethod.POST)
-		public @ResponseBody List<PDispatchReport> getPDispatchItemReport(@RequestParam("productionDate") String productionDate,
-				 @RequestParam("frId") List<String> frId,@RequestParam("categories") List<Integer> categories) {
+		public @ResponseBody List<PDispatchReport> getPDispatchItemReports(@RequestParam("productionDate") String productionDate,
+				 @RequestParam("frId") List<String> frId,@RequestParam("categories") List<Integer> categories,@RequestParam("menuId") List<Integer> menuId) {
 			
 			String productionDateYMD = Common.convertToYMD(productionDate);
 			
 				System.out.println(" fr................."+frId.toString());
-				List<PDispatchReport> dispatchReportList=pDispatchReportRepository.getPDispatchItemReport(productionDateYMD, frId,categories);
+				List<PDispatchReport> dispatchReportList=pDispatchReportRepository.getPDispatchItemReport(productionDateYMD, frId,categories,menuId);
 				System.out.println(" fr................."+dispatchReportList.toString());
 
 				return dispatchReportList;

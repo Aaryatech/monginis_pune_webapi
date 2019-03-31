@@ -16,7 +16,6 @@ import com.ats.webapi.repository.salecomparereport.SalesComparisonReportRepo;
 
 @RestController
 public class SalesCompareReportController {
-	
 	@Autowired
 	SalesComparisonReportRepo salesComparisonReportRepo;
 	
@@ -24,14 +23,14 @@ public class SalesCompareReportController {
 	SalesCompareGrnRepository salesCompareGrnRepository;
 	
 	@RequestMapping(value = { "/getSalesReportComparion" }, method = RequestMethod.POST)
-	public @ResponseBody SalesComparison getSalesReportComparion(@RequestParam("monthNumber") int monthNumber) {
+	public @ResponseBody SalesComparison getSalesReportComparion(@RequestParam("monthNumber") int monthNumber,@RequestParam("year") int year) {
 		SalesComparison saleCompare=new SalesComparison();
 		
 		try {
 			
-		List<SalesComparisonReport> billTotalList =salesComparisonReportRepo.getSalesReportComparisonBillTotal(monthNumber);
+		List<SalesComparisonReport> billTotalList =salesComparisonReportRepo.getSalesReportComparisonBillTotal(monthNumber,year);
 		
-		List<SalesGrn> grnGvnTotalList =salesCompareGrnRepository.getSalesReportComparisonGrnGvnTotal(monthNumber);
+		List<SalesGrn> grnGvnTotalList =salesCompareGrnRepository.getSalesReportComparisonGrnGvnTotal(monthNumber,year);
 		
 		saleCompare.setBillTotalList(billTotalList);
 		saleCompare.setGrnGvnTotalList(grnGvnTotalList);

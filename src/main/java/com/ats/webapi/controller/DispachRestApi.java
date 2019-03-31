@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.webapi.model.AllMenus;
 import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.FrList;
+import com.ats.webapi.model.FranchiseForDispatch;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.Item;
 import com.ats.webapi.model.ItemListForDispatchReport;
 import com.ats.webapi.model.SectionMaster;
 import com.ats.webapi.model.StaionListWithFranchiseeList;
 import com.ats.webapi.repository.FrListRepository;
+import com.ats.webapi.repository.FranchiseForDispatchRepository;
 import com.ats.webapi.repository.ItemListForDispatchReportRepository;
 import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
@@ -46,6 +48,9 @@ public class DispachRestApi {
 	
 	@Autowired
 	MainMenuConfigurationRepository mainMenuConfigurationRepository;
+	
+	@Autowired
+	FranchiseForDispatchRepository franchiseForDispatchRepository;
 	
 	@RequestMapping(value = { "/saveSection" }, method = RequestMethod.POST)
 	public @ResponseBody SectionMaster saveSection(@RequestBody SectionMaster sectionMaster) {
@@ -285,6 +290,24 @@ public class DispachRestApi {
 		
 
 		return stnList;
+	}
+	@RequestMapping(value = { "/getFranchiseForDispatchRouteID" }, method = RequestMethod.POST)
+	@ResponseBody
+	public List<FranchiseForDispatch> getFranchiseForDispatchRouteID(@RequestParam("routeId") List<Integer> routeId) {
+
+		List<FranchiseForDispatch> routeList = new ArrayList<>();
+		try { 
+			
+			System.err.println(routeId);
+			routeList=franchiseForDispatchRepository.getFranchiseForDispatchRouteID(routeId);
+			 
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
+		return routeList;
 	}
 	
 

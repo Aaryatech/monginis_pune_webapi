@@ -9,9 +9,9 @@ import com.ats.webapi.model.SpCakeOrders;
 import com.ats.webapi.model.SpCakeOrdersBean;
 
 public interface SpCkOrdersService {
-	public List<SpCakeOrdersBean> findSpCakeOrder(List<Integer> frId,String prodDate);
+	public List<SpCakeOrdersBean> findSpCakeOrder(List<Integer> spMenuId,List<Integer> frId,String prodDate);
 	
-	public List<SpCakeOrdersBean> findSpCakeOrderAllFr(String prodDate);
+	public List<SpCakeOrdersBean> findSpCakeOrderAllFr(List<Integer> spMenuId,String prodDate);
 
 	public List<GetSpCakeOrders> getSpCakeOrder(List<String> spOrderNo);
 

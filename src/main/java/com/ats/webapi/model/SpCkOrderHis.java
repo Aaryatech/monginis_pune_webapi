@@ -79,6 +79,9 @@ public class SpCkOrderHis implements Serializable{
 	@Column(name = "sp_cust_dob")
 	private Date spCustDob;
 	
+	@Column(name = "cust_gstin")//new 16 jan
+	private String custGstNo;
+	
 	@Column(name = "sp_cust_mob_no")
 	private String spCustMobNo;
 	
@@ -572,6 +575,16 @@ public class SpCkOrderHis implements Serializable{
 	public void setSpName(String spName) {
 		this.spName = spName;
 	}
+    
+
+	public String getCustGstNo() {
+		return custGstNo;
+	}
+
+
+	public void setCustGstNo(String custGstNo) {
+		this.custGstNo = custGstNo;
+	}
 
 
 	@Override
@@ -582,15 +595,14 @@ public class SpCkOrderHis implements Serializable{
 				+ spMinWeight + ", spMaxWeight=" + spMaxWeight + ", spProdTime=" + spProdTime + ", spEstDeliDate="
 				+ spEstDeliDate + ", spProdDate=" + spProdDate + ", spEvents=" + spEvents + ", spEventsName="
 				+ spEventsName + ", spInstructions=" + spInstructions + ", spDeliveryDate=" + spDeliveryDate
-				+ ", spCustName=" + spCustName + ", spCustDob=" + spCustDob + ", spCustMobNo=" + spCustMobNo
-				+ ", spBookedForName=" + spBookedForName + ", spBookForDob=" + spBookForDob + ", spBookForMobNo="
-				+ spBookForMobNo + ", spGrandTotal=" + spGrandTotal + ", spPrice=" + spPrice + ", spTotalAddRate="
-				+ spTotalAddRate + ", spBackendRate=" + spBackendRate + ", spSubTotal=" + spSubTotal + ", spAdvance="
-				+ spAdvance + ", rmAmount=" + rmAmount + ", tax1=" + tax1 + ", tax2=" + tax2 + ", tax1Amt=" + tax1Amt
-				+ ", tax2Amt=" + tax2Amt + ", orderPhoto=" + orderPhoto + ", orderDate=" + orderDate + ", orderPhoto2="
-				+ orderPhoto2 + ", isSlotUsed=" + isSlotUsed + ", spfName=" + spfName + ", isBillGenerated="
-				+ isBillGenerated + ", spName=" + spName + "]";
+				+ ", spCustName=" + spCustName + ", spCustDob=" + spCustDob + ", custGstNo=" + custGstNo
+				+ ", spCustMobNo=" + spCustMobNo + ", spBookedForName=" + spBookedForName + ", spBookForDob="
+				+ spBookForDob + ", spBookForMobNo=" + spBookForMobNo + ", spGrandTotal=" + spGrandTotal + ", spPrice="
+				+ spPrice + ", spTotalAddRate=" + spTotalAddRate + ", spBackendRate=" + spBackendRate + ", spSubTotal="
+				+ spSubTotal + ", spAdvance=" + spAdvance + ", rmAmount=" + rmAmount + ", tax1=" + tax1 + ", tax2="
+				+ tax2 + ", tax1Amt=" + tax1Amt + ", tax2Amt=" + tax2Amt + ", orderPhoto=" + orderPhoto + ", orderDate="
+				+ orderDate + ", orderPhoto2=" + orderPhoto2 + ", isSlotUsed=" + isSlotUsed + ", spfName=" + spfName
+				+ ", isBillGenerated=" + isBillGenerated + ", spName=" + spName + "]";
 	}
-
     
 }

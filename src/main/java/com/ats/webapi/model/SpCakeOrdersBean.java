@@ -61,8 +61,28 @@ public class SpCakeOrdersBean implements Serializable {
 	@Column(name = "is_bill_generated")
 	private int isBillGenerated;
 	
+	private int  slipNo;
+	
+	private String spImage;
 	
 	
+	
+	public String getSpImage() {
+		return spImage;
+	}
+
+	public void setSpImage(String spImage) {
+		this.spImage = spImage;
+	}
+
+	public int getSlipNo() {
+		return slipNo;
+	}
+
+	public void setSlipNo(int slipNo) {
+		this.slipNo = slipNo;
+	}
+
 	public int getIsBillGenerated() {
 		return isBillGenerated;
 	}
@@ -182,7 +202,9 @@ public class SpCakeOrdersBean implements Serializable {
 				+ spfName + ", spEvents=" + spEvents + ", spDeliveryDate=" + spDeliveryDate + ", spPrice=" + spPrice
 				+ ", spTotalAddRate=" + spTotalAddRate + ", frName=" + frName + ", itemId=" + itemId
 				+ ", spSelectedWeight=" + spSelectedWeight + ", spBookedForName=" + spBookedForName + ", isAllocated="
-				+ isAllocated + ", isBillGenerated=" + isBillGenerated + "]";
+				+ isAllocated + ", isBillGenerated=" + isBillGenerated + ", slipNo=" + slipNo + ", spImage=" + spImage
+				+ "]";
 	}
 
+	
 }

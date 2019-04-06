@@ -59,5 +59,34 @@ public class GetOrderServiceImpl implements GetOrderService {
 	}
 
 
+	@Override
+	public List<GetOrder> findOrderAllFrAndItem(List<String> menuId, String date1, List<Integer> itemId) {
+		List<GetOrder> getOrderList=null;
+		try {
+			getOrderList=orderRepository.findAllNativeAllFrByItem(menuId, date1,itemId);
+		
+			
+		}catch (Exception e) {
+			System.out.println("inside order service for all fr impl ex "+e.getMessage());
+		}
+		return getOrderList;
+	}
+
+
+	@Override
+	public List<GetOrder> findOrderByItemId(List<String> frId, List<String> menuId, String date,
+			List<Integer> itemId) {
+		List<GetOrder> getOrderList=null;
+		try {
+			getOrderList=orderRepository.findAllNativeByItemId( frId,menuId, date,itemId);
+		
+		
+		}catch (Exception e) {
+			System.out.println("inside order service impl ex "+e.getMessage());
+		}
+		return getOrderList;
+	}
+
+
 
 }

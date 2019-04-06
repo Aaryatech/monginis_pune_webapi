@@ -18,7 +18,7 @@ public interface GetOrderItemRepository extends JpaRepository<GetOrderItemQty, I
 //	@Query(value = " SELECT t_order.order_id, SUM(t_order.order_qty) as qty, t_order.item_id, m_item.item_grp1, t_order.menu_id FROM t_order, m_item WHERE t_order.order_date =:orderDate AND t_order.is_bill_generated=0 AND t_order.menu_id=:menuId AND m_item.id=t_order.item_id ", nativeQuery = true)
 //	GetOrderItemQty getOrderItemQty(@Param("itemId") int itemId, @Param("orderDate") String orderDate, @Param("menuId") int menuId);
 
-	@Query(value = " SELECT t_order.order_id, t_order.production_date, SUM(t_order.order_qty) as qty, t_order.item_id, m_item.item_grp1, m_item.item_name, t_order.menu_id FROM t_order, m_item WHERE t_order.production_date =:productionDate AND t_order.is_bill_generated=0 AND t_order.menu_id IN(:menuId) AND m_item.id=t_order.item_id GROUP BY t_order.item_id order by item_grp2 Asc,item_sort_id Asc", nativeQuery = true)
+	@Query(value = " SELECT t_order.order_id, t_order.production_date, SUM(t_order.order_qty) as qty, t_order.item_id, m_item.item_grp1, m_item.item_name, t_order.menu_id FROM t_order, m_item WHERE t_order.production_date =:productionDate AND t_order.is_bill_generated IN(0,1) AND t_order.menu_id IN(:menuId) AND m_item.id=t_order.item_id GROUP BY t_order.item_id order by item_grp2 Asc,item_sort_id Asc", nativeQuery = true)
 	List<GetOrderItemQty> getOrderAllItemQty(@Param("productionDate") String productionDate, @Param("menuId") List<String> menuId);
 
 	

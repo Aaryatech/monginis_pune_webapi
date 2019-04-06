@@ -1,6 +1,8 @@
 package com.ats.webapi.repository;
 
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +23,6 @@ public interface UpdateOrdersRepository extends JpaRepository<UpdateOrder, Integ
 	
 	@Transactional
 	@Modifying
-	@Query(" DELETE FROM UpdateOrder WHERE  orderId=:orderId")
-	int deleteOrder(@Param("orderId") int orderId);
+	@Query(" DELETE FROM UpdateOrder WHERE  orderId IN(:orderId)")
+	int deleteOrder(@Param("orderId") List<Integer> orderId);
 }

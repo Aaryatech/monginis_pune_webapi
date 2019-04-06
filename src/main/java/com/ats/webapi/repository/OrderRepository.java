@@ -38,8 +38,8 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
 	
 	@Transactional
 	@Modifying
-	@Query("UPDATE Orders t SET t.deliveryDate=:delDate  WHERE t.orderId IN(:orderIds)")
-	int updateOrderDelivery(@Param("orderIds")List<Integer> orderIds,@Param("delDate")Date delDate);
+	@Query("UPDATE Orders t SET t.deliveryDate=:delDate,t.productionDate=:prodDate  WHERE t.orderId IN(:orderIds)")
+	int updateOrderDelivery(@Param("orderIds")List<Integer> orderIds,@Param("delDate")Date delDate,@Param("prodDate")Date prodDate);
 
 	
 	/*@Transactional

@@ -2820,7 +2820,7 @@ public class RestApiController {
 		}
 		return discPer;
 	}
-	// Get Items By Category order by sub cat and sort id
+	// Get Items By Category order by sub cat and sort id(Webservice for Push dump item get and in image(Disc %) taken))
 	@RequestMapping(value = "/getItemsByCatIdAndSortId", method = RequestMethod.POST)
 	public @ResponseBody List<Item> getItemsByCatIdAndSortId(@RequestParam String itemGrp1) {
 
@@ -3732,7 +3732,30 @@ public class RestApiController {
 		return orderList;
 
 	}
+	
+	@RequestMapping(value = { "/getOrderListByItem" }, method = RequestMethod.POST)
+	@ResponseBody
+	public GetOrderList getOrderListByItem(@RequestParam List<String> frId, @RequestParam List<String> menuId,
+			@RequestParam String date,@RequestParam List<Integer> itemId) {
+		GetOrderList orderList = new GetOrderList();
+		try {
+			String strDate = Common.convertToYMD(date);
+			List<GetOrder> jsonOrderList = getOrderService.findOrderByItemId(frId, menuId, strDate,itemId);
 
+			orderList.setGetOrder(jsonOrderList);
+			Info info = new Info();
+			info.setError(false);
+			info.setMessage("Order list displayed Successfully");
+			orderList.setInfo(info);
+
+		} catch (Exception e) {
+
+			System.out.println("exception in order list rest controller" + e.getMessage());
+		}
+		return orderList;
+
+	}
+	
 	@RequestMapping(value = { "/getOrdersListRes" }, method = RequestMethod.POST)
 	@ResponseBody
 	public List<GetOrder> getOrdersList(@RequestParam List<String> frId, @RequestParam List<String> menuId,
@@ -3780,7 +3803,30 @@ public class RestApiController {
 		return orderList;
 
 	}
+	@RequestMapping(value = { "/getOrderListForAllFrAndItem" }, method = RequestMethod.POST)
+	@ResponseBody
+	public GetOrderList getOrderListForAllFrAndItem(@RequestParam List<String> menuId, @RequestParam String date,@RequestParam List<Integer> itemId) {
+		GetOrderList orderList = new GetOrderList();
+		try {
 
+			String strDate = Common.convertToYMD(date);
+			System.out.println("Converted date " + strDate);
+
+			List<GetOrder> jsonOrderList = getOrderService.findOrderAllFrAndItem(menuId, strDate,itemId);
+
+			orderList.setGetOrder(jsonOrderList);
+			Info info = new Info();
+			info.setError(false);
+			info.setMessage("Order list displayed Successfully");
+			orderList.setInfo(info);
+
+		} catch (Exception e) {
+
+			System.out.println("exception in order list rest controller" + e.getMessage());
+		}
+		return orderList;
+
+	}
 	// spCakeOrderService 3 sept sachin spCakeOrdersService
 
 	@RequestMapping(value = { "/getSpCakeOrderLists" }, method = RequestMethod.POST)
@@ -4141,7 +4187,7 @@ public class RestApiController {
 	}
 
 	@RequestMapping(value = "/DeleteOrder", method = RequestMethod.POST)
-	public @ResponseBody int DeleteOrder(@RequestParam int orderId) {
+	public @ResponseBody int DeleteOrder(@RequestParam List<Integer> orderId) {
 		System.out.println("inside rest");
 
 		int isDelete = updateorderService.deleteOrder(orderId);

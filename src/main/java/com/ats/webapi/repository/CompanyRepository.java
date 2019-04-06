@@ -20,7 +20,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer>{
 
 	 @Transactional
 	 @Modifying
-	 @Query("UPDATE Company SET ex_var5=:pbNumber WHERE comp_id=:compId")
-	 int updatePBStatus(@Param("compId")int compId,@Param("pbNumber")int pbNumber);
+	 @Query("UPDATE Company SET ex_var5=(ex_var5+1) WHERE comp_id=:compId")
+	 int updatePBStatus(@Param("compId")int compId);
 
 }

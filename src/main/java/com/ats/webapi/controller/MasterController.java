@@ -1089,19 +1089,21 @@ public class MasterController {
 
 				}
 				@RequestMapping(value = "/updateOrderDetails", method = RequestMethod.POST)
-				public @ResponseBody Info updateOrderDetails(@RequestParam List<Integer> orderIds,@RequestParam String delDate)
+				public @ResponseBody Info updateOrderDetails(@RequestParam List<Integer> orderIds,@RequestParam String delDate,@RequestParam String prodDate)
 				{
 					Info info=new Info();
 					 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 						 System.err.println(orderIds.toString());
-						 Date date = new Date();
+						 Date dateDel = new Date();
+						 Date dateProd = new Date();
 						 try {
-							date = df.parse(delDate);
+							 dateDel = df.parse(delDate);
+							 dateProd=df.parse(prodDate);
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						int isUpdated=orderRepository.updateOrderDelivery(orderIds,date);
+						int isUpdated=orderRepository.updateOrderDelivery(orderIds,dateDel,dateProd);
 						if(isUpdated>0)
 						{
 							info.setError(false);
@@ -1190,8 +1192,18 @@ public class MasterController {
 				
 				@RequestMapping(value = { "/getItemsByMenuId" }, method = RequestMethod.POST)
 				public @ResponseBody  List<ItemIdOnly> finditmsByMenuIdIn(@RequestParam("menuId") int menuId) {
+					 
+					List<ItemIdOnly> itemList = itemIdOnlyRepository.finditmsMenuIdIn(0,menuId);
+							  
+							  System.out.println("itemList" +itemList.toString());
+					return itemList;
+				}
+				@RequestMapping(value = { "/getItemsByMenuIdMultiple" }, method = RequestMethod.POST)
+				public @ResponseBody  List<ItemIdOnly> getItemsByMenuIdMultiple(@RequestParam("menuId") List<Integer> menuId) {
+					 System.out.println("menuId" +menuId);
+					
 					List<ItemIdOnly> itemList;
-							  itemList = itemIdOnlyRepository.finditmsMenuIdIn(0,menuId);
+							  itemList = itemIdOnlyRepository.finditmsMenuIdInMultiple(0,menuId);
 							  
 							  System.out.println("itemList" +itemList.toString());
 					return itemList;

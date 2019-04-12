@@ -318,21 +318,26 @@ public class DispachRestApi {
 				staionListWithFranchiseeList.setStationNo(stationNos.get(i)); 
 				int count = itemListForDispatchReportRepository.getcount(stationNos.get(i));
 				
-				List<FrList> list = new ArrayList<>();
+				List<FrList> list;
 				if(routId==0) {
+					list = new ArrayList<>();
 					 list = frListRepository.findByAbcType(abcTypeList,frIndex);
+					 System.out.println("List2222"+list);
 				}else {
+					
 					 list = frListRepository.findByAbcType(abcTypeList,frIndex,routId);
+					 System.out.println("List333"+list);
 				}
 				
 				
 				try {
 					
-					frIndex=list.get(list.size()-1).getId();
+					frIndex=frIndex+ list.size();
 					
 				}catch (Exception e) {
 					 
 				}
+				
 				for(int k=0 ; k<list.size();k++) {
 					
 				List<ItemListForDispatchReport> itemList =new ArrayList<>();
@@ -342,7 +347,7 @@ public class DispachRestApi {
 					
 					if(allItemList.get(j).getFrId()==list.get(k).getFrId() && 	allItemList.get(j).getItemMrp2()==Integer.parseInt(""+stationNos.get(i)))
 					{
-						System.err.println("stationNos.get(i)"+stationNos.get(i));
+						
 						ItemListForDispatchReport dRport=new ItemListForDispatchReport();
 						dRport.setId(allItemList.get(j).getId());
 						dRport.setItemId(allItemList.get(j).getItemId());
@@ -354,6 +359,9 @@ public class DispachRestApi {
 					}
 				}
 				list.get(k).setItemList(itemList);
+				
+				
+				
 				}
 			/*	for(int j=0 ; j<list.size();j++) {
 					

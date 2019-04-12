@@ -117,6 +117,11 @@ public class ImageUploadController {
    			 path =Paths.get(CUST_CHOICE_PHOTO_CAKE_FOLDER + imageName);
 
             }
+            else if(type.equalsIgnoreCase("msg"))
+            {
+   			 path =Paths.get(MSG_FOLDER + imageName);
+
+            }
 			byte[] bytes = file.getBytes();
 			
 			Files.write(path, bytes);

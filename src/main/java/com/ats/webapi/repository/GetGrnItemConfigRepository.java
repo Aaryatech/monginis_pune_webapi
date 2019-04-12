@@ -43,7 +43,7 @@ public interface GetGrnItemConfigRepository extends JpaRepository<GetGrnItemConf
 	
 	@Query(value = "SELECT t_bill_header.bill_no,t_bill_header.bill_date_time," + 
 			"			t_bill_header.bill_date,t_bill_detail.item_id,m_item.item_name,m_item.item_grp2,t_bill_detail.grn_type," + 
-			"			t_bill_detail.rate,t_bill_detail.mrp,t_bill_detail.bill_qty,t_bill_detail.bill_detail_no," + 
+			"			round(t_bill_detail.base_rate,2) as rate,t_bill_detail.mrp,t_bill_detail.bill_qty,t_bill_detail.bill_detail_no," + 
 			"			t_bill_detail.bill_no,t_bill_detail.sgst_per,t_bill_detail.cgst_per,t_bill_detail.igst_per," + 
 			"			t_bill_detail.cat_id,t_bill_detail.menu_id,t_bill_detail.disc_per, " + 
 			"			t_bill_header.fr_id,t_bill_header.invoice_no FROM t_bill_header ,t_bill_detail,m_item " + 

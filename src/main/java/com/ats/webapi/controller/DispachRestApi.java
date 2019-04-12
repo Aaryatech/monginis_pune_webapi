@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.model.AllMenus;
+import com.ats.webapi.model.DispatchStationItem;
 import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.FrList;
 import com.ats.webapi.model.FranchiseForDispatch;
@@ -20,6 +21,7 @@ import com.ats.webapi.model.Item;
 import com.ats.webapi.model.ItemListForDispatchReport;
 import com.ats.webapi.model.SectionMaster;
 import com.ats.webapi.model.StaionListWithFranchiseeList;
+import com.ats.webapi.repository.DispatchReportRepositoryForItemwiseMin;
 import com.ats.webapi.repository.FrListRepository;
 import com.ats.webapi.repository.FranchiseForDispatchRepository;
 import com.ats.webapi.repository.ItemListForDispatchReportRepository;
@@ -51,6 +53,9 @@ public class DispachRestApi {
 	
 	@Autowired
 	FranchiseForDispatchRepository franchiseForDispatchRepository;
+	
+	@Autowired
+	DispatchReportRepositoryForItemwiseMin dispatchReportRepositoryForItemwiseMin;
 	
 	@RequestMapping(value = { "/saveSection" }, method = RequestMethod.POST)
 	public @ResponseBody SectionMaster saveSection(@RequestBody SectionMaster sectionMaster) {
@@ -278,6 +283,92 @@ public class DispachRestApi {
 						 
 					}
 				}
+				staionListWithFranchiseeList.setItemCount(count);
+				staionListWithFranchiseeList.setList(list);
+				stnList.add(staionListWithFranchiseeList);
+			}
+			 
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
+		return stnList;
+	}
+	@RequestMapping(value = { "/getAbcDepatchReportMin" }, method = RequestMethod.POST)
+	@ResponseBody
+	public List<StaionListWithFranchiseeList> getAbcDepatchReportMin(@RequestParam("date") String date,@RequestParam("abcType") List<Integer> abcTypeList,
+			@RequestParam("stationNos") List<Integer> stationNos,@RequestParam("routId") int routId,@RequestParam("menuIds") List<Integer> menuIds) {
+
+		List<StaionListWithFranchiseeList> stnList = new ArrayList<>();
+		try {
+			List<Integer> frList = new ArrayList<>();
+			if(routId==0) {
+				frList = frListRepository.findByAbcTypeMin(abcTypeList);
+			}else {
+				frList = frListRepository.findByAbcTypeMin(abcTypeList,routId);
+			}
+			List<DispatchStationItem> allItemList =dispatchReportRepositoryForItemwiseMin.getItemByFrIdAndDateMin(stationNos,date,frList,menuIds);
+			int index=0;
+			int frIndex=0;
+			for(int i = 0 ; i<stationNos.size() ; i++) {
+				
+				StaionListWithFranchiseeList staionListWithFranchiseeList = new StaionListWithFranchiseeList();
+				staionListWithFranchiseeList.setStationNo(stationNos.get(i)); 
+				int count = itemListForDispatchReportRepository.getcount(stationNos.get(i));
+				
+				List<FrList> list = new ArrayList<>();
+				if(routId==0) {
+					 list = frListRepository.findByAbcType(abcTypeList,frIndex);
+				}else {
+					 list = frListRepository.findByAbcType(abcTypeList,frIndex,routId);
+				}
+				
+				
+				try {
+					
+					frIndex=list.get(list.size()-1).getId();
+					
+				}catch (Exception e) {
+					 
+				}
+				for(int k=0 ; k<list.size();k++) {
+					
+				List<ItemListForDispatchReport> itemList =new ArrayList<>();
+					
+				for(int j=0 ; j<allItemList.size();j++) {
+					
+					if(allItemList.get(j).getFrId()==list.get(k).getFrId())
+					{
+						ItemListForDispatchReport dRport=new ItemListForDispatchReport();
+						dRport.setId(allItemList.get(j).getId());
+						dRport.setItemId(allItemList.get(j).getItemId());
+						dRport.setItemMrp2((double)stationNos.get(i));
+						dRport.setItemName(allItemList.get(j).getItemName());
+						dRport.setOrderQty(allItemList.get(j).getOrderQty());
+						dRport.setEditQty(allItemList.get(j).getOrderQty());
+						itemList.add(dRport);
+					}
+				}
+				list.get(k).setItemList(itemList);
+				}
+			/*	for(int j=0 ; j<list.size();j++) {
+					
+					System.err.println("index " + index);
+					
+					
+					List<ItemListForDispatchReport> itemList = itemListForDispatchReportRepository.getItemByFrIdAndDate(list.get(j).getFrId(),date,index,stationNos.get(i),menuIds);
+					list.get(j).setItemList(itemList);
+					
+					try {
+						
+						index=itemList.get(itemList.size()-1).getId();
+						
+					}catch (Exception e) {
+						 
+					}
+				}*/
 				staionListWithFranchiseeList.setItemCount(count);
 				staionListWithFranchiseeList.setList(list);
 				stnList.add(staionListWithFranchiseeList);

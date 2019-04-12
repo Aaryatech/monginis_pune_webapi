@@ -24,4 +24,9 @@ public interface UpdateSeetingForPBRepo extends JpaRepository<FrItemStockConfigu
   	@Query("UPDATE FrItemStockConfigure  SET setting_value=(setting_value)+1 where setting_key='gate_sale_invoice'")
 	int updateSettingValue();
 
+	@Transactional
+  	@Modifying
+  	@Query("UPDATE FrItemStockConfigure  SET setting_value=(setting_value)+1 where setting_key='sp_slip_no'")
+	int updateSeetingForSlip();
+
 }

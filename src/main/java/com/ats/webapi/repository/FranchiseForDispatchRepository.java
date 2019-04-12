@@ -17,8 +17,8 @@ public interface FranchiseForDispatchRepository extends JpaRepository<FranchiseF
 	List<FranchiseForDispatch> getFranchiseForDispatch(@Param("routeId")int routeId);
 
 	//Sumit
-	@Query(value=" SELECT fr_name,fr_id,  fr_route_id,fr_rate,fr_rate_cat FROM m_franchisee WHERE "
-			+ "fr_route_id IN (:routeId)  and del_status=0"
+	@Query(value=" SELECT m_franchisee.fr_name,m_franchisee.fr_id,  m_franchisee.fr_route_id,m_franchisee.fr_rate,m_franchisee.fr_rate_cat FROM m_franchisee,m_franchise_sup,m_fr_route route WHERE "
+			+ "m_franchisee.fr_route_id IN (:routeId)  and m_franchisee.del_status=0 and m_franchise_sup.fr_id=m_franchisee.fr_id and route.route_id=m_franchisee.fr_route_id order by route.abc_type,route.seq_no,m_franchise_sup.no_in_route"
 			+ "",nativeQuery=true)
 	List<FranchiseForDispatch> getFranchiseForDispatchRouteID(@Param("routeId") List<Integer> routeId);
 	

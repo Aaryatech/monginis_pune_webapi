@@ -27,8 +27,8 @@ public interface SpCakeOrdersRepository extends JpaRepository<SpCakeOrders,Integ
 
 	@Transactional
 	@Modifying	
-	@Query("UPDATE SpCakeOrders t SET t.isBillGenerated =:status  WHERE t.spOrderNo IN(:orderId)")
-	int updateSpBillStatusMul(@Param("orderId") List<Integer> orderId,@Param("status") int status);
+	@Query("UPDATE SpCakeOrders t SET t.isBillGenerated =:status,t.slipNo=:slipNo  WHERE t.spOrderNo=:orderId")
+	int updateSpBillStatusMul(@Param("orderId") int orderId,@Param("status") int status,@Param("slipNo") String slipNo);
 
 	
 	@Transactional

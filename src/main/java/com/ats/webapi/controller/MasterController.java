@@ -31,6 +31,7 @@ import com.ats.webapi.model.CategoryList;
 import com.ats.webapi.model.ConfigureFranchisee;
 import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.Flavour;
+import com.ats.webapi.model.FrItemStockConfigureList;
 import com.ats.webapi.model.FrListForSupp;
 import com.ats.webapi.model.FrMenuConfigure;
 import com.ats.webapi.model.FrTarget;
@@ -61,6 +62,7 @@ import com.ats.webapi.model.tally.FranchiseeList;
 import com.ats.webapi.model.tray.TrayType;
 import com.ats.webapi.repository.ConfigureFrRepository;
 import com.ats.webapi.repository.FlavourRepository;
+import com.ats.webapi.repository.FrItemStockConfigureRepository;
 import com.ats.webapi.repository.FrListForSuppRepository;
 import com.ats.webapi.repository.FrMenuConfigureRepository;
 import com.ats.webapi.repository.FranchiseSupRepository;
@@ -79,7 +81,9 @@ import com.ats.webapi.repository.SpCakeOrdersRepository;
 import com.ats.webapi.repository.SpCkDeleteOrderRepository;
 import com.ats.webapi.repository.SubCategoryRepository;
 import com.ats.webapi.repository.SubCategoryResRepository;
+import com.ats.webapi.repository.UpdateSeetingForPBRepo;
 import com.ats.webapi.service.ConfigureFranchiseeService;
+import com.ats.webapi.service.FrItemStockConfigureService;
 import com.ats.webapi.service.FranchiseeService;
 import com.ats.webapi.service.ItemService;
 import com.ats.webapi.service.OrderService;
@@ -169,10 +173,28 @@ public class MasterController {
 	@Autowired
 	SpCakeOrdersRepository spCakeOrdersRepository;
 	
+	@Autowired
+	FrItemStockConfigureService frItemStockConfigureService;
+	@Autowired
+	UpdateSeetingForPBRepo updateSeetingForPBRepo;
+	
+	@Autowired
+	FrItemStockConfigureRepository frItemStockConfRepo;
+	
 	 @RequestMapping(value = { "/updateBillStatusToProduction" }, method = RequestMethod.POST)
 		public @ResponseBody Info updateBillStatusToProduction(@RequestParam("spOrderNo") List<Integer> spOrderNo,@RequestParam("billStatus") int billStatus) {
-
-			int res = spCakeOrdersRepository.updateSpBillStatusMul(spOrderNo,billStatus);
+		 int res=0;
+		
+		 for(int i=0;i<spOrderNo.size();i++)
+		 {
+		
+		 int slipNo=frItemStockConfRepo.findBySettingKey("sp_slip_no");
+            System.err.println("slipNo"+slipNo);
+		 int result = spCakeOrdersRepository.updateSpBillStatusMul(spOrderNo.get(i),billStatus,""+slipNo);
+		 res=res+result;
+		
+		 int isSpNoUpdated = updateSeetingForPBRepo.updateSeetingForSlip();
+		 }
 
 			Info infoRes=new Info();
 			if(res>=1)

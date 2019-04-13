@@ -339,8 +339,10 @@ public class DispachRestApi {
 					
 				for(int j=0 ; j<allItemList.size();j++) {
 					
-					if(allItemList.get(j).getFrId()==list.get(k).getFrId())
+					
+					if(allItemList.get(j).getFrId()==list.get(k).getFrId() && 	allItemList.get(j).getItemMrp2()==Integer.parseInt(""+stationNos.get(i)))
 					{
+						System.err.println("stationNos.get(i)"+stationNos.get(i));
 						ItemListForDispatchReport dRport=new ItemListForDispatchReport();
 						dRport.setId(allItemList.get(j).getId());
 						dRport.setItemId(allItemList.get(j).getItemId());

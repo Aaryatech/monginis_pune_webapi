@@ -11,7 +11,7 @@ import com.ats.webapi.model.DispatchStationItem;
 public interface DispatchReportRepositoryForItemwiseMin extends JpaRepository<DispatchStationItem, Integer>{
 
 	@Query(value="select\n" + 
-			"        CONCAT(i.id , m_franchisee.fr_id, i.item_mrp2) AS uno,\n" + 
+			"        CONCAT(i.id, m_franchisee.fr_id, i.item_mrp2) AS id,\n" + 
 			"        i.id as item_id,\n" + 
 			"        i.item_name,\n" + 
 			"        i.item_mrp2,\n" + 

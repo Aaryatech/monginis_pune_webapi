@@ -23,7 +23,7 @@ public interface FrListRepository extends JpaRepository<FrList, Integer>{
 			"(select route_id from m_fr_route where del_status=0 and abc_type in (:abcTypeList)) and f.del_status=0 and f.fr_route_id=r.route_id",nativeQuery=true)
 	List<Integer> findByAbcTypeMin(@Param("abcTypeList")List<Integer> abcTypeList);
 
-	@Query(value="select f.fr_id from m_franchisee f,m_fr_route r b where fr_route_id in" + 
+	@Query(value="select f.fr_id from m_franchisee f,m_fr_route r  where fr_route_id in" + 
 			"(select route_id from m_fr_route where del_status=0 and abc_type in (:abcTypeList)) and f.del_status=0 and f.fr_route_id=r.route_id and r.route_id=:routId",nativeQuery=true)
 	List<Integer> findByAbcTypeMin(@Param("abcTypeList")List<Integer> abcTypeList,@Param("routId") int routId);
 

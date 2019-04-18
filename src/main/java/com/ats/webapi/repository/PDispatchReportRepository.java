@@ -26,4 +26,9 @@ public interface PDispatchReportRepository extends JpaRepository<PDispatchReport
 			"	group by t_order.item_id,t_order.fr_id order by t_order.fr_id,m_item.item_grp1 asc,m_item.item_grp2,m_item.item_name,m_item.item_sort_id asc,m_item.item_mrp2 asc" + 
 			"",nativeQuery=true)
 	List<PDispatchReport> getPDispatchItemReportMenuwise(@Param("productionDateYMD")String productionDateYMD,@Param("frId") List<String> frId,@Param("menu") List<Integer> menu,@Param("ItemId") List<Integer> ItemId);// cat_id changed to to sub_cat_id (select sub_cat_id from m_fr_menu_show where menu_id=)
+
+//---------------------------------------------------------DispatchReport Franchise wise Special Cake ----SUMIT---19 APRIL 2019------------------------------------------------
+	@Query(value="select t_sp_cake.sp_order_no AS order_id,t_sp_cake.fr_id,m_franchisee.fr_name,t_sp_cake.sp_id as item_id,t_sp_cake.item_id as item_name,COUNT(t_sp_cake.sp_order_no) as order_qty,COUNT(t_sp_cake.sp_order_no) as edit_qty,t_sp_cake.is_bill_generated,m_franchisee.fr_route_id AS cat_id, m_franchise_sup.no_in_route AS sub_cat_id,m_franchisee.fr_code as cat_name from t_sp_cake,m_franchisee,m_franchise_sup where t_sp_cake.sp_delivery_date=(:deliveryDateYMD) AND t_sp_cake.menu_id in(:menu) AND m_franchisee.fr_id=t_sp_cake.fr_id AND m_franchisee.fr_id=m_franchise_sup.fr_id AND m_franchisee.fr_id IN (:frId) GROUP BY t_sp_cake.fr_id ORDER BY m_franchisee.fr_route_id,m_franchise_sup.no_in_route" + 
+			"",nativeQuery=true)
+	List<PDispatchReport> getPDispatchFranchisewiseSpCake(@Param("deliveryDateYMD")String deliveryDateYMD,@Param("frId") List<String> frId,@Param("menu") List<Integer> menu);
 }

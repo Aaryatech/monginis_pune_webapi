@@ -290,6 +290,24 @@ public class ReportsController {
 		return getCustBillTaxList;
 		
 	}
+	
+	//---------------------------------PDispatch Franchises wise Special Cake Report-----------------------------------------
+		//sumit
+				@RequestMapping(value = "/getPDispatchFranchasewiseSpCake", method = RequestMethod.POST)
+				public @ResponseBody List<PDispatchReport> getPDispatchFranchasewiseSpCake(@RequestParam("deliveryDate") String deliveryDate,
+						 @RequestParam("frId") List<String> frId,@RequestParam("menu") List<Integer> menu) {
+					
+					String deliveryDateYMD = Common.convertToYMD(deliveryDate);
+					
+						System.out.println(" fr................."+frId.toString());
+						List<PDispatchReport> dispatchReportList=pDispatchReportRepository.getPDispatchFranchisewiseSpCake(deliveryDateYMD, frId,menu);
+						System.out.println(" fr................."+dispatchReportList.toString());
+
+						return dispatchReportList;
+						
+				}
+			//------------------------------------------------------------------------------------------------
+
 }
 	
 

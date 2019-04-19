@@ -48,11 +48,14 @@ public class TempGrnGvnBeanUp {
 	private	float aprROff;
 
 	private	int isSameState;
+	
 		//23 FEB new Fields to handle qty variation between entry(insert) and dispatch
 
+	
 	public int getGrnGvnId() {
 		return grnGvnId;
 	}
+
 
 	public void setGrnGvnId(int grnGvnId) {
 		this.grnGvnId = grnGvnId;
@@ -236,7 +239,7 @@ public class TempGrnGvnBeanUp {
 				+ approvedRemarkAcc + ", aprQtyGate=" + aprQtyGate + ", aprQtyStore=" + aprQtyStore + ", aprQtyAcc="
 				+ aprQtyAcc + ", aprTaxableAmt=" + aprTaxableAmt + ", aprTotalTax=" + aprTotalTax + ", aprSgstRs="
 				+ aprSgstRs + ", aprCgstRs=" + aprCgstRs + ", aprIgstRs=" + aprIgstRs + ", aprGrandTotal="
-				+ aprGrandTotal + ", aprROff=" + aprROff + ", isSameState=" + isSameState + "]";
+				+ aprGrandTotal + ", aprROff=" + aprROff + ", isSameState=" + isSameState +  "]";
 	}
 
 

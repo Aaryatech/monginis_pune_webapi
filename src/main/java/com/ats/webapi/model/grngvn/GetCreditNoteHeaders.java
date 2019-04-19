@@ -71,9 +71,22 @@ public class GetCreditNoteHeaders {
 	
 	String exVarchar1;//new for pune  invno of bill to show headers
 	
+	@Column(name = "grn_gvn_sr_no_list")
+	private String grnGvnSrNoList;
 	
 	
 	
+	
+	public String getGrnGvnSrNoList() {
+		return grnGvnSrNoList;
+	}
+
+
+	public void setGrnGvnSrNoList(String grnGvnSrNoList) {
+		this.grnGvnSrNoList = grnGvnSrNoList;
+	}
+
+
 	public int getExInt1() {
 		return exInt1;
 	}
@@ -261,7 +274,7 @@ public class GetCreditNoteHeaders {
 				+ crnGrandTotal + ", roundOff=" + roundOff + ", createdDateTime=" + createdDateTime + ", isTallySync="
 				+ isTallySync + ", isDeposited=" + isDeposited + ", frName=" + frName + ", frAddress=" + frAddress
 				+ ", frGstNo=" + frGstNo + ", isSameState=" + isSameState + ", isGrn=" + isGrn + ", exInt1=" + exInt1
-				+ ", exVarchar1=" + exVarchar1 + "]";
+				+ ", exVarchar1=" + exVarchar1 + ", grnGvnSrNoList=" + grnGvnSrNoList + "]";
 	}
 
     

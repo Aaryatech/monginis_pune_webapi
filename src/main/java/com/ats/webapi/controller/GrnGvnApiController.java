@@ -179,5 +179,21 @@ public class GrnGvnApiController {
 		return responseHeader;
 		
 	}
-	
+	@RequestMapping(value = { "/updateGrnGvnDate" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateGrnGvnDate(@RequestParam int grnGvnHeaderId,@RequestParam String grnGvnDate) {
+
+		int isUpdated =grnGvnHeaderRepo.updateGrnGvnDate(grnGvnHeaderId,grnGvnDate);
+		Info info=new Info();
+		if(isUpdated>=1)
+		{
+			info.setError(false);
+			info.setMessage("GrnGvnDate Updated");
+		}
+		else
+		{
+			info.setError(true);
+			info.setMessage("GrnGvnDate Not Updated");
+		}
+		return info;
+	}
 }

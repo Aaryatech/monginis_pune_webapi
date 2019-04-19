@@ -12,7 +12,7 @@ import com.ats.webapi.model.grngvn.GrnGvnHeader;
 
 public interface GetCreditNoteHeaderRepo extends JpaRepository<GetCreditNoteHeaders, Integer> {
 
-	@Query(value=" SELECT ch.crn_id,ch.ex_int1,ch.ex_varchar1,ch.crn_date,ch.fr_id,ch.crn_taxable_amt,ch.crn_total_tax,ch.crn_grand_total,ch.round_off,ch.is_tally_sync, " + 
+	@Query(value=" SELECT ch.crn_id,ch.ex_int1,ch.grn_gvn_sr_no_list,ch.ex_varchar1,ch.crn_date,ch.fr_id,ch.crn_taxable_amt,ch.crn_total_tax,ch.crn_grand_total,ch.round_off,ch.is_tally_sync, " + 
 			"ch.crn_no,ch.grn_gvn_sr_no_list,ch.is_deposited,fr.fr_name,ch.created_date_time,fr.fr_address,fr.fr_gst_no,fr.is_same_state,ch.is_grn " + 
 			"FROM m_franchisee fr, t_credit_note_header ch " + 
 			"WHERE  ch.crn_date BETWEEN  :fromDate AND  :toDate " + 
@@ -20,7 +20,7 @@ public interface GetCreditNoteHeaderRepo extends JpaRepository<GetCreditNoteHead
 	
 	List<GetCreditNoteHeaders> getCreditHeadersAllFr(@Param("fromDate")Date fromDate,@Param("toDate") Date toDate);
 	
-	@Query(value=" SELECT ch.crn_id,ch.ex_int1,ch.ex_varchar1,ch.crn_date,ch.fr_id,ch.crn_taxable_amt,ch.crn_total_tax,ch.crn_grand_total,ch.round_off,ch.is_tally_sync," + 
+	@Query(value=" SELECT ch.crn_id,ch.ex_int1,ch.grn_gvn_sr_no_list,ch.ex_varchar1,ch.crn_date,ch.fr_id,ch.crn_taxable_amt,ch.crn_total_tax,ch.crn_grand_total,ch.round_off,ch.is_tally_sync," + 
 			"ch.crn_no,ch.grn_gvn_sr_no_list,ch.is_deposited,fr.fr_name,ch.created_date_time,fr.fr_address,fr.fr_gst_no,fr.is_same_state,ch.is_grn " + 
 			"FROM m_franchisee fr, t_credit_note_header ch " + 
 			"WHERE ch.crn_date BETWEEN  :fromDate AND  :toDate AND " + 
@@ -30,7 +30,7 @@ public interface GetCreditNoteHeaderRepo extends JpaRepository<GetCreditNoteHead
 	
 	
 	
-	@Query(value=" SELECT ch.crn_id,ch.ex_int1,ch.ex_varchar1,ch.crn_date,ch.fr_id,ch.crn_taxable_amt,ch.crn_total_tax,ch.crn_grand_total,ch.round_off,ch.is_tally_sync, " + 
+	@Query(value=" SELECT ch.crn_id,ch.ex_int1,ch.grn_gvn_sr_no_list,ch.ex_varchar1,ch.crn_date,ch.fr_id,ch.crn_taxable_amt,ch.crn_total_tax,ch.crn_grand_total,ch.round_off,ch.is_tally_sync, " + 
 			"ch.crn_no,ch.grn_gvn_sr_no_list,ch.is_deposited,fr.fr_name,ch.created_date_time,fr.fr_address,fr.fr_gst_no,fr.is_same_state,ch.is_grn " + 
 			"FROM m_franchisee fr, t_credit_note_header ch " + 
 			"WHERE  ch.crn_id IN (:crnIdList) " + 
@@ -38,7 +38,7 @@ public interface GetCreditNoteHeaderRepo extends JpaRepository<GetCreditNoteHead
 	
 	List<GetCreditNoteHeaders> getCreditHeadersByHeaderIds(@Param("crnIdList")List<String> crnIdList);
 
-	@Query(value="SELECT ch.crn_id,ch.ex_int1,ch.ex_varchar1,ch.crn_date,ch.fr_id,ch.crn_taxable_amt,ch.crn_total_tax,ch.crn_grand_total,ch.round_off,ch.is_tally_sync,  \n" + 
+	@Query(value="SELECT ch.crn_id,ch.ex_int1,ch.grn_gvn_sr_no_list,ch.ex_varchar1,ch.crn_date,ch.fr_id,ch.crn_taxable_amt,ch.crn_total_tax,ch.crn_grand_total,ch.round_off,ch.is_tally_sync,  \n" + 
 			"		ch.crn_no,ch.grn_gvn_sr_no_list,ch.is_deposited,fr.fr_name,ch.created_date_time,fr.fr_address,fr.fr_gst_no,fr.is_same_state,ch.is_grn \n" + 
 			"			FROM m_franchisee fr, t_credit_note_header ch \n" + 
 			"			WHERE 	FIND_IN_SET(ch.crn_no, (select credit_note_id from t_grn_gvn_header where grn_gvn_header_id=:grnGvnHeaderId)  )\n" + 

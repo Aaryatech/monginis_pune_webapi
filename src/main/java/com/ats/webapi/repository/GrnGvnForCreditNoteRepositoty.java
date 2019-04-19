@@ -66,11 +66,11 @@ public interface GrnGvnForCreditNoteRepositoty extends JpaRepository<GetGrnGvnFo
 			"            ELSE t_grn_gvn.item_id=m_item.id " + 
 			"        END " + 
 			"        AND  t_grn_gvn.is_credit_note=0  " + 
-			"        AND t_grn_gvn.grn_gvn_status=6  " + 
+			"        AND t_grn_gvn.grn_gvn_status=6  AND  t_grn_gvn.grn_gvn_date between :fromDate and :toDate AND  t_grn_gvn.fr_id IN(:frId)" + 
 			"    group by" + 
 			"        t_grn_gvn.grn_gvn_id "
 			, nativeQuery = true)
 	
-	List<GetGrnGvnForCreditNote> getGrnGvnDetailForCreditNote(@Param("isGrn") int isGrn);
+	List<GetGrnGvnForCreditNote> getGrnGvnDetailForCreditNote(@Param("isGrn") int isGrn,@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("frId") List<Integer> frId);
 	
 }

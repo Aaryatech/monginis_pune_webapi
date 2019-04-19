@@ -528,13 +528,13 @@ public class RestApiController {
 	GetGrnGvnForCreditNoteService getGrnGvnForCreditNoteService;
 
 	@RequestMapping(value = "/grnGvnDetailForCreditNote", method = RequestMethod.POST)
-	public @ResponseBody GetGrnGvnForCreditNoteList grnGvnDetailForCreditNote(@RequestParam("isGrn") int isGrn) {
+	public @ResponseBody GetGrnGvnForCreditNoteList grnGvnDetailForCreditNote(@RequestParam("isGrn") int isGrn,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,@RequestParam("frList") List<Integer> frList) {
 		System.out.println("inside rest");
 
 		System.out.println("Rest : is Grn Received /grnGvnDetailForCreditNote " + isGrn);
 
 		GetGrnGvnForCreditNoteList getGrnGvnForCreditNoteList = getGrnGvnForCreditNoteService
-				.getGrnGvnForCreditNote(isGrn);
+				.getGrnGvnForCreditNote(isGrn,fromDate,toDate,frList);
 
 		return getGrnGvnForCreditNoteList;
 

@@ -3,7 +3,10 @@ package com.ats.webapi.repository.grngvnheader;
 import java.sql.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -54,5 +57,13 @@ public interface GrnGvnHeaderRepo extends JpaRepository<GrnGvnHeader, Integer> {
 	@Query(value=" SELECT * FROM  t_grn_gvn_header WHERE grngvn_date BETWEEN "
 			+ ":fromDate AND :toDate AND is_grn IN (:isGrn) ",nativeQuery=true)
 	List<GrnGvnHeader> findGrnGvnHeaderAllFr(@Param("fromDate")Date fromDate,@Param("toDate") Date toDate,@Param("isGrn")List<String> isGrn);
+
+	@Transactional
+	@Modifying
+	@Query(value="update t_grn_gvn_header inner join t_grn_gvn on t_grn_gvn_header.grn_gvn_header_id = t_grn_gvn.grn_gvn_header_id \n" + 
+			"   set t_grn_gvn_header.grngvn_date=:grnGvnDate ," + 
+			"       t_grn_gvn.grn_gvn_date=:grnGvnDate" + 
+			"  where t_grn_gvn_header.grn_gvn_header_id=:grnGvnHeaderId",nativeQuery=true)
+	int updateGrnGvnDate(@Param("grnGvnHeaderId")int grnGvnHeaderId,@Param("grnGvnDate")String grnGvnDate);
 	
 }

@@ -2924,6 +2924,23 @@ public class RestApiController {
 		return itemResponse;
 
 	}
+	@RequestMapping(value = "/getItemsNameById", method = RequestMethod.POST)
+	public @ResponseBody ItemResponse getItemsNameById(@RequestParam List<Integer> itemList) {
+
+		ItemResponse itemResponse = new ItemResponse();
+		ErrorMessage errorMessage = new ErrorMessage();
+		List<Item> items = itemRepository.findItemsNameByItemId(itemList);
+		if (items != null) {
+			itemResponse.setItemList(items);
+			errorMessage.setError(false);
+			errorMessage.setMessage("Success");
+		} else {
+			errorMessage.setError(true);
+			errorMessage.setMessage("No Items Found");
+		}
+		return itemResponse;
+
+	}
 
 	//
 	@RequestMapping(value = "/getFrMenus11", method = RequestMethod.POST)

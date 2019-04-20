@@ -108,6 +108,10 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 //	@Query(value="select * from m_item where m_item.item_grp2 IN (:catIdList) and m_item.del_status=:i",nativeQuery=true)
 	public List<Item> findByItemGrp2InAndDelStatusOrderByItemGrp2AscItemNameAsc(List<String> catIdList,int delStatus);
 
+	@Query(value="\n" + 
+			"select i.id,i.item_id,i.item_name,i.item_grp1,i.item_grp2,i.item_grp3,i.item_rate1,i.item_rate2,i.item_rate3,i.item_mrp1,i.item_mrp2,i.item_mrp3,i.item_image,i.item_tax1,i.item_tax2,i.item_tax3,i.item_is_used,i.item_sort_id,i.grn_two,i.del_status,i.min_qty,i.item_shelf_life from m_item i where  i.id IN (:itemList) AND i.del_status=0",nativeQuery=true)
+	public List<Item> findItemsNameByItemId(@Param("itemList")List<Integer> itemList);
+
 	
 		
 	

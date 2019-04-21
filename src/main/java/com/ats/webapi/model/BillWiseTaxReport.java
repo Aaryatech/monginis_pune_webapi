@@ -18,7 +18,7 @@ public class BillWiseTaxReport implements Serializable{
 	private int billDetailNo;
 	
 	
-	private int billNo;
+	private String billNo;
 	
 	private String billDate;
 	
@@ -47,11 +47,11 @@ public class BillWiseTaxReport implements Serializable{
 		this.billDetailNo = billDetailNo;
 	}
 
-	public int getBillNo() {
+	public String getBillNo() {
 		return billNo;
 	}
 
-	public void setBillNo(int billNo) {
+	public void setBillNo(String billNo) {
 		this.billNo = billNo;
 	}
 

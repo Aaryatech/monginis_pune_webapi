@@ -13,7 +13,7 @@ public interface CrNoteRegItemRepo extends JpaRepository<CrNoteRegItem, Integer>
 	
 	@Query(value = " SELECT t_credit_note_header.crn_id,t_credit_note_header.crn_date,t_bill_header.invoice_no,"
 			+ " t_credit_note_details.crnd_id ,"
-			+ " t_bill_header.bill_date,m_franchisee.fr_name,m_franchisee.fr_code,m_franchisee.fr_gst_no,m_item_sup.item_hsncd AS hsn_code ,"
+			+ " t_bill_header.bill_date,m_franchisee.fr_name,t_credit_note_header.crn_no as fr_code,m_franchisee.fr_gst_no,m_item_sup.item_hsncd AS hsn_code ,"
 			+"	SUM(t_credit_note_details.grn_gvn_qty)crn_qty,SUM(t_credit_note_details.taxable_amt)crn_taxable,"
 			+ " t_credit_note_details.cgst_per,t_credit_note_details.sgst_per,t_credit_note_details.igst_per,SUM(t_credit_note_details.sgst_rs) "
 			+ " AS sgst_amt ,SUM(t_credit_note_details.cgst_rs) as cgst_amt,"
@@ -23,7 +23,7 @@ public interface CrNoteRegItemRepo extends JpaRepository<CrNoteRegItem, Integer>
 			"	WHERE t_credit_note_header.crn_id=t_credit_note_details.crn_id AND t_credit_note_header.crn_date BETWEEN :fromDate AND :toDate " + 
 			"	AND t_credit_note_header.fr_id=m_franchisee.fr_id AND t_credit_note_details.item_id=m_item.id AND m_item.id=m_item_sup.item_id " + 
 			"	AND t_bill_header.bill_no=t_credit_note_header.ex_int1 " + 
-			"	GROUP by m_item_sup.item_hsncd,t_credit_note_details.crn_id ", nativeQuery = true)
+			"	GROUP by m_item_sup.item_hsncd,t_credit_note_details.crn_id  order by t_credit_note_header.crn_no", nativeQuery = true)
 	
 	List<CrNoteRegItem> getCrNoteRegItem(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
 	

@@ -160,7 +160,7 @@ public class OtherItemStockController {
 		List<OtherItemStockBet> betDateList=new ArrayList<>();
 		
 		try {
-			
+			System.err.println("prevFromDate"+prevFromDate+"prevToDate"+prevToDate+"from date"+fromDate+"to Datte"+toDate);
 			betDateList=getOtherItemStockBetRepo.getOtherItemStockBet(catId, month, frId, fromDate, toDate, prevFromDate, prevToDate);
 			
 			if(betDateList.size()>0) {
@@ -169,7 +169,7 @@ public class OtherItemStockController {
 					
 					OtherItemCurStock stock=new OtherItemCurStock();
 					
-					float tempOpen=(betDateList.get(i).getFirstOpening()+betDateList.get(i).getFirstPurchase())-(betDateList.get(i).getFirstSell()+betDateList.get(i).getDamagedStock());
+					float tempOpen=(betDateList.get(i).getFirstOpening()+betDateList.get(i).getFirstPurchase())-(betDateList.get(i).getFirstSell());
 					
 					stock.setOpeningStock(tempOpen);
 					
@@ -177,7 +177,7 @@ public class OtherItemStockController {
 					stock.setDamagedStock(betDateList.get(i).getDamagedStock());
 					stock.setFrName(betDateList.get(i).getFrName());
 					stock.setId(betDateList.get(i).getId());
-					stock.setItemId(betDateList.get(i).getItemId());
+					stock.setItemId(""+betDateList.get(i).getItemId());
 					stock.setItemName(betDateList.get(i).getItemName());
 					stock.setPurchaseQty(betDateList.get(i).getPurchaseQty());
 					

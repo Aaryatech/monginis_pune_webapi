@@ -24,7 +24,7 @@ public class OtherItemStockDetail {
 	private int purchaseStock;
 	private int salesStock;
 	private int delStatus;
-	private int exInt1;
+	private String exInt1;
 	private int exInt2;
 	private String exVar1;
 	private String exVar2;
@@ -104,10 +104,10 @@ public class OtherItemStockDetail {
 	}
 	
 	@Column(name = "ex_int1")
-	public int getExInt1() {
+	public String getExInt1() {
 		return exInt1;
 	}
-	public void setExInt1(int exInt1) {
+	public void setExInt1(String exInt1) {
 		this.exInt1 = exInt1;
 	}
 	

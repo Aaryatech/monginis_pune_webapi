@@ -16,11 +16,13 @@ import com.ats.webapi.model.reportv2.CrNoteRegisterList;
 import com.ats.webapi.model.reportv2.GstRegisterItem;
 import com.ats.webapi.model.reportv2.GstRegisterList;
 import com.ats.webapi.model.reportv2.GstRegisterSp;
+import com.ats.webapi.model.reportv2.HSNWiseReport;
 import com.ats.webapi.model.reportv2.SalesReport;
 import com.ats.webapi.repository.reportv2.CrNoteRegItemRepo;
 import com.ats.webapi.repository.reportv2.CrNoteRegSpRepo;
 import com.ats.webapi.repository.reportv2.GstRegisterItemRepo;
 import com.ats.webapi.repository.reportv2.GstRegisterSpRepo;
+import com.ats.webapi.repository.reportv2.HSNWiseReportRepo;
 import com.ats.webapi.repository.reportv2.SalesReportRepo;
 
 @RestController
@@ -38,6 +40,39 @@ public class ReportControllerV2 {
 	CrNoteRegSpRepo getCrNoteRegSpRepo;
 	@Autowired
 	CrNoteRegItemRepo getCrNoteRegItemRepo;
+
+	@Autowired
+	HSNWiseReportRepo hSNWiseReportRepo;
+
+	@RequestMapping(value = { "/getHsnReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<HSNWiseReport> getHsnReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+		List<HSNWiseReport> saleList = new ArrayList<>();
+		try {
+
+			saleList = hSNWiseReportRepo.getReport(fromDate, toDate);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return saleList;
+	}
+
+	@RequestMapping(value = { "/getHsnBillReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<HSNWiseReport> getHsnBillReport(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<HSNWiseReport> saleList = new ArrayList<>();
+		try {
+
+			saleList = hSNWiseReportRepo.getReportHsn(fromDate, toDate);
+			System.out.println(saleList.toString());
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return saleList;
+	}
 
 	@RequestMapping(value = { "/getSalesReportV2" }, method = RequestMethod.POST)
 	public @ResponseBody List<SalesReport> getSalesReportV2(@RequestParam("frIdList") List<String> frIdList,
@@ -67,10 +102,10 @@ public class ReportControllerV2 {
 
 			List<GstRegisterItem> saleList1 = new ArrayList<>();
 			List<GstRegisterSp> saleList2 = new ArrayList<>();
-		
+
 			saleList1 = getGstRegisterItemRepo.getGstRegisterAllFrItem(fromDate, toDate);
 			gstList.setGstRegItemList(saleList1);
-			
+
 			saleList2 = getGstRegisterSpRepo.getGstRegisterAllFrSp(fromDate, toDate);
 			gstList.setGstRegSpList(saleList2);
 
@@ -81,7 +116,7 @@ public class ReportControllerV2 {
 
 			saleList1 = getGstRegisterItemRepo.getGstRegisterSpecFrItem(fromDate, toDate, frIdList);
 			gstList.setGstRegItemList(saleList1);
-			
+
 			saleList2 = getGstRegisterSpRepo.getGstRegisterSpecFrSp(fromDate, toDate, frIdList);
 			gstList.setGstRegSpList(saleList2);
 
@@ -105,6 +140,27 @@ public class ReportControllerV2 {
 		crNoteList.setCrNoteRegItemList(crNoteRegItemList);
 
 		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSp(fromDate, toDate);
+		crNoteList.setCrNoteRegSpList(crNoteRegSpList);
+
+		System.err.println("size Item  crNoteList " + crNoteList.getCrNoteRegItemList().size());
+		System.err.println("size Sp  crNoteList " + crNoteList.getCrNoteRegSpList());
+
+		return crNoteList;
+	}
+
+	@RequestMapping(value = { "/getCrNoteRegisterDone" }, method = RequestMethod.POST)
+	public @ResponseBody CrNoteRegisterList getCrNoteRegisterDone(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		CrNoteRegisterList crNoteList = new CrNoteRegisterList();
+
+		List<CrNoteRegItem> crNoteRegItemList;
+		List<CrNoteRegSp> crNoteRegSpList;
+
+		crNoteRegItemList = getCrNoteRegItemRepo.getCrNoteRegItemDone(fromDate, toDate);
+		crNoteList.setCrNoteRegItemList(crNoteRegItemList);
+
+		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpDone(fromDate, toDate);
 		crNoteList.setCrNoteRegSpList(crNoteRegSpList);
 
 		System.err.println("size Item  crNoteList " + crNoteList.getCrNoteRegItemList().size());

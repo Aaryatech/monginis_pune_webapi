@@ -60,6 +60,42 @@ public class GetBillHeader implements Serializable {
 	
 	@Column(name="remark")
 	private String remark;
+	
+	@Column(name="party_name")
+	private String partyName;
+	
+	@Column(name="party_address")
+	private String partyAddress;
+	
+	@Column(name="party_gstin")
+	private String partyGstin;
+	
+	
+	
+
+	public String getPartyName() {
+		return partyName;
+	}
+
+	public void setPartyName(String partyName) {
+		this.partyName = partyName;
+	}
+
+	public String getPartyAddress() {
+		return partyAddress;
+	}
+
+	public void setPartyAddress(String partyAddress) {
+		this.partyAddress = partyAddress;
+	}
+
+	public String getPartyGstin() {
+		return partyGstin;
+	}
+
+	public void setPartyGstin(String partyGstin) {
+		this.partyGstin = partyGstin;
+	}
 
 	public int getBillNo() {
 		return billNo;
@@ -183,8 +219,11 @@ public class GetBillHeader implements Serializable {
 		return "GetBillHeader [billNo=" + billNo + ", frName=" + frName + ", time=" + time + ", taxApplicable="
 				+ taxApplicable + ", invoiceNo=" + invoiceNo + ", billDate=" + billDate + ", frId=" + frId + ", frCode="
 				+ frCode + ", grandTotal=" + grandTotal + ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax
-				+ ", status=" + status + ", DelStatus=" + DelStatus + ", remark=" + remark + "]";
+				+ ", status=" + status + ", DelStatus=" + DelStatus + ", remark=" + remark + ", partyName=" + partyName
+				+ ", partyAddress=" + partyAddress + ", partyGstin=" + partyGstin + "]";
 	}
+
+	
 	
 
 }

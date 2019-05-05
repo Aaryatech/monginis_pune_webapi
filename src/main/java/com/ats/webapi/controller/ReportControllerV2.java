@@ -44,8 +44,8 @@ public class ReportControllerV2 {
 	@Autowired
 	HSNWiseReportRepo hSNWiseReportRepo;
 
-	@RequestMapping(value = { "/getHsnReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<HSNWiseReport> getHsnReport(@RequestParam("fromDate") String fromDate,
+	@RequestMapping(value = { "/getHsnBillReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<HSNWiseReport> getHsnBillReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate) {
 		List<HSNWiseReport> saleList = new ArrayList<>();
 		try {
@@ -57,8 +57,8 @@ public class ReportControllerV2 {
 		return saleList;
 	}
 
-	@RequestMapping(value = { "/getHsnBillReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<HSNWiseReport> getHsnBillReport(@RequestParam("fromDate") String fromDate,
+	@RequestMapping(value = { "/getHsnReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<HSNWiseReport> getHsnReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate) {
 
 		List<HSNWiseReport> saleList = new ArrayList<>();

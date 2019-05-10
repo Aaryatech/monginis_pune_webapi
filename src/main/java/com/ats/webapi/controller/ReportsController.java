@@ -329,28 +329,96 @@ public class ReportsController {
 		return getRepItemwiseSellList;
 		
 	}
-	
+	//Sac May 10 change Tax Report for SP
 	@RequestMapping(value = "/getRepTaxSell", method = RequestMethod.POST)
 	public @ResponseBody List<GetRepTaxSell> getRepTaxSell(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate, @RequestParam("frId") List<String> frId) {
+		
+		List<GetRepTaxSell> tempList=null;
 		
 		fromDate = Common.convertToYMD(fromDate);
 		toDate = Common.convertToYMD(toDate);
 		List<GetRepTaxSell> getRepTaxSellList=repFrSellServise.getTaxSellReport(fromDate, toDate, frId);
 		System.out.println("  List  :" +getRepTaxSellList);
-		return getRepTaxSellList;
+		
+		LinkedHashMap<Float, GetRepTaxSell> hashList = new LinkedHashMap<Float, GetRepTaxSell>();
+
+		for (int i = 0; i < getRepTaxSellList.size(); i++) {
+			float taxable = 0, igst = 0, sgst = 0,cgst=0;
+
+			if (hashList.containsKey(getRepTaxSellList.get(i).getTax_per()) == false) {
+
+				for (int j = 0; j < getRepTaxSellList.size(); j++) {
+
+					if (getRepTaxSellList.get(j).getTax_per()
+							==(getRepTaxSellList.get(i).getTax_per())) {
+						taxable = taxable + getRepTaxSellList.get(j).getTax_amount();
+						igst = igst + getRepTaxSellList.get(j).getIgst();
+						sgst = sgst + getRepTaxSellList.get(j).getSgst();
+						cgst=cgst+getRepTaxSellList.get(j).getCgst();
+					}
+				}
+
+				//System.err.println(getRepFrDatewiseSellResponse.get(i).getBillDate() + " cash " + cash + "card "
+						//+ card + "other " + other);
+				getRepTaxSellList.get(i).setTax_amount(taxable);
+				getRepTaxSellList.get(i).setIgst(igst);
+				getRepTaxSellList.get(i).setSgst(sgst);
+				getRepTaxSellList.get(i).setCgst(cgst);
+				hashList.put(getRepTaxSellList.get(i).getTax_per(),
+						getRepTaxSellList.get(i));
+
+			}
+		}
+
+		tempList = new ArrayList<GetRepTaxSell>(hashList.values());
+		System.out.println("  List  :" +getRepTaxSellList);
+		return tempList;
 		
 	}
-	
+	//Sac May 10 change Tax Report for SP
 	@RequestMapping(value = "/getRepDatewiseTaxSell", method = RequestMethod.POST)
 	public @ResponseBody List<GetRepTaxSell> getRepDatewiseTaxSell(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate, @RequestParam("frId") List<String> frId) {
-		
+		List<GetRepTaxSell> tempList=null;
 		fromDate = Common.convertToYMD(fromDate);
 		toDate = Common.convertToYMD(toDate);
 		List<GetRepTaxSell> getRepTaxSellList=repFrSellServise.getDatewiseTaxSellReport(fromDate, toDate, frId);
+		
+	
+		LinkedHashMap<Date, GetRepTaxSell> hashList = new LinkedHashMap<Date, GetRepTaxSell>();
+
+		for (int i = 0; i < getRepTaxSellList.size(); i++) {
+			float taxable = 0, igst = 0, sgst = 0,cgst=0;
+
+			if (hashList.containsKey(getRepTaxSellList.get(i).getBillDate()) == false) {
+
+				for (int j = 0; j < getRepTaxSellList.size(); j++) {
+
+					if (getRepTaxSellList.get(j).getBillDate()
+							.equals(getRepTaxSellList.get(i).getBillDate())) {
+						taxable = taxable + getRepTaxSellList.get(j).getTax_amount();
+						igst = igst + getRepTaxSellList.get(j).getIgst();
+						sgst = sgst + getRepTaxSellList.get(j).getSgst();
+						cgst=cgst+getRepTaxSellList.get(j).getCgst();
+					}
+				}
+
+				//System.err.println(getRepFrDatewiseSellResponse.get(i).getBillDate() + " cash " + cash + "card "
+						//+ card + "other " + other);
+				getRepTaxSellList.get(i).setTax_amount(taxable);
+				getRepTaxSellList.get(i).setIgst(igst);
+				getRepTaxSellList.get(i).setSgst(sgst);
+				getRepTaxSellList.get(i).setCgst(cgst);
+				hashList.put(getRepTaxSellList.get(i).getBillDate(),
+						getRepTaxSellList.get(i));
+
+			}
+		}
+
+		tempList = new ArrayList<GetRepTaxSell>(hashList.values());
 		System.out.println("  List  :" +getRepTaxSellList);
-		return getRepTaxSellList;
+		return tempList;
 		
 	}
 

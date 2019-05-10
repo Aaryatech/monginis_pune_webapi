@@ -118,6 +118,12 @@ List<GetRepItemwiseSell> getRepCatwiseSellList=repFrItemwiseSellRepository.getRe
 		List<GetCustBillTax> getCustBillTaxList=getCustBillTaxRepository.getCustBill(billNo);
 		return getCustBillTaxList;
 	}
+	@Override
+	public List<GetRepItemwiseSell> getItemwiseSellReportForCat5(String fromDate, String toDate, List<String> frId) {
+List<GetRepItemwiseSell> getRepItemwiseSellList=repFrItemwiseSellRepository.getRepFrItemwiseSellCatId5(fromDate, toDate, frId);
+		
+		return getRepItemwiseSellList;
+	}
  
 
 }

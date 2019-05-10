@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ats.webapi.model.report.GetRepTaxSell;
-
+ 
 public interface RepTaxSellRepository extends JpaRepository<GetRepTaxSell, Integer>{
 
 	@Query(value=" select h.user_gst_no, h.bill_date, d.sell_bill_detail_no,h.invoice_no as sell_bill_no, d.cgst_per+d.sgst_per as tax_per,"

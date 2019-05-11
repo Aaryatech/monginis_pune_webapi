@@ -180,4 +180,21 @@ public class BillingController {
 		}
 		return hsnwiseBills;
 	}
+	
+	//SACHIN 11 MAY
+	@RequestMapping(value = { "/getHsnwiseBillDataForExcelV2" }, method = RequestMethod.POST)
+	public @ResponseBody List<HsnwiseBillExcelSummary> getHsnwiseBillDataForExcelV2(@RequestParam("frIdList")List<String> frIdList,@RequestParam("fromDate")String fromDate,@RequestParam("toDate")String toDate) {
+		List<HsnwiseBillExcelSummary> hsnwiseBills=new ArrayList<HsnwiseBillExcelSummary>();
+		if(frIdList.contains("-1")) {
+		System.err.println("All Fr ");
+		hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelAllFr(fromDate, toDate);
+		}
+		else
+		{
+			System.err.println("Multi Fr ");
+			hsnwiseBills=hsnwiseBillExcelSummaryRepository.getHsnwiseBillDataForExcelMultiFr(fromDate, toDate, frIdList);
+
+		}
+		return hsnwiseBills;
+	}
 }

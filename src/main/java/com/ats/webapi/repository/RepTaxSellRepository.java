@@ -25,7 +25,7 @@ public interface RepTaxSellRepository extends JpaRepository<GetRepTaxSell, Integ
 			"        SUM(t_sp_cake.sp_grand_total-(t_sp_cake.tax_1_amt+t_sp_cake.tax_2_amt)) as tax_amount," + 
 			"        SUM(t_sp_cake.tax_1_amt) as cgst," + 
 			"        SUM(t_sp_cake.tax_2_amt) as sgst," + 
-			"        SUM(t_sp_cake.tax_1_amt+t_sp_cake.tax_2_amt) as igst," + 
+			"        0 as igst," + 
 			"            m_franchisee.fr_id," + 
 			"            m_franchisee.fr_name," + 
 			"                    sum(t_sp_cake.sp_grand_total) as bill_amount " + 
@@ -52,7 +52,7 @@ public interface RepTaxSellRepository extends JpaRepository<GetRepTaxSell, Integ
 			"			        SUM(t_sp_cake.sp_grand_total-(t_sp_cake.tax_1_amt+t_sp_cake.tax_2_amt)) as tax_amount, " + 
 			"			        SUM(t_sp_cake.tax_1_amt) as cgst,  " + 
 			"			        SUM(t_sp_cake.tax_2_amt) as sgst,  " + 
-			"			        SUM(t_sp_cake.tax_1_amt+t_sp_cake.tax_2_amt) as igst, " + 
+			"			       0 as igst, " + 
 			"			            m_franchisee.fr_id, " + 
 			"			            m_franchisee.fr_name,  " + 
 			"			                    sum(t_sp_cake.sp_grand_total) as bill_amount   " + 
@@ -80,7 +80,7 @@ public interface RepTaxSellRepository extends JpaRepository<GetRepTaxSell, Integ
 			"			        SUM(t_sp_cake.sp_grand_total-(t_sp_cake.tax_1_amt+t_sp_cake.tax_2_amt)) as tax_amount, " + 
 			"			        SUM(t_sp_cake.tax_1_amt) as cgst,  " + 
 			"			        SUM(t_sp_cake.tax_2_amt) as sgst,  " + 
-			"			        SUM(t_sp_cake.tax_1_amt+t_sp_cake.tax_2_amt) as igst, " + 
+			"			       0 as igst, " + 
 			"			            m_franchisee.fr_id, " + 
 			"			            m_franchisee.fr_name,  " + 
 			"			                    sum(t_sp_cake.sp_grand_total) as bill_amount   " + 

@@ -16,7 +16,7 @@ public interface GetCreditNoteHeaderRepo extends JpaRepository<GetCreditNoteHead
 			"ch.crn_no,ch.grn_gvn_sr_no_list,ch.is_deposited,fr.fr_name,ch.created_date_time,fr.fr_address,fr.fr_gst_no,fr.is_same_state,ch.is_grn " + 
 			"FROM m_franchisee fr, t_credit_note_header ch " + 
 			"WHERE  ch.crn_date BETWEEN  :fromDate AND  :toDate " + 
-			"AND fr.fr_id=ch.fr_id  ",nativeQuery=true)
+			"AND fr.fr_id=ch.fr_id order by ch.fr_id ",nativeQuery=true)
 	
 	List<GetCreditNoteHeaders> getCreditHeadersAllFr(@Param("fromDate")Date fromDate,@Param("toDate") Date toDate);
 	
@@ -24,7 +24,7 @@ public interface GetCreditNoteHeaderRepo extends JpaRepository<GetCreditNoteHead
 			"ch.crn_no,ch.grn_gvn_sr_no_list,ch.is_deposited,fr.fr_name,ch.created_date_time,fr.fr_address,fr.fr_gst_no,fr.is_same_state,ch.is_grn " + 
 			"FROM m_franchisee fr, t_credit_note_header ch " + 
 			"WHERE ch.crn_date BETWEEN  :fromDate AND  :toDate AND " + 
-			"  ch.fr_id IN (:frIdList) AND  ch.fr_id =fr.fr_id ",nativeQuery=true)
+			"  ch.fr_id IN (:frIdList) AND  ch.fr_id =fr.fr_id order by ch.fr_id",nativeQuery=true)
 	
 	List<GetCreditNoteHeaders> getCreditHeadersSelectedFr(@Param("fromDate")Date fromDate,@Param("toDate") Date toDate,@Param("frIdList") List<String> frIdList);
 	
@@ -34,7 +34,7 @@ public interface GetCreditNoteHeaderRepo extends JpaRepository<GetCreditNoteHead
 			"ch.crn_no,ch.grn_gvn_sr_no_list,ch.is_deposited,fr.fr_name,ch.created_date_time,fr.fr_address,fr.fr_gst_no,fr.is_same_state,ch.is_grn " + 
 			"FROM m_franchisee fr, t_credit_note_header ch " + 
 			"WHERE  ch.crn_id IN (:crnIdList) " + 
-			"AND fr.fr_id=ch.fr_id  ",nativeQuery=true)
+			"AND fr.fr_id=ch.fr_id order by ch.fr_id ",nativeQuery=true)
 	
 	List<GetCreditNoteHeaders> getCreditHeadersByHeaderIds(@Param("crnIdList")List<String> crnIdList);
 
@@ -42,7 +42,7 @@ public interface GetCreditNoteHeaderRepo extends JpaRepository<GetCreditNoteHead
 			"		ch.crn_no,ch.grn_gvn_sr_no_list,ch.is_deposited,fr.fr_name,ch.created_date_time,fr.fr_address,fr.fr_gst_no,fr.is_same_state,ch.is_grn \n" + 
 			"			FROM m_franchisee fr, t_credit_note_header ch \n" + 
 			"			WHERE 	FIND_IN_SET(ch.crn_no, (select credit_note_id from t_grn_gvn_header where grn_gvn_header_id=:grnGvnHeaderId)  )\n" + 
-			"			AND fr.fr_id=ch.fr_id",nativeQuery=true)
+			"			AND fr.fr_id=ch.fr_id order by ch.fr_id",nativeQuery=true)
 	List<GetCreditNoteHeaders> getCrnHeadersByGrnGvnHeaderId(@Param("grnGvnHeaderId")int grnGvnHeaderId);
 	
 }

@@ -22,7 +22,7 @@ public interface TSellReportRepository extends JpaRepository<TSellReport, Intege
 			" m_spcake_sup.sp_hsncd as hsn_no," + 
 			" SUM(t_sp_cake.tax_1_amt) as cgst," + 
 			"        SUM(t_sp_cake.tax_2_amt) as sgst," + 
-			"        SUM(t_sp_cake.tax_1_amt+t_sp_cake.tax_2_amt) as igst," + 
+			"        0 as igst," + 
 			"                SUM(t_sp_cake.sp_grand_total-(t_sp_cake.tax_1_amt+t_sp_cake.tax_2_amt)) as total_tax," + 
 			"                SUM(t_sp_cake.sp_grand_total-(t_sp_cake.sp_grand_total-(t_sp_cake.tax_1_amt+t_sp_cake.tax_2_amt))) as taxable_amt," + 
 			"                        sum(t_sp_cake.sp_grand_total) as grand_total" + 
@@ -31,7 +31,7 @@ public interface TSellReportRepository extends JpaRepository<TSellReport, Intege
 			"                        " +   
 			"                        WHERE " + 
 			"        t_sp_cake.fr_id IN(:frId) "+
-			"        AND   t_sp_cake.sp_delivery_date BETWEEN :fromDate AND :toDate " + 
+			"        AND t_sp_cake.sp_id=m_sp_cake.sp_id and m_sp_cake.sp_id=m_spcake_sup.sp_id and  t_sp_cake.sp_delivery_date BETWEEN :fromDate AND :toDate " + 
 			"    GROUP BY " + 
 			"       hsn_no ",nativeQuery=true)
 	List<TSellReport> hsnCodeWiseReport( @Param("frId")int frId,@Param("fromDate")String fromDate,@Param("toDate")String toDate);

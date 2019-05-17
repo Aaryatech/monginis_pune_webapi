@@ -76,10 +76,52 @@ public class GetCreditNoteApi {
 		return crnReportListResponse;
 	}
 	
-	
+	@RequestMapping(value = { "/getCreditNoteHeaders" }, method = RequestMethod.POST)
+	public @ResponseBody GetCreditNoteHeadersList getCreditNoteHeaders(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("frIdList") List<String> frIdList,
+			@RequestParam("isGrn") int isGrn)
+
+	{
+		GetCreditNoteHeadersList headerResponse = new GetCreditNoteHeadersList();
+		List<GetCreditNoteHeaders> headerList = new ArrayList<>();
+
+		try {
+
+			Date fDate = Common.convertToSqlDate(fromDate);
+			Date tDate = Common.convertToSqlDate(toDate);
+			if (isGrn == -1) {
+
+				if (frIdList.get(0).equalsIgnoreCase("0")) {
+					System.out.println("In zero case ");
+					headerList = getCreditNoteHeaderRepo.getCreditHeadersAllFr(fDate, tDate);
+				} else {
+					System.out.println("In other case ");
+
+					headerList = getCreditNoteHeaderRepo.getCreditHeadersSelectedFr(fDate, tDate, frIdList);
+				}
+			} else {
+				if (frIdList.get(0).equalsIgnoreCase("0")) {
+					System.out.println("In zero case ");
+					headerList = getCreditNoteHeaderRepo.getCreditHeadersAllFrIsGRN(fDate, tDate, isGrn);
+				} else {
+					System.out.println("In other case ");
+
+					headerList = getCreditNoteHeaderRepo.getCreditHeadersSelectedFrIsGrn(fDate, tDate, frIdList, isGrn);
+				}
+			}
+			headerResponse.setCreditNoteHeaders(headerList);
+			System.err.println("Headers " + headerList);
+		} catch (Exception e) {
+			System.out.println("Exce In getting cn Headers " + e.getMessage());
+
+			e.printStackTrace();
+		}
+
+		return headerResponse;
+	}
 	
 
-	@RequestMapping(value = { "/getCreditNoteHeaders" }, method = RequestMethod.POST)
+	/*@RequestMapping(value = { "/getCreditNoteHeaders" }, method = RequestMethod.POST)
 	public @ResponseBody GetCreditNoteHeadersList getCreditNoteHeaders(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate, @RequestParam("frIdList") List<String> frIdList)
 
@@ -109,7 +151,7 @@ public class GetCreditNoteApi {
 		}
 
 		return headerResponse;
-	}
+	}*/
 	/*
 	@RequestMapping(value = { "/getCumulativeCreditNoteHeaders" }, method = RequestMethod.POST)
 	public @ResponseBody GetCreditNoteHeadersList getCumulativeCreditNoteHeaders(@RequestParam("fromDate") String fromDate,

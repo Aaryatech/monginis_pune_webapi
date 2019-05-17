@@ -110,6 +110,35 @@ public class GetCreditNoteApi {
 
 		return headerResponse;
 	}
+	/*
+	@RequestMapping(value = { "/getCumulativeCreditNoteHeaders" }, method = RequestMethod.POST)
+	public @ResponseBody GetCreditNoteHeadersList getCumulativeCreditNoteHeaders(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("frIdList") List<String> frIdList)
+ 	{
+		GetCreditNoteHeadersList headerResponse = new GetCreditNoteHeadersList();
+		List<GetCreditNoteHeaders> headerList = new ArrayList<>();
+
+		try {
+
+			Date fDate = Common.convertToSqlDate(fromDate);
+			Date tDate = Common.convertToSqlDate(toDate);
+
+			if (frIdList.get(0).equalsIgnoreCase("0")) {
+				
+				headerList = getCreditNoteHeaderRepo.getCumulativeCreditHeadersAllFr(fDate, tDate);
+			} else {
+
+				headerList = getCreditNoteHeaderRepo.getCumulativeCreditHeadersSelectedFr(fDate, tDate, frIdList);
+			}
+			headerResponse.setCreditNoteHeaders(headerList);
+		} catch (Exception e) {
+			System.out.println("Exce In getting cn Headers " + e.getMessage());
+
+			e.printStackTrace();
+		}
+
+		return headerResponse;
+	}*/
 	@RequestMapping(value = { "/getCrnDetailsByGrnGvnHeaderId" }, method = RequestMethod.POST)
 	public @ResponseBody GetCrnDetailsList getCrnDetailsByGrnGvnHeaderId(@RequestParam("grnGvnHeaderId") int grnGvnHeaderId) {
 

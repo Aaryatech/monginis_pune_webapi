@@ -43,6 +43,11 @@ public interface SpCakeOrdersRepository extends JpaRepository<SpCakeOrders,Integ
 	int updateSpCkAllocDId(@Param("gettSpCakeId")int gettSpCakeId);
 
 	SpCakeOrders findBySpOrderNo(int spOrderNo);
+
+	@Transactional
+	@Modifying	
+	@Query("UPDATE SpCakeOrders t SET t.spBookForMobNo=:invoiceNo  WHERE t.spOrderNo=:spOrderNo")	
+	int generateSpBillOps(@Param("spOrderNo")int spOrderNo,@Param("invoiceNo") String invoiceNo);
 	
 
 

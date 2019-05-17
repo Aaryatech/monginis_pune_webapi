@@ -181,6 +181,7 @@ public class MasterController {
 	@Autowired
 	FrItemStockConfigureRepository frItemStockConfRepo;
 	
+	
 	 @RequestMapping(value = { "/updateBillStatusToProduction" }, method = RequestMethod.POST)
 		public @ResponseBody Info updateBillStatusToProduction(@RequestParam("spOrderNo") List<Integer> spOrderNo,@RequestParam("billStatus") int billStatus) {
 		 int res=0;
@@ -1240,6 +1241,16 @@ public class MasterController {
 							  System.out.println("itemList" +catlist.toString());
 					return catlist;
 				}
-				
+				@RequestMapping(value = "/generateSpBillOps", method = RequestMethod.POST)
+				public @ResponseBody Boolean generateSpBillOps(@RequestParam int spOrderNo,@RequestParam String invoiceNo)
+				{
+					Boolean msg=false;
+					int isUpdated=spCakeOrdersRepository.generateSpBillOps(spOrderNo,invoiceNo);
+						if(isUpdated>0)
+						{
+							msg=true;
+						}
+					return msg;
+				}
 				
 }

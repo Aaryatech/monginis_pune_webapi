@@ -1,5 +1,4 @@
-package com.ats.webapi.model.logistics; 
-
+package com.ats.webapi.model.logistics;
 
 import java.util.Date;
 
@@ -15,12 +14,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name = "m_logis_driver")
 public class DriverMaster {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "driver_id")
-	private int driverId; 
-	
+	private int driverId;
+
 	@Column(name = "driver_name")
 	private String driverName;
 
@@ -35,7 +34,7 @@ public class DriverMaster {
 
 	@Column(name = "mobile2")
 	private String mobile2;
-	
+
 	@Column(name = "mobile3")
 	private String mobile3;
 
@@ -44,17 +43,21 @@ public class DriverMaster {
 
 	@Column(name = "joining_date")
 	private Date joiningDate;
-	
+
 	@Column(name = "lic_no")
 	private String licNo;
 
 	@Column(name = "lic_expire_date")
 	private Date licExpireDate;
-	
+
 	@Column(name = "del_status")
 	private int delStatus;
-	
-	 
+
+	@Column(name = "string1")
+	private String string1;
+
+	@Column(name = "string2")
+	private String string2;
 
 	public int getDriverId() {
 		return driverId;
@@ -111,7 +114,8 @@ public class DriverMaster {
 	public void setMobile3(String mobile3) {
 		this.mobile3 = mobile3;
 	}
-	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getDriverDob() {
 		return driverDob;
 	}
@@ -119,7 +123,8 @@ public class DriverMaster {
 	public void setDriverDob(Date driverDob) {
 		this.driverDob = driverDob;
 	}
-	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getJoiningDate() {
 		return joiningDate;
 	}
@@ -135,7 +140,8 @@ public class DriverMaster {
 	public void setLicNo(String licNo) {
 		this.licNo = licNo;
 	}
-	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getLicExpireDate() {
 		return licExpireDate;
 	}
@@ -152,18 +158,28 @@ public class DriverMaster {
 		this.delStatus = delStatus;
 	}
 
-	 
+	public String getString1() {
+		return string1;
+	}
+
+	public void setString1(String string1) {
+		this.string1 = string1;
+	}
+
+	public String getString2() {
+		return string2;
+	}
+
+	public void setString2(String string2) {
+		this.string2 = string2;
+	}
 
 	@Override
 	public String toString() {
 		return "DriverMaster [driverId=" + driverId + ", driverName=" + driverName + ", address1=" + address1
 				+ ", address2=" + address2 + ", mobile1=" + mobile1 + ", mobile2=" + mobile2 + ", mobile3=" + mobile3
 				+ ", driverDob=" + driverDob + ", joiningDate=" + joiningDate + ", licNo=" + licNo + ", licExpireDate="
-				+ licExpireDate + ", delStatus=" + delStatus + "]";
+				+ licExpireDate + ", delStatus=" + delStatus + ", string1=" + string1 + ", string2=" + string2 + "]";
 	}
-	
-	
-	
-	
 
 }

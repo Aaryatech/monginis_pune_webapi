@@ -45,13 +45,22 @@ public class TrayManagementController {
 	@Autowired
 	GetVehDriverMobNoRepo vehMobNoRepo;// Sachin 20 MArch
 
-	@RequestMapping(value = { "/trayDetailByFrId" }, method = RequestMethod.POST)
-	public @ResponseBody List<TrayMgtDetailBean> trayDetailByFrId(@RequestParam("frId") int frId,
+	@RequestMapping(value = { "/trayDetailByFrIdBySum" }, method = RequestMethod.POST)
+	public @ResponseBody List<TrayMgtDetailBean> trayDetailByFrIdBySum(@RequestParam("frId") int frId,
 			@RequestParam("status") int status) {
 
-		List<TrayMgtDetailBean> driverList = trayMgtDetailBeanRepository.getDetailBean(frId, status);
+		List<TrayMgtDetailBean> detailList = trayMgtDetailBeanRepository.getDetailBeanSum(frId, status);
 
-		return driverList;
+		return detailList;
+	}
+
+	@RequestMapping(value = { "/trayDetailByFrIdAndStatus" }, method = RequestMethod.POST)
+	public @ResponseBody List<TrayMgtDetailBean> trayDetailByFrIdAndStatus(@RequestParam("frId") int frId,
+			@RequestParam("status") int status) {
+
+		List<TrayMgtDetailBean> detailList = trayMgtDetailBeanRepository.getDetailBean(frId, status);
+
+		return detailList;
 	}
 
 	@RequestMapping(value = { "/getVehMobNo" }, method = RequestMethod.POST)

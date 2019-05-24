@@ -40,5 +40,9 @@ public interface TrayMgtDetailBeanRepository extends JpaRepository<TrayMgtDetail
 			+ "deposit_is_used,del_status,intray_date2,qty_big,qty_small,qty_lead,qty_extra,gst_per,gst_rs,taxable_amt,"
 			+ "tax_amt,is_same_day    FROM t_tray_mgt_detail WHERE fr_id=:frId AND tray_status=:status AND del_status=0 "
 			+ " ", nativeQuery = true)
+	List<TrayMgtDetailBean> getDetailBeanSum(@Param("frId") int frId, @Param("status") int status);
+
+	@Query(value = "SELECT * FROM t_tray_mgt_detail WHERE fr_id=1 AND tray_status=4 AND del_status=0"
+			+ " ", nativeQuery = true)
 	List<TrayMgtDetailBean> getDetailBean(@Param("frId") int frId, @Param("status") int status);
 }

@@ -95,16 +95,5 @@ public class DriverMasterServiceImpl implements DriverMasterService {
 		return getAlertDriverRecord;
 	}
 
-	@Override
-	public DriverMaster findByString1(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public DriverMaster findByString1AndString2AndDelStatus(String username, String password, int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

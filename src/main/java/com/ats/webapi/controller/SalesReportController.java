@@ -3,6 +3,7 @@ package com.ats.webapi.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -412,44 +413,34 @@ public class SalesReportController {
 	String fromDate,
 			@RequestParam("toDate") String toDate) {
 
-		List<SalesReportRoyalty> salesReportRoyaltyList = null;
+		List<SalesReportRoyalty> salesReportRoyaltyList = new ArrayList<>();
 		try {
 			fromDate = Common.convertToYMD(fromDate);
 			toDate = Common.convertToYMD(toDate);
 			
 			System.out.println("Input received for report 10 roy by category few fr Selected "+fromDate+""+toDate+""+frIdList+"cat="+catIdList);
 			
-if(catIdList.contains("0")) {
+				if(catIdList.contains("0")) {
 				
 				System.err.println("Cat ID List contains zero ");
 				catIdList.clear();
+				ArrayList<String> cats = new ArrayList<>(Arrays.asList("1", "2", "3", "4", "6", "8"));
+				ArrayList<String> spcats = new ArrayList<>(Arrays.asList("5"));
+                  List<SalesReportRoyalty>	salesReportRoyaltyRes = salesReportRoyaltyRepo.getSaleReportRoyConsoByCatForSp(frIdList, spcats, fromDate, toDate);
+				  System.out.println("getSaleReportRoyConsoByCatForSp"+salesReportRoyaltyList.toString());
+				  salesReportRoyaltyList.addAll(salesReportRoyaltyRes);
 				
-				//String s="1"+","+"2"+","+"3"+","+ "4";
-				for(int i=1;i<=4;i++) {
-					String s=new String();
-					
-					s=i+",";
-					
-					catIdList.add(s);
-
-					
-				}
-				if(catIdList.contains("5"))
-				{
-					salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCatForSp(frIdList, catIdList, fromDate, toDate);
-					System.out.println("getSaleReportRoyConsoByCatForSp"+salesReportRoyaltyList.toString());
-				}
-				else
-				{
-							salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCat(frIdList, catIdList, fromDate, toDate);
-							System.out.println("getSaleReportBillwise"+salesReportRoyaltyList.toString());
-
-				}
-				System.err.println("New cat ID List" +catIdList );
-}
+				List<SalesReportRoyalty>	salesReportRoyaltyResp = salesReportRoyaltyRepo.getSaleReportRoyConsoByCat(frIdList, cats, fromDate, toDate);
+				 System.out.println("getSaleReportBillwise"+salesReportRoyaltyList.toString());
+				 salesReportRoyaltyList.addAll(salesReportRoyaltyResp);
+				
+			}else
+			{
+				
 			salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCat(frIdList, catIdList, fromDate, toDate);
 			System.out.println("getSaleReportBillwise"+salesReportRoyaltyList.toString());
-
+			}
+				System.err.println("New cat ID List" +salesReportRoyaltyList .toString());
 		} catch (Exception e) {
 			System.out.println(" Exce in sales Report Royalty  By Category " + e.getMessage());
 			e.printStackTrace();

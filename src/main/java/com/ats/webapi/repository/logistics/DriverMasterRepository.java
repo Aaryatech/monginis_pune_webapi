@@ -26,6 +26,8 @@ public interface DriverMasterRepository extends JpaRepository<DriverMaster, Inte
 
 	
 	@Query(value="select * from m_logis_driver where lic_expire_date < :today and del_status=0",nativeQuery=true) 
-	List<DriverMaster> getAlertDriverRecord(@Param("today")String today); 
+	List<DriverMaster> getAlertDriverRecord(@Param("today")String today);
+
+	DriverMaster findByString1AndString2AndDelStatus(String userName, String password, int i); 
 
 }

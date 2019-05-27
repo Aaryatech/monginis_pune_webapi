@@ -41,6 +41,7 @@ import com.ats.webapi.repository.UserRepository;
 import com.ats.webapi.repository.logistics.AlertAmcRecordRepository;
 import com.ats.webapi.repository.logistics.AlertMachineServicingRepository;
 import com.ats.webapi.repository.logistics.AlertVeihcleServicingRepository;
+import com.ats.webapi.repository.logistics.DriverMasterRepository;
 import com.ats.webapi.repository.logistics.LogisAmcRepository;
 import com.ats.webapi.repository.logistics.MachineServicingRepository;
 import com.ats.webapi.repository.logistics.MechTypeRepository;
@@ -125,6 +126,9 @@ public class LogisticsApiController {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	DriverMasterRepository driverMasterRepository;
+
 	@RequestMapping(value = { "/loginDriverOrUser" }, method = RequestMethod.POST)
 	public @ResponseBody LoginDriverResponse loginDriverOrUser(@RequestParam("userName") String userName,
 			@RequestParam("password") String password) {
@@ -132,13 +136,13 @@ public class LogisticsApiController {
 		LoginDriverResponse loginResponse = new LoginDriverResponse();
 		try {
 
-			DriverMaster dv = driverMasterService.findByString1AndString2AndDelStatus(userName, password, 0);
+			DriverMaster dv = driverMasterRepository.findByString1AndString2AndDelStatus(userName, password, 0);
 
 			if (dv == null) {
 				loginResponse.setError(true);
 				loginResponse.setMsg("Driver is Not registered");
 
-				User mu = userRepository.findByUsernameAndUsrPwdAndDelStatus(userName, password, 0);
+				User mu = userRepository.findByUsernameAndPasswordAndDelStatus(userName, password, 0);
 
 				loginResponse.setUser(mu);
 

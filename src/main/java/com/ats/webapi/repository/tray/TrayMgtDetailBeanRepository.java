@@ -33,7 +33,7 @@ public interface TrayMgtDetailBeanRepository extends JpaRepository<TrayMgtDetail
 	int updateDelStatus(@Param("tranId") int tranId);
 
 	@Query(value = "SELECT SUM(balance_big) as balance_big,SUM(balance_small) as balance_small,SUM(balance_lead) "
-			+ "as balance_small ,SUM(balance_extra) as balance_extra ,tran_detail_id,tran_id,fr_id,outtray_date,"
+			+ "as balance_lead ,SUM(balance_extra) as balance_extra ,tran_detail_id,tran_id,fr_id,outtray_date,"
 			+ "outtray_big,outtray_small,outtray_lead,outtray_extra,intray_date,intray_big,intray_small,intray_lead,"
 			+ "intray_extra,intray_date1 ,intray_big1 ,intray_small1 ,intray_lead1 ,intray_extra1 ,intray_big2 ,intray_small2 ,"
 			+ " intray_lead2,intray_extra2,price_big,price_small,price_lead,price_extra,grand_total,tray_status,"
@@ -42,7 +42,7 @@ public interface TrayMgtDetailBeanRepository extends JpaRepository<TrayMgtDetail
 			+ " ", nativeQuery = true)
 	List<TrayMgtDetailBean> getDetailBeanSum(@Param("frId") int frId, @Param("status") int status);
 
-	@Query(value = "SELECT * FROM t_tray_mgt_detail WHERE fr_id=1 AND tray_status=4 AND del_status=0"
+	@Query(value = "SELECT * FROM t_tray_mgt_detail WHERE fr_id=:frId AND tray_status=:status AND del_status=0"
 			+ " ", nativeQuery = true)
 	List<TrayMgtDetailBean> getDetailBean(@Param("frId") int frId, @Param("status") int status);
 }

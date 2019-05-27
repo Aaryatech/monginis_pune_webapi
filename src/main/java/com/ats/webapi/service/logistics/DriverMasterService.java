@@ -22,8 +22,8 @@ public interface DriverMasterService {
 
 	List<DriverMaster> getAlertDriverRecord(String today);
 
-	DriverMaster findByString1(String username);
+	//DriverMaster findByString1(String username);
 
-	DriverMaster findByString1AndString2AndDelStatus(String username, String password,int i);
+	//DriverMaster findByString1AndString2AndDelStatus(String username, String password,int i);
 
 }

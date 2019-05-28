@@ -20,42 +20,39 @@ public class PostProdPlanHeader {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="production_header_id")
+	@Column(name = "production_header_id")
 	private int productionHeaderId;
-	 
-	@Column(name="cat_id")
-	private int itemGrp1;
-	
-	@Column(name="time_slot")
-	private int timeSlot;
-	
-	@Column(name="production_batch")
-	private String productionBatch;
-	 
-	@Column(name="production_status")
-	private String productionStatus;
-	
-	@Column(name="production_date")
-	private Date productionDate;
-	
 
-	@Column(name="is_mixing")
+	@Column(name = "cat_id")
+	private int itemGrp1;
+
+	@Column(name = "time_slot")
+	private int timeSlot;
+
+	@Column(name = "production_batch")
+	private String productionBatch;
+
+	@Column(name = "production_status")
+	private String productionStatus;
+
+	@Column(name = "production_date")
+	private String productionDate;
+
+	@Column(name = "is_mixing")
 	private int isMixing;
 
-	@Column(name="is_bom")
+	@Column(name = "is_bom")
 	private int isBom;
-	
-	@Column(name="is_planned")
+
+	@Column(name = "is_planned")
 	private int isPlanned;
-	
-	@Column(name="del_status")
+
+	@Column(name = "del_status")
 	private int delStatus;
-	
+
 	@Transient
 	private List<PostProductionPlanDetail> postProductionPlanDetail;
 
-	
-	
 	public int getIsPlanned() {
 		return isPlanned;
 	}
@@ -71,7 +68,6 @@ public class PostProdPlanHeader {
 	public void setProductionHeaderId(int productionHeaderId) {
 		this.productionHeaderId = productionHeaderId;
 	}
-
 
 	public String getProductionBatch() {
 		return productionBatch;
@@ -121,17 +117,25 @@ public class PostProdPlanHeader {
 		this.timeSlot = timeSlot;
 	}
 
-	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public Date getProductionDate() {
-		return productionDate;
-	}
-	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-	public void setProductionDate(Date productionDate) {
-		this.productionDate = productionDate;
-	}
-     
+	/*
+	 * @JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	 * public Date getProductionDate() { return productionDate; }
+	 * 
+	 * @JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	 * public void setProductionDate(Date productionDate) { this.productionDate =
+	 * productionDate; }
+	 */
+
 	public List<PostProductionPlanDetail> getPostProductionPlanDetail() {
 		return postProductionPlanDetail;
+	}
+
+	public String getProductionDate() {
+		return productionDate;
+	}
+
+	public void setProductionDate(String productionDate) {
+		this.productionDate = productionDate;
 	}
 
 	public void setPostProductionPlanDetail(List<PostProductionPlanDetail> postProductionPlanDetail) {

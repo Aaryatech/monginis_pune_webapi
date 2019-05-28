@@ -14,6 +14,8 @@ public interface PostProductionDetailRepository extends JpaRepository<PostProduc
 	
 	PostProductionDetail save(PostProductionDetail postProductionDetail);
 
+	List<PostProductionPlanDetail> save(List<PostProductionPlanDetail> postProductionPlanDetail);
+
 	
 
 	 

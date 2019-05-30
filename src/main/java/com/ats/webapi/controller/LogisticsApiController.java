@@ -24,6 +24,7 @@ import com.ats.webapi.model.logistics.AlertVeihcleServicing;
 import com.ats.webapi.model.logistics.Dealer;
 import com.ats.webapi.model.logistics.Document;
 import com.ats.webapi.model.logistics.DriverMaster;
+import com.ats.webapi.model.logistics.GetServHeader;
 import com.ats.webapi.model.logistics.LogisAmc;
 import com.ats.webapi.model.logistics.MachineMaster;
 import com.ats.webapi.model.logistics.MachineServicing;
@@ -42,6 +43,7 @@ import com.ats.webapi.repository.logistics.AlertAmcRecordRepository;
 import com.ats.webapi.repository.logistics.AlertMachineServicingRepository;
 import com.ats.webapi.repository.logistics.AlertVeihcleServicingRepository;
 import com.ats.webapi.repository.logistics.DriverMasterRepository;
+import com.ats.webapi.repository.logistics.GetServHeaderRepo;
 import com.ats.webapi.repository.logistics.LogisAmcRepository;
 import com.ats.webapi.repository.logistics.MachineServicingRepository;
 import com.ats.webapi.repository.logistics.MechTypeRepository;
@@ -128,6 +130,51 @@ public class LogisticsApiController {
 
 	@Autowired
 	DriverMasterRepository driverMasterRepository;
+	@Autowired
+	GetServHeaderRepo getServHeaderRepo;
+
+	@RequestMapping(value = { "/getLogistiocsDataBetDate" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetServHeader> getLogistiocsDataBetDate(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("typeId") int typeId,
+			@RequestParam("servType") List<String> servType, @RequestParam("vehIdList") List<String> vehIdList) {
+		System.out.println("fromDate " + fromDate);
+		System.out.println("toDate " + toDate);
+		System.out.println("servType " + servType);
+		System.out.println("typeId " + typeId);
+		System.out.println("vehId " + vehIdList);
+		List<GetServHeader> servList = new ArrayList<GetServHeader>();
+		try {
+
+			servList = getServHeaderRepo.findByBetweenDateAndVehIdListAndServType(fromDate, toDate, typeId, vehIdList,
+					servType);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return servList;
+	}
+
+	@RequestMapping(value = { "/getLogistiocsDetailDataBetDate" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetServHeader> getLogistiocsDetailDataBetDate(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("vehIdList") int vehIdList) {
+		System.out.println("fromDate " + fromDate);
+		System.out.println("toDate " + toDate);
+
+		System.out.println("vehId " + vehIdList);
+		List<GetServHeader> servList = new ArrayList<GetServHeader>();
+		try {
+
+			servList = getServHeaderRepo.findByBetweenDateAndVehIdList(fromDate, toDate, vehIdList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return servList;
+	}
 
 	@RequestMapping(value = { "/loginDriverOrUser" }, method = RequestMethod.POST)
 	public @ResponseBody LoginDriverResponse loginDriverOrUser(@RequestParam("userName") String userName,

@@ -1,5 +1,6 @@
 package com.ats.webapi.repository.frpurchasereport;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -338,6 +339,244 @@ public interface SalesReportRoyaltyRepo extends JpaRepository<SalesReportRoyalty
 				"FROM m_item,m_category where m_item.item_grp1=m_category.cat_id AND m_category.cat_id IN(:catIdList) and m_item.del_status=0 group by m_category.cat_id order by m_item.item_grp1,m_item.item_grp2,m_item.item_name",nativeQuery=true)
 			
 			List<SalesReportRoyalty> getSaleReportRoyConsoByCatForGraph(@Param("frIdList") List<String> frIdList,@Param("catIdList") List<String> catIdList,@Param("fromDate") String fromDate,@Param("toDate") String toDate);
+
+		@Query(value="SELECT m_item.id,m_item.item_name,m_item.item_grp2 as sub_cat_id,m_category.cat_name,m_category.cat_id,COALESCE((SELECT SUM(t_bill_detail.bill_qty) FROM t_bill_detail,t_bill_header WHERE t_bill_header.bill_date BETWEEN :fromDate AND :toDate AND t_bill_header.bill_no=t_bill_detail.bill_no AND m_item.id=t_bill_detail.item_id AND t_bill_header.fr_id IN(:frIdList) AND t_bill_detail.cat_id IN(:catIdList) AND t_bill_header.del_status=0),0) AS t_bill_qty,COALESCE((SELECT SUM(t_bill_detail.grand_total) FROM t_bill_detail,t_bill_header WHERE t_bill_header.bill_date BETWEEN :fromDate AND :toDate AND t_bill_header.bill_no=t_bill_detail.bill_no AND m_item.id=t_bill_detail.item_id AND t_bill_header.fr_id IN(:frIdList) AND t_bill_detail.cat_id IN(:catIdList) AND t_bill_header.del_status=0),0) AS  t_bill_taxable_amt," + 
+				"	COALESCE((SELECT SUM(t_grn_gvn.grn_gvn_qty) FROM t_grn_gvn,t_grn_gvn_header WHERE t_grn_gvn_header.grngvn_date  BETWEEN :fromDate AND :toDate AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id AND m_item.id=t_grn_gvn.item_id  AND t_grn_gvn_header.is_grn=1 AND t_grn_gvn.cat_id IN(:catIdList) AND  t_grn_gvn.del_status=0 AND t_grn_gvn_header.fr_id IN(:frIdList)  and t_grn_gvn.grn_gvn_status=6),0) AS  t_grn_qty," + 
+				"	COALESCE((SELECT SUM(t_grn_gvn.apr_grand_total) FROM t_grn_gvn,t_grn_gvn_header WHERE t_grn_gvn_header.grngvn_date  BETWEEN :fromDate AND :toDate AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id AND m_item.id=t_grn_gvn.item_id  AND t_grn_gvn_header.is_grn=1 AND t_grn_gvn.cat_id IN(:catIdList) AND  t_grn_gvn.del_status=0 AND t_grn_gvn_header.fr_id IN(:frIdList)  and t_grn_gvn.grn_gvn_status=6),0) AS  t_grn_taxable_amt," + 
+				"	COALESCE((SELECT SUM(t_grn_gvn.grn_gvn_qty) FROM t_grn_gvn,t_grn_gvn_header WHERE t_grn_gvn_header.grngvn_date  BETWEEN :fromDate AND :toDate AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id AND m_item.id=t_grn_gvn.item_id  AND t_grn_gvn_header.is_grn In (0,2) AND t_grn_gvn.cat_id IN(:catIdList) AND  t_grn_gvn.del_status=0 AND t_grn_gvn_header.fr_id IN(:frIdList)  and t_grn_gvn.grn_gvn_status=6),0) AS  t_gvn_qty," + 
+				"	COALESCE((SELECT SUM(t_grn_gvn.apr_grand_total) FROM t_grn_gvn,t_grn_gvn_header WHERE t_grn_gvn_header.grngvn_date  BETWEEN :fromDate AND :toDate AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id AND m_item.id=t_grn_gvn.item_id  AND t_grn_gvn_header.is_grn In (0,2) AND t_grn_gvn.cat_id IN(:catIdList) AND  t_grn_gvn.del_status=0 AND t_grn_gvn_header.fr_id IN(:frIdList)  and t_grn_gvn.grn_gvn_status=6),0) AS  t_gvn_taxable_amt" + 
+				"	FROM m_item,m_category where m_item.item_grp1=m_category.cat_id AND m_category.cat_id IN(:catIdList) and m_item.del_status=0 group by m_item.id order by m_item.item_grp1,m_item.item_grp2,m_item.item_name ",nativeQuery=true)
+		List<SalesReportRoyalty> getSaleReportRoyConsoByCatByGrandTotal(@Param("frIdList")List<String> frIdList,@Param("catIdList")List<String> catIdList,
+				@Param("fromDate")String fromDate,@Param("toDate") String toDate);
+
+		@Query(value="SELECT" + 
+				"			      m_sp_cake.sp_id AS  id," + 
+				"			    m_sp_cake.sp_name AS item_name ," + 
+				"			      5 AS cat_id ,5 as sub_cat_id," + 
+				"			        'Special Cake' AS cat_name," + 
+				"			      COALESCE((SELECT" + 
+				"				           SUM(t_bill_detail.bill_qty)          " + 
+				"			       FROM" + 
+				"				          t_bill_detail," + 
+				"				          t_bill_header," + 
+				"				          m_franchisee          " + 
+				"				      WHERE" + 
+				"				           t_bill_header.bill_date BETWEEN  :fromDate AND :toDate            " + 
+				"				           AND t_bill_header.bill_no=t_bill_detail.bill_no              " + 
+				"				            AND m_sp_cake.sp_id=t_bill_detail.item_id               " + 
+				"				           AND t_bill_header.fr_id =m_franchisee.fr_id              " + 
+				"				          AND t_bill_detail.cat_id= :catIdList         " + 
+				"				            AND t_bill_header.del_status=0 AND t_bill_header.fr_id IN (:frIdList))," + 
+				"			       0) AS t_bill_qty," + 
+				"				      COALESCE((SELECT" + 
+				"				          SUM(t_bill_detail.grand_total)          " + 
+				"				       FROM" + 
+				"				           t_bill_detail," + 
+				"				           t_bill_header," + 
+				"				          m_franchisee          " + 
+				"				       WHERE" + 
+				"				           t_bill_header.bill_date BETWEEN  :fromDate AND :toDate             " + 
+				"				           AND t_bill_header.bill_no=t_bill_detail.bill_no              " + 
+				"				            AND m_sp_cake.sp_id=t_bill_detail.item_id              " + 
+				"				           AND t_bill_header.fr_id  =m_franchisee.fr_id             " + 
+				"				           AND t_bill_detail.cat_id =:catIdList             " + 
+				"				           AND t_bill_header.del_status=0 AND t_bill_header.fr_id IN (:frIdList))," + 
+				"				       0) AS  t_bill_taxable_amt," + 
+				"			       COALESCE((SELECT" + 
+				"				           SUM(t_grn_gvn.grn_gvn_qty)          " + 
+				"				       FROM" + 
+				"				          t_grn_gvn," + 
+				"				           t_grn_gvn_header," + 
+				"				           m_franchisee          " + 
+				"				        WHERE" + 
+				"			           t_grn_gvn_header.grngvn_date BETWEEN  :fromDate AND :toDate             " + 
+				"				            AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id              " + 
+				"			            AND m_sp_cake.sp_id=t_grn_gvn.item_id               " + 
+				"				           AND t_grn_gvn_header.is_grn=1            " + 
+				"				            AND t_grn_gvn.cat_id =:catIdList              " + 
+				"				           AND  t_grn_gvn.del_status=0              " + 
+				"				            AND t_grn_gvn_header.fr_id = m_franchisee.fr_id              " + 
+				"				          and t_grn_gvn.grn_gvn_status=6 AND t_grn_gvn.fr_id IN (:frIdList))," + 
+				"			       0) AS  t_grn_qty," + 
+				"			        COALESCE((SELECT" + 
+				"				            SUM(t_grn_gvn.apr_grand_total)          " + 
+				"				       FROM" + 
+				"				           t_grn_gvn," + 
+				"				            t_grn_gvn_header," + 
+				"				           m_franchisee          " + 
+				"				       WHERE" + 
+				"				           t_grn_gvn_header.grngvn_date BETWEEN  :fromDate AND :toDate             " + 
+				"				           AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id                " + 
+				"			          AND m_sp_cake.sp_id=t_grn_gvn.item_id               " + 
+				"			          AND t_grn_gvn_header.is_grn=1            " + 
+				"				            AND  t_grn_gvn.cat_id =:catIdList              " + 
+				"				           AND  t_grn_gvn.del_status=0              " + 
+				"				           AND t_grn_gvn_header.fr_id = m_franchisee.fr_id              " + 
+				"			          and t_grn_gvn.grn_gvn_status=6 AND t_grn_gvn.fr_id IN (:frIdList))," + 
+				"				       0) AS  t_grn_taxable_amt," + 
+				"				       COALESCE((SELECT" + 
+				"			           SUM(t_grn_gvn.grn_gvn_qty)          " + 
+				"				        FROM" + 
+				"				            t_grn_gvn," + 
+				"				           t_grn_gvn_header," + 
+				"				            m_franchisee          " + 
+				"				      WHERE" + 
+				"				            t_grn_gvn_header.grngvn_date  BETWEEN  :fromDate AND :toDate            " + 
+				"				           AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id                " + 
+				"				           AND m_sp_cake.sp_id=t_grn_gvn.item_id                " + 
+				"				           AND t_grn_gvn_header.is_grn  In (0,2)           " + 
+				"				           AND t_grn_gvn.cat_id =:catIdList              " + 
+				"				           AND  t_grn_gvn.del_status=0              " + 
+				"				            AND t_grn_gvn_header.fr_id = m_franchisee.fr_id              " + 
+				"			            and t_grn_gvn.grn_gvn_status=6 AND t_grn_gvn.fr_id IN (:frIdList))," + 
+				"				        0) AS  t_gvn_qty," + 
+				"				       COALESCE((SELECT" + 
+				"				           SUM(t_grn_gvn.apr_grand_total)          " + 
+				"				        FROM" + 
+				"			            t_grn_gvn," + 
+				"				            t_grn_gvn_header," + 
+				"				           m_franchisee          " + 
+				"				      WHERE" + 
+				"			           t_grn_gvn_header.grngvn_date  BETWEEN  :fromDate AND :toDate           " + 
+				"				           And t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id              " + 
+				"				            AND m_sp_cake.sp_id=t_grn_gvn.item_id               " + 
+				"				           AND t_grn_gvn_header.is_grn  In (0,2)            " + 
+				"				           AND t_grn_gvn.cat_id = :catIdList            " + 
+				"				           AND  t_grn_gvn.del_status=0              " + 
+				"				            AND t_grn_gvn_header.fr_id = m_franchisee.fr_id              " + 
+				"			           and t_grn_gvn.grn_gvn_status=6 AND t_grn_gvn.fr_id IN (:frIdList))," + 
+				"				        0) AS  t_gvn_taxable_amt       " + 
+				"				    FROM" + 
+				"				       m_sp_cake                 " + 
+				"				    group by" + 
+				"				       m_sp_cake.sp_id      " + 
+				"				    order by" + 
+				"			        m_sp_cake.sp_name",nativeQuery=true)
+		List<SalesReportRoyalty> getSaleReportRoyConsoByCatForSpByGrandTotal(@Param("frIdList")List<String> frIdList,
+				@Param("catIdList")List<String> spcats,@Param("fromDate") String fromDate,@Param("toDate") String toDate);
+
+		@Query(value="SELECT" + 
+				"				        m_sp_cake.sp_id AS  id," + 
+				"				        m_sp_cake.sp_name AS item_name ,m_sp_cake.sp_name AS item_name , 5 AS cat_id ,5 as sub_cat_id,'Special Cake' AS cat_name, " + 
+				"				\n" + 
+				"				         " + 
+				"				        COALESCE((SELECT" + 
+				"				            SUM(t_bill_detail.bill_qty) " + 
+				"				        FROM" + 
+				"				            t_bill_detail," + 
+				"				            t_bill_header," + 
+				"				            m_franchisee " + 
+				"				        WHERE" + 
+				"				            t_bill_header.bill_date BETWEEN  :fromDate AND :toDate + \n" + 
+				"				            AND t_bill_header.bill_no=t_bill_detail.bill_no " + 
+				"				            AND m_sp_cake.sp_id=t_bill_detail.item_id  " + 
+				"				            AND t_bill_header.fr_id =m_franchisee.fr_id " + 
+				"				            AND t_bill_detail.cat_id= :catIdList" + 
+				"				            AND t_bill_header.del_status=0)," + 
+				"				        0) AS t_bill_qty," + 
+				"				        COALESCE((SELECT" + 
+				"				            SUM(t_bill_detail.grand_total) " + 
+				"				        FROM" + 
+				"				            t_bill_detail," + 
+				"				            t_bill_header," + 
+				"				            m_franchisee " + 
+				"				        WHERE" + 
+				"				            t_bill_header.bill_date BETWEEN  :fromDate AND :toDate " + 
+				"				            AND t_bill_header.bill_no=t_bill_detail.bill_no " + 
+				"				            AND m_sp_cake.sp_id=t_bill_detail.item_id " + 
+				"				            AND t_bill_header.fr_id  =m_franchisee.fr_id " + 
+				"				           AND t_bill_detail.cat_id =:catIdList " + 
+				"				            AND t_bill_header.del_status=0)," + 
+				"				        0) AS  t_bill_taxable_amt," + 
+				"				        COALESCE((SELECT" + 
+				"				            SUM(t_grn_gvn.grn_gvn_qty) " + 
+				"				        FROM" + 
+				"				            t_grn_gvn," + 
+				"				            t_grn_gvn_header," + 
+				"				            m_franchisee " + 
+				"				        WHERE" + 
+				"				            t_grn_gvn_header.grngvn_date  BETWEEN  :fromDate AND :toDate " + 
+				"				            AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id " + 
+				"				            AND m_sp_cake.sp_id=t_grn_gvn.item_id  " + 
+				"				            AND t_grn_gvn_header.is_grn=1 " + 
+				"				          AND t_grn_gvn.cat_id =:catIdList " + 
+				"				            AND  t_grn_gvn.del_status=0 " + 
+				"				            AND t_grn_gvn_header.fr_id = m_franchisee.fr_id " + 
+				"				            and t_grn_gvn.grn_gvn_status=6)," + 
+				"				        0) AS  t_grn_qty," + 
+				"				        COALESCE((SELECT" + 
+				"				            SUM(t_grn_gvn.apr_grand_total) " + 
+				"				        FROM" + 
+				"				            t_grn_gvn," + 
+				"				            t_grn_gvn_header," + 
+				"				            m_franchisee " + 
+				"				        WHERE" + 
+				"				            t_grn_gvn_header.grngvn_date  BETWEEN  :fromDate AND :toDate " + 
+				"				            AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id " + 
+				"				              AND m_sp_cake.sp_id=t_grn_gvn.item_id  " + 
+				"				            AND t_grn_gvn_header.is_grn=1 " + 
+				"				          AND  t_grn_gvn.cat_id =:catIdList " + 
+				"				            AND  t_grn_gvn.del_status=0 " + 
+				"				            AND t_grn_gvn_header.fr_id = m_franchisee.fr_id " + 
+				"				            and t_grn_gvn.grn_gvn_status=6)," + 
+				"				        0) AS  t_grn_taxable_amt," + 
+				"				        COALESCE((SELECT" + 
+				"				            SUM(t_grn_gvn.grn_gvn_qty) " + 
+				"				        FROM" + 
+				"				            t_grn_gvn," + 
+				"				            t_grn_gvn_header," + 
+				"				            m_franchisee " + 
+				"				        WHERE" + 
+				"				            t_grn_gvn_header.grngvn_date  BETWEEN  :fromDate AND :toDate " + 
+				"				            AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id " + 
+				"				              AND m_sp_cake.sp_id=t_grn_gvn.item_id   " + 
+				"				            AND t_grn_gvn_header.is_grn In (0,2) " + 
+				"				          AND t_grn_gvn.cat_id =:catIdList " + 
+				"				            AND  t_grn_gvn.del_status=0 " + 
+				"				            AND t_grn_gvn_header.fr_id = m_franchisee.fr_id " + 
+				"				            and t_grn_gvn.grn_gvn_status=6)," + 
+				"				        0) AS  t_gvn_qty," + 
+				"				        COALESCE((SELECT" + 
+				"				            SUM(t_grn_gvn.apr_grand_total) " + 
+				"				        FROM" + 
+				"				            t_grn_gvn," + 
+				"				            t_grn_gvn_header," + 
+				"				            m_franchisee " + 
+				"				        WHERE" + 
+				"				            t_grn_gvn_header.grngvn_date BETWEEN  :fromDate AND :toDate " + 
+				"				            And t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id " + 
+				"				            AND m_sp_cake.sp_id=t_grn_gvn.item_id  " + 
+				"				            AND t_grn_gvn_header.is_grn In (0,2) " + 
+				"				           AND t_grn_gvn.cat_id = :catIdList" + 
+				"				            AND  t_grn_gvn.del_status=0 " + 
+				"				            AND t_grn_gvn_header.fr_id = m_franchisee.fr_id " + 
+				"				            and t_grn_gvn.grn_gvn_status=6)," + 
+				"				        0) AS  t_gvn_taxable_amt  " + 
+				"				    FROM" + 
+				"				        m_sp_cake" + 
+				"				       " + 
+				"				   " + 
+				"				    group by" + 
+				"				        m_sp_cake.sp_id " + 
+				"				    order by" + 
+				"				        m_sp_cake.sp_name",nativeQuery=true)
+		List<SalesReportRoyalty> getSaleReportRoyConsoByCatAllFrForSpCakeByGrandTotal(@Param("catIdList")List<String> catIdList,
+				@Param("fromDate")String fromDate,@Param("toDate") String toDate);
+
+		@Query(value="" + 
+				"				SELECT m_item.id,m_item.item_name,m_item.item_grp2 as sub_cat_id,m_category.cat_name,m_category.cat_id,COALESCE((SELECT SUM(t_bill_detail.bill_qty) FROM t_bill_detail,t_bill_header,m_franchisee WHERE t_bill_header.bill_date	BETWEEN :fromDate AND :toDate AND t_bill_header.bill_no=t_bill_detail.bill_no AND m_item.id=t_bill_detail.item_id AND t_bill_header.fr_id =m_franchisee.fr_id AND t_bill_detail.cat_id IN(:catIdList) AND t_bill_header.del_status=0),0) AS t_bill_qty,COALESCE((SELECT SUM(t_bill_detail.grand_total) FROM t_bill_detail,t_bill_header,m_franchisee WHERE t_bill_header.bill_date 	BETWEEN :fromDate AND :toDate AND t_bill_header.bill_no=t_bill_detail.bill_no AND m_item.id=t_bill_detail.item_id AND t_bill_header.fr_id=m_franchisee.fr_id AND t_bill_detail.cat_id IN(:catIdList) AND t_bill_header.del_status=0),0) AS  t_bill_taxable_amt," + 
+				"				" + 
+				"				COALESCE((SELECT SUM(t_grn_gvn.grn_gvn_qty) FROM t_grn_gvn,t_grn_gvn_header,m_franchisee WHERE t_grn_gvn_header.grngvn_date  BETWEEN  :fromDate AND :toDate AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id AND m_item.id=t_grn_gvn.item_id  AND t_grn_gvn_header.is_grn=1 AND t_grn_gvn.cat_id IN(:catIdList) AND  t_grn_gvn.del_status=0 AND t_grn_gvn_header.fr_id = m_franchisee.fr_id and t_grn_gvn.grn_gvn_status=6),0) AS  t_grn_qty," + 
+				"				" + 
+				"				COALESCE((SELECT SUM(t_grn_gvn.apr_grand_total) FROM t_grn_gvn,t_grn_gvn_header,m_franchisee WHERE t_grn_gvn_header.grngvn_date  BETWEEN   :fromDate AND :toDate AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id AND m_item.id=t_grn_gvn.item_id  AND t_grn_gvn_header.is_grn=1 AND t_grn_gvn.cat_id IN(:catIdList) AND  t_grn_gvn.del_status=0 AND t_grn_gvn_header.fr_id = m_franchisee.fr_id and t_grn_gvn.grn_gvn_status=6),0) AS  t_grn_taxable_amt," + 
+				"				" + 
+				"				COALESCE((SELECT SUM(t_grn_gvn.grn_gvn_qty) FROM t_grn_gvn,t_grn_gvn_header,m_franchisee WHERE t_grn_gvn_header.grngvn_date  BETWEEN   :fromDate AND :toDate AND t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id AND m_item.id=t_grn_gvn.item_id  AND t_grn_gvn_header.is_grn  In (0,2) AND t_grn_gvn.cat_id IN(:catIdList) AND  t_grn_gvn.del_status=0 AND t_grn_gvn_header.fr_id = m_franchisee.fr_id and t_grn_gvn.grn_gvn_status=6),0) AS  t_gvn_qty," + 
+				"				" + 
+				"				COALESCE((SELECT SUM(t_grn_gvn.apr_grand_total) FROM t_grn_gvn,t_grn_gvn_header,m_franchisee WHERE t_grn_gvn_header.grngvn_date  BETWEEN  :fromDate AND :toDate And t_grn_gvn_header.grn_gvn_header_id=t_grn_gvn.grn_gvn_header_id AND m_item.id=t_grn_gvn.item_id  AND t_grn_gvn_header.is_grn  In (0,2) AND t_grn_gvn.cat_id IN(:catIdList) AND  t_grn_gvn.del_status=0 AND t_grn_gvn_header.fr_id = m_franchisee.fr_id and t_grn_gvn.grn_gvn_status=6),0) AS  t_gvn_taxable_amt" + 
+				"				" + 
+				"				FROM m_item,m_category where m_item.item_grp1=m_category.cat_id AND m_category.cat_id IN(:catIdList) and m_item.del_status=0   group by m_item.id order by m_item.item_grp1,m_item.item_grp2,m_item.item_name",nativeQuery=true)
+		List<SalesReportRoyalty> getSaleReportRoyConsoByCatAllFrByGrandTotal(@Param("catIdList")List<String> catIdList,@Param("fromDate") String fromDate,
+				@Param("toDate")String toDate);
 
 		
 }

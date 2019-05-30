@@ -41,6 +41,8 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
 	@Query("UPDATE Orders t SET t.deliveryDate=:delDate,t.productionDate=:prodDate  WHERE t.orderId IN(:orderIds)")
 	int updateOrderDelivery(@Param("orderIds")List<Integer> orderIds,@Param("delDate")Date delDate,@Param("prodDate")Date prodDate);
 
+	Orders findByOrderId(int orderId);
+
 	
 	/*@Transactional
 	@Modifying

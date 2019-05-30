@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -50,6 +52,7 @@ import com.ats.webapi.repository.ItemStockRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.MessageRepository;
 import com.ats.webapi.repository.OrderLogRespository;
+import com.ats.webapi.repository.OrderRepository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
 import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
 import com.ats.webapi.repository.RouteMasterRepository;
@@ -150,6 +153,8 @@ public class RestApiController {
 		return date;
 
 	}
+	@Autowired
+	OrderRepository orderRepository;
 	@Autowired
 	PostFrOpStockHeaderRepository postFrOpStockHeaderRepository;
 
@@ -1482,6 +1487,68 @@ public class RestApiController {
 		jsonResult = orderService.placeOrder(orderJson);
 		return jsonResult;
 	}
+	// Place Item Order
+		@RequestMapping(value = { "/placeSplitedOrder" }, method = RequestMethod.POST)
+		public @ResponseBody List<Orders> placeSplitedOrder(@RequestBody List<SplitOrderData> orderJson)
+				throws ParseException, JsonParseException, JsonMappingException, IOException {
+
+			List<Orders> jsonResult;
+			List<Orders> saveList=new ArrayList<>();
+			for(int i=0;i<orderJson.size();i++)
+			{
+				Orders order=orderRepository.findByOrderId(orderJson.get(i).getOrderId());
+				Orders ordersNew=new Orders();
+				ordersNew.setOrderId(0);
+				ordersNew.setDeliveryDate(orderJson.get(i).getDeliveryDate());
+				ordersNew.setOrderQty(orderJson.get(i).getOrderQty());
+				ordersNew.setEditQty(orderJson.get(i).getOrderQty());
+				ordersNew.setProductionDate(orderJson.get(i).getProductionDate());
+				ordersNew.setMenuId(orderJson.get(i).getMenuId());
+				
+				ordersNew.setFrId(order.getFrId());
+				ordersNew.setGrnType(order.getGrnType());
+				ordersNew.setIsBillGenerated(order.getIsBillGenerated());
+				ordersNew.setIsEdit(order.getIsEdit());
+				ordersNew.setIsPositive(order.getIsPositive());
+				ordersNew.setItemId(order.getItemId());
+				ordersNew.setOrderDatetime(order.getOrderDatetime());
+				ordersNew.setOrderMrp(order.getOrderMrp());
+				ordersNew.setOrderRate(order.getOrderRate());
+				ordersNew.setOrderStatus(order.getOrderStatus());
+				ordersNew.setOrderSubType(order.getOrderSubType());
+				ordersNew.setOrderType(order.getOrderType());
+				ordersNew.setRefId(order.getRefId());
+				ordersNew.setUserId(order.getUserId());
+				ordersNew.setOrderDate(order.getOrderDate());
+				saveList.add(ordersNew);
+			OrderLog log = new OrderLog();
+			log.setFrId(order.getFrId());
+			log.setJson(order.toString());
+			logRespository.save(log);
+			}
+			jsonResult = orderService.placeOrder(saveList);
+			return jsonResult;
+		}
+		@RequestMapping(value = { "/updateSplitedOrder" }, method = RequestMethod.POST)
+		public @ResponseBody List<Orders> updateSplitedOrder(@RequestBody LinkedHashMap<Integer, Integer> updateLhm)
+				throws ParseException, JsonParseException, JsonMappingException, IOException {
+
+			List<Orders> jsonResult;
+			List<Orders> saveList=new ArrayList<>();
+			
+			for (Map.Entry<Integer,Integer> entry : updateLhm.entrySet()) {
+
+				Orders order=orderRepository.findByOrderId(entry.getKey());
+				order.setOrderQty(entry.getValue());
+				saveList.add(order);
+			OrderLog log = new OrderLog();
+			log.setFrId(order.getFrId());
+			log.setJson(order.toString());
+			logRespository.save(log);
+			}
+			jsonResult = orderService.placeOrder(saveList);
+			return jsonResult;
+		}
 	// Place Item Manual Order
 		@Autowired
 		GenerateBillRepository generateBillRepository;

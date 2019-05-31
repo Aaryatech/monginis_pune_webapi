@@ -21,11 +21,13 @@ import com.ats.webapi.model.TrayMgtDetailList;
 import com.ats.webapi.model.tray.FrOutTrays;
 import com.ats.webapi.model.tray.FranchiseInRoute;
 import com.ats.webapi.model.tray.GetTrayMgtHeader;
+import com.ats.webapi.model.tray.GetTrayMgtReport;
 import com.ats.webapi.model.tray.GetVehDriverMobNo;
 import com.ats.webapi.model.tray.GetVehicleAvg;
 import com.ats.webapi.model.tray.TrayMgtDetail;
 import com.ats.webapi.model.tray.TrayMgtDetailBean;
 import com.ats.webapi.model.tray.TrayMgtHeader;
+import com.ats.webapi.repository.tray.GetTrayMgtReportRepo;
 import com.ats.webapi.repository.tray.GetVehDriverMobNoRepo;
 import com.ats.webapi.repository.tray.GetVehicleAvgRepository;
 import com.ats.webapi.repository.tray.TrayMgtDetailBeanRepository;
@@ -49,6 +51,9 @@ public class TrayManagementController {
 
 	@Autowired
 	GetVehicleAvgRepository getVehicleAvgRepository;
+
+	@Autowired
+	GetTrayMgtReportRepo getTrayMgtReportRepo;
 
 	@RequestMapping(value = { "/trayDetailByFrIdBySum" }, method = RequestMethod.POST)
 	public @ResponseBody List<TrayMgtDetailBean> trayDetailByFrIdBySum(@RequestParam("frId") int frId,
@@ -600,5 +605,32 @@ public class TrayManagementController {
 			e.printStackTrace();
 		}
 		return getTrayMgtHeaders;
+	}
+
+	@RequestMapping(value = { "/getTrayMangtDetailreport" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetTrayMgtReport> getTrayMangtDetailreport(
+			@RequestParam("frIdList") List<String> frIdList, @RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		System.out.println(frIdList);
+		System.out.println(fromDate);
+		System.out.println(toDate);
+
+		List<GetTrayMgtReport> getTrayMgtDetail = null;
+		try {
+
+			if (!frIdList.contains("-1"))
+
+			{
+				getTrayMgtDetail = getTrayMgtReportRepo.getTrayMgtDetail(fromDate, toDate, frIdList);
+
+			} else {
+				getTrayMgtDetail = getTrayMgtReportRepo.getTrayMgtDetailBetDate(fromDate, toDate);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return getTrayMgtDetail;
 	}
 }

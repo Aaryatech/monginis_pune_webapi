@@ -344,6 +344,7 @@ public class PorductionApiController {
 				postProdPlanHeader.getPostProductionPlanDetail().get(i)
 						.setProductionHeaderId(jsonBillHeader.getProductionHeaderId());
 
+				
 			}
 
 			//System.out.println(postProdPlanHeader.getPostProductionPlanDetail().toString());

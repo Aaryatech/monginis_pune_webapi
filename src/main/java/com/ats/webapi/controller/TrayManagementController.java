@@ -22,10 +22,12 @@ import com.ats.webapi.model.tray.FrOutTrays;
 import com.ats.webapi.model.tray.FranchiseInRoute;
 import com.ats.webapi.model.tray.GetTrayMgtHeader;
 import com.ats.webapi.model.tray.GetVehDriverMobNo;
+import com.ats.webapi.model.tray.GetVehicleAvg;
 import com.ats.webapi.model.tray.TrayMgtDetail;
 import com.ats.webapi.model.tray.TrayMgtDetailBean;
 import com.ats.webapi.model.tray.TrayMgtHeader;
 import com.ats.webapi.repository.tray.GetVehDriverMobNoRepo;
+import com.ats.webapi.repository.tray.GetVehicleAvgRepository;
 import com.ats.webapi.repository.tray.TrayMgtDetailBeanRepository;
 import com.ats.webapi.repository.tray.TrayMgtHeaderRepository;
 import com.ats.webapi.service.tray.TrayMgtService;
@@ -44,6 +46,9 @@ public class TrayManagementController {
 
 	@Autowired
 	GetVehDriverMobNoRepo vehMobNoRepo;// Sachin 20 MArch
+
+	@Autowired
+	GetVehicleAvgRepository getVehicleAvgRepository;
 
 	@RequestMapping(value = { "/trayDetailByFrIdBySum" }, method = RequestMethod.POST)
 	public @ResponseBody List<TrayMgtDetailBean> trayDetailByFrIdBySum(@RequestParam("frId") int frId,
@@ -557,5 +562,43 @@ public class TrayManagementController {
 			e.printStackTrace();
 		}
 		return info;
+	}
+
+	@RequestMapping(value = { "/getAllTrayHeadersByDate" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetVehicleAvg> getAllTrayHeadersByDate(@RequestParam("date") String date) {
+
+		List<GetVehicleAvg> getTrayMgtHeaders = null;
+		try {
+			getTrayMgtHeaders = getVehicleAvgRepository.getAllTrayHeadersByDate(date);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return getTrayMgtHeaders;
+	}
+
+	@RequestMapping(value = { "/getAllTrayHeadersBetDate" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetVehicleAvg> getAllTrayHeadersBetDate(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		List<GetVehicleAvg> getTrayMgtHeaders = null;
+		try {
+			getTrayMgtHeaders = getVehicleAvgRepository.getAllTrayHeadersBetDate(fromDate, toDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return getTrayMgtHeaders;
+	}
+
+	@RequestMapping(value = { "/getAllTrayBetDateDetails" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetVehicleAvg> getAllTrayBetDateDetails(@RequestParam("vehId") int vehId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
+
+		List<GetVehicleAvg> getTrayMgtHeaders = null;
+		try {
+			getTrayMgtHeaders = getVehicleAvgRepository.getAllTrayHeadersBetDateANdVehId(vehId, fromDate, toDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return getTrayMgtHeaders;
 	}
 }

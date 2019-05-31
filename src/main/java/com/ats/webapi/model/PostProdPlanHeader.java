@@ -36,7 +36,7 @@ public class PostProdPlanHeader {
 	private String productionStatus;
 
 	@Column(name = "production_date")
-	private String productionDate;
+	private Date productionDate;
 
 	@Column(name = "is_mixing")
 	private int isMixing;
@@ -129,12 +129,12 @@ public class PostProdPlanHeader {
 	public List<PostProductionPlanDetail> getPostProductionPlanDetail() {
 		return postProductionPlanDetail;
 	}
-
-	public String getProductionDate() {
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getProductionDate() {
 		return productionDate;
 	}
-
-	public void setProductionDate(String productionDate) {
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public void setProductionDate(Date productionDate) {
 		this.productionDate = productionDate;
 	}
 

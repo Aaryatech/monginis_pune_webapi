@@ -86,6 +86,7 @@ public class PorductionApiController {
 	@Autowired
 	GetItemForBarcodeRepo getItemForBarcodeRepo;
 
+	
 	/*
 	 * @RequestMapping(value = { "/getOrderItemQty" }, method = RequestMethod.POST)
 	 * 
@@ -297,16 +298,46 @@ public class PorductionApiController {
 		return info;
 
 	}
-
 	@RequestMapping(value = { "/postProductionPlan" }, method = RequestMethod.POST)
 
 	public @ResponseBody Info postProductionPlan(@RequestBody PostProdPlanHeader postProdPlanHeader)
 			throws ParseException, JsonParseException, JsonMappingException, IOException {
 
 		System.out.println("postProductionHeaderBean:" + postProdPlanHeader.toString());
-		PostProdPlanHeader jsonBillHeader = new PostProdPlanHeader();
+		PostProdPlanHeader jsonBillHeader = null;
 		if (!postProdPlanHeader.getPostProductionPlanDetail().isEmpty()) {
 			jsonBillHeader = productionService.saveProductionPlanHeader(postProdPlanHeader);
+		}
+
+		Info info = new Info();
+
+		if (jsonBillHeader != null) {
+
+			info.setError(false);
+			info.setMessage("post Fr Stock header inserted  Successfully");
+
+		}
+
+		else {
+
+			info.setError(true);
+			info.setMessage("Error in post Fr Stock header insertion : RestApi");
+
+		}
+
+		return info;
+
+	}
+
+	@RequestMapping(value = { "/postProductionPlanForRejRet" }, method = RequestMethod.POST)
+
+	public @ResponseBody Info postProductionPlanForRejRet(@RequestBody PostProdPlanHeader postProdPlanHeader)
+			throws ParseException, JsonParseException, JsonMappingException, IOException {
+
+		System.out.println("postProductionHeaderBean:" + postProdPlanHeader.toString());
+		PostProdPlanHeader jsonBillHeader = new PostProdPlanHeader();
+		if (!postProdPlanHeader.getPostProductionPlanDetail().isEmpty()) {
+			jsonBillHeader = postProdPlanHeaderRepository.save(postProdPlanHeader);
 
 			for (int i = 0; i < postProdPlanHeader.getPostProductionPlanDetail().size(); i++) {
 
@@ -315,7 +346,7 @@ public class PorductionApiController {
 
 			}
 
-			System.out.println(postProdPlanHeader.getPostProductionPlanDetail().toString());
+			//System.out.println(postProdPlanHeader.getPostProductionPlanDetail().toString());
 
 			List<PostProductionPlanDetail> detailList = postProdPlanDetailRepository
 					.save(postProdPlanHeader.getPostProductionPlanDetail());

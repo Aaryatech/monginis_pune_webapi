@@ -48,11 +48,13 @@ public class PostCreditNoteServiceImpl implements PostCreditNoteService {
 			creditNoteHeader = new PostCreditNoteHeader();
 			int crnSrNo=frItemStockConfRepo.findBySettingKey("CRE_NOTE_NO");
 			System.err.println("crnSrNo"+crnSrNo);
+			if(postCreditNoteHeader.get(i).getCrnId()==0) {
 			postCreditNoteHeader.get(i).setCrnNo(""+crnSrNo);
+			}
 
 			creditNoteHeader = postCreditNoteHeaderRepository.save(postCreditNoteHeader.get(i));
 
-			if(creditNoteHeader.getCrnId()!=0) {
+			if(creditNoteHeader.getCrnId()!=0 && postCreditNoteHeader.get(i).getCrnId()==0) {
 				/*	
 					int result= updateGrnGvnForCreditNoteRepository.updateGrnGvnForCreditNoteInsert(
 							creditNoteHeader.getGrnGvnId(), 1);*/

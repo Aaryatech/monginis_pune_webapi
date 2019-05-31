@@ -45,7 +45,7 @@ public class PostProductionPlanDetail {
 	private String productionBatch;
 
 	@Column(name = "production_date")
-	private String productionDate;
+	private Date productionDate;
 
 	@Column(name = "remaining_qty")
 	private int int4;
@@ -148,12 +148,11 @@ public class PostProductionPlanDetail {
 	public void setInt5(int int5) {
 		this.int5 = int5;
 	}
-
-	public String getProductionDate() {
+	@JsonFormat(locale = "hi",timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
+	public Date getProductionDate() {
 		return productionDate;
 	}
-
-	public void setProductionDate(String productionDate) {
+	public void setProductionDate(Date productionDate) {
 		this.productionDate = productionDate;
 	}
 

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.webapi.commons.Common;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.SubCategoryRes;
+import com.ats.webapi.model.opstock.CustList;
+import com.ats.webapi.model.opstock.CustListRepo;
 import com.ats.webapi.model.opstock.OpStockUpdate;
 import com.ats.webapi.model.opstock.OpStockUpdateRepo;
 import com.ats.webapi.model.taxreport.Tax1Report;
@@ -23,6 +25,8 @@ public class OpStockUpApiController {
 
 	@Autowired
 	OpStockUpdateRepo opStockUpdateRepo;
+	@Autowired
+	CustListRepo custListRepo;
 
 	// ----------------------------SAVE Opening Stock ---------------------------
 	@RequestMapping(value = { "/saveOpStock" }, method = RequestMethod.POST)
@@ -65,7 +69,37 @@ public class OpStockUpApiController {
 			toDate = Common.convertToYMD(toDate);
 
 			OpStockUpdateList = opStockUpdateRepo.getOpStockAdjReport(fromDate, toDate, catId);
-		
+
+		} catch (Exception e) {
+			System.out.println(" Exce in Tax1 Report " + e.getMessage());
+			e.printStackTrace();
+		}
+		return OpStockUpdateList;
+	}
+
+	@RequestMapping(value = { "/getCutslList" }, method = RequestMethod.GET)
+	public @ResponseBody List<CustList> getCutslList() {
+
+		List<CustList> OpStockUpdateList = null;
+		try {
+
+			OpStockUpdateList = custListRepo.getOpStockAdjReport();
+
+		} catch (Exception e) {
+			System.out.println(" Exce in Tax1 Report " + e.getMessage());
+			e.printStackTrace();
+		}
+		return OpStockUpdateList;
+	}
+
+	@RequestMapping(value = { "/getCutslListFroFranchasee" }, method = RequestMethod.POST)
+	public @ResponseBody List<CustList> getCutslListFroFranchasee(@RequestParam("frId") int frId) {
+
+		List<CustList> OpStockUpdateList = null;
+		try {
+
+			OpStockUpdateList = custListRepo.getOpStockAdjReportByfrId(frId);
+
 		} catch (Exception e) {
 			System.out.println(" Exce in Tax1 Report " + e.getMessage());
 			e.printStackTrace();

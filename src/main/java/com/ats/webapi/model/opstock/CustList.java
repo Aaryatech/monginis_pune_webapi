@@ -40,8 +40,6 @@ public class CustList {
 		this.userName = userName;
 	}
 
-	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
-
 	public Date getUserGstNo() {
 		return userGstNo;
 	}

@@ -528,6 +528,29 @@ public class RestApiController {
 		return info;
 
 	}
+	@RequestMapping(value = { "/postCreditNoteForUpdate" }, method = RequestMethod.POST)
+	public @ResponseBody Info postCreditNoteForUpdate(@RequestBody PostCreditNoteHeaderList postCreditNoteHeader) {
+
+		Info info = new Info();
+
+		List<PostCreditNoteHeader> creditNoteHeaderList = postCreditNoteService
+				.postCreditNoteForUpdate(postCreditNoteHeader.getPostCreditNoteHeader());
+
+		if (!creditNoteHeaderList.isEmpty()) {
+
+			info.setError(false);
+			info.setMessage("Credit Note inserted successfully");
+		}
+
+		else {
+
+			info.setError(true);
+			info.setMessage("Error: credit note insertion failed");
+		}
+
+		return info;
+
+	}
 
 	@Autowired // credit note sachin 07/11/2017
 	GetGrnGvnForCreditNoteService getGrnGvnForCreditNoteService;

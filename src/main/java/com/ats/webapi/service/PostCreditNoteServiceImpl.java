@@ -47,18 +47,15 @@ public class PostCreditNoteServiceImpl implements PostCreditNoteService {
 
 			creditNoteHeader = new PostCreditNoteHeader();
 			int crnSrNo=frItemStockConfRepo.findBySettingKey("CRE_NOTE_NO");
-			System.err.println("crnSrNo"+crnSrNo);
-			if(postCreditNoteHeader.get(i).getCrnId()==0) {
+			//System.err.println("crnSrNo"+crnSrNo);
 			postCreditNoteHeader.get(i).setCrnNo(""+crnSrNo);
-			}
 
 			creditNoteHeader = postCreditNoteHeaderRepository.save(postCreditNoteHeader.get(i));
 
-			if(creditNoteHeader.getCrnId()!=0 && postCreditNoteHeader.get(i).getCrnId()==0) {
+			if(creditNoteHeader.getCrnId()!=0) {
 				/*	
 					int result= updateGrnGvnForCreditNoteRepository.updateGrnGvnForCreditNoteInsert(
 							creditNoteHeader.getGrnGvnId(), 1);*/
-						
 					System.err.println("crnSrNo  while update " +crnSrNo);
 					int result = updateSeetingForPBRepo.updateSeetingForPurBill(crnSrNo+1, "CRE_NOTE_NO");
 					
@@ -96,6 +93,39 @@ public class PostCreditNoteServiceImpl implements PostCreditNoteService {
 				{
 				res=updateGrnGvnHeaderForCNRepo.updateGrnGvnHeaderForCN(crnSrNo, 1, postCreditNoteDetails.getGrnGvnHeaderId());
 				}
+			}
+		}
+
+		return postCreditNoteHeaderList;
+	}
+
+	@Override
+	public List<PostCreditNoteHeader> postCreditNoteForUpdate(List<PostCreditNoteHeader> postCreditNoteHeader) {
+
+		PostCreditNoteHeader creditNoteHeader = null;
+
+		List<PostCreditNoteHeader> postCreditNoteHeaderList = new ArrayList<PostCreditNoteHeader>();
+		for (int i = 0; i < postCreditNoteHeader.size(); i++) {
+
+			creditNoteHeader = new PostCreditNoteHeader();
+	
+			creditNoteHeader = postCreditNoteHeaderRepository.save(postCreditNoteHeader.get(i));
+
+			postCreditNoteHeaderList.add(creditNoteHeader);
+			
+			int crnId = creditNoteHeader.getCrnId();
+
+			List<PostCreditNoteDetails> postCreditNoteDetailsList = postCreditNoteHeader.get(i)
+					.getPostCreditNoteDetails();
+
+			for (int j = 0; j < postCreditNoteDetailsList.size(); j++) {
+
+				PostCreditNoteDetails postCreditNoteDetails = postCreditNoteDetailsList.get(j);
+
+				postCreditNoteDetails.setCrnId(crnId);
+				
+				postCreditNoteDetailsRepository.save(postCreditNoteDetails);
+				
 			}
 		}
 

@@ -11,8 +11,8 @@ import com.ats.webapi.model.reportv2.CrNoteRegSp;
 public interface CrNoteRegSpRepo extends JpaRepository<CrNoteRegSp, Integer> {
 
 	@Query(value = " SELECT t_credit_note_header.crn_id,t_credit_note_header.crn_date,t_bill_header.invoice_no,"
-			+ " t_bill_header.bill_date,	 t_credit_note_details.crnd_id ,"
-			+ " m_franchisee.fr_name,m_franchisee.fr_code,m_franchisee.fr_gst_no,m_spcake_sup.sp_hsncd as hsn_code,"
+			+ " t_bill_header.bill_date,t_credit_note_header.crn_no as fr_code,t_credit_note_details.crnd_id ,"
+			+ " m_franchisee.fr_name,m_franchisee.fr_gst_no,m_spcake_sup.sp_hsncd as hsn_code,"
 			+ " SUM(t_credit_note_details.grn_gvn_qty)crn_qty,SUM(t_credit_note_details.taxable_amt)crn_taxable,"
 			+ " t_credit_note_details.cgst_per,"
 			+ " t_credit_note_details.sgst_per,t_credit_note_details.igst_per,SUM(t_credit_note_details.sgst_rs) AS sgst_amt ,"
@@ -30,8 +30,8 @@ public interface CrNoteRegSpRepo extends JpaRepository<CrNoteRegSp, Integer> {
 	
 	
 	@Query(value = " SELECT t_credit_note_header.crn_id,t_credit_note_header.crn_date,t_bill_header.invoice_no,"
-			+ " t_bill_header.bill_date,	 t_credit_note_details.crnd_id ,"
-			+ " m_franchisee.fr_name,m_franchisee.fr_code,m_franchisee.fr_gst_no,m_spcake_sup.sp_hsncd as hsn_code,"
+			+ " t_bill_header.bill_date,t_credit_note_header.crn_no as fr_code,t_credit_note_details.crnd_id ,"
+			+ " m_franchisee.fr_name,m_franchisee.fr_gst_no,m_spcake_sup.sp_hsncd as hsn_code,"
 			+ " SUM(t_credit_note_details.grn_gvn_qty)crn_qty,SUM(t_credit_note_details.taxable_amt)crn_taxable,"
 			+ " t_credit_note_details.cgst_per,"
 			+ " t_credit_note_details.sgst_per,t_credit_note_details.igst_per,SUM(t_credit_note_details.sgst_rs) AS sgst_amt ,"

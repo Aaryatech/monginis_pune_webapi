@@ -45,4 +45,14 @@ public interface TrayMgtDetailBeanRepository extends JpaRepository<TrayMgtDetail
 	@Query(value = "SELECT * FROM t_tray_mgt_detail WHERE fr_id=:frId AND tray_status=:status AND del_status=0"
 			+ " ", nativeQuery = true)
 	List<TrayMgtDetailBean> getDetailBean(@Param("frId") int frId, @Param("status") int status);
+
+	// neha
+
+	@Modifying
+	@Transactional
+	@Query("Update TrayMgtDetailBean  SET balance_big=:balanceBig,balance_small=:balanceSmall,balance_lead=:balanceLead,"
+			+ "tray_status=:trayStatus WHERE tranDetailId =:tranDetailId")
+	int updateTrayAndUpdateForApp(@Param("trayStatus") int trayStatus, @Param("tranDetailId") int tranDetailId,
+			@Param("balanceBig") int balanceBig, @Param("balanceSmall") int balanceSmall,
+			@Param("balanceLead") int balanceLead);
 }

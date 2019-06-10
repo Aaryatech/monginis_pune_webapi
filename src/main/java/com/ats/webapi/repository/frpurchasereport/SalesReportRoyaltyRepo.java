@@ -467,7 +467,7 @@ public interface SalesReportRoyaltyRepo extends JpaRepository<SalesReportRoyalty
 				"				            t_bill_header," + 
 				"				            m_franchisee " + 
 				"				        WHERE" + 
-				"				            t_bill_header.bill_date BETWEEN  :fromDate AND :toDate + \n" + 
+				"				            t_bill_header.bill_date BETWEEN  :fromDate AND :toDate  \n" + 
 				"				            AND t_bill_header.bill_no=t_bill_detail.bill_no " + 
 				"				            AND m_sp_cake.sp_id=t_bill_detail.item_id  " + 
 				"				            AND t_bill_header.fr_id =m_franchisee.fr_id " + 

@@ -483,6 +483,15 @@ public class TrayManagementController {
 		return franchiseInRoute;
 	}
 
+	@RequestMapping(value = { "/getFranchiseInRouteMgmt" }, method = RequestMethod.POST)
+	public @ResponseBody List<FranchiseInRoute> getFranchiseInRouteMgmt(@RequestParam("routeId") int routeId,
+			@RequestParam("tranId") int tranId) {
+
+		List<FranchiseInRoute> franchiseInRoute = trayMgtService.getFranchiseInRouteMgmt(routeId, tranId);
+
+		return franchiseInRoute;
+	}
+
 	// --------------------------------------------------------------------------------------------------------------------------
 	@RequestMapping(value = { "/insertTrayInAndBalance" }, method = RequestMethod.POST)
 	public @ResponseBody Info insertTrayInAndBalance(@RequestParam("tranStatus1") int tranStatus1,
@@ -559,6 +568,33 @@ public class TrayManagementController {
 				info.setError(false);
 				info.setMessage("Records Inserted");
 
+			}
+
+		} catch (Exception e) {
+			info.setError(true);
+			info.setMessage("Records Insertion Failed");
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	// -------neha-------------
+	@RequestMapping(value = { "/updateTrayAndUpdateForApp" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateTrayAndUpdateForApp(@RequestParam("tranDetailId") int tranDetailId,
+			@RequestParam("balanceBig") int balanceBig, @RequestParam("balanceSmall") int balanceSmall,
+			@RequestParam("balanceLead") int balanceLead, @RequestParam("trayStatus") int trayStatus) {
+		Info info = new Info();
+		try {
+
+			int update = trayMgtDetailBeanRepository.updateTrayAndUpdateForApp(trayStatus, tranDetailId, balanceBig,
+					balanceSmall, balanceLead);
+
+			if (update == 0) {
+				info.setError(true);
+				info.setMessage("Not Update");
+			} else {
+				info.setError(false);
+				info.setMessage("Update Successfully");
 			}
 
 		} catch (Exception e) {

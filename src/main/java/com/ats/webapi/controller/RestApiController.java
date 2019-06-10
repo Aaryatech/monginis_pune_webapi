@@ -153,6 +153,7 @@ public class RestApiController {
 		return date;
 
 	}
+
 	@Autowired
 	OrderRepository orderRepository;
 	@Autowired
@@ -160,7 +161,7 @@ public class RestApiController {
 
 	@Autowired
 	ItemDiscConfiguredRepository itemDiscConfiguredRepository;
-	
+
 	@Autowired
 	private MainMenuConfigurationRepository mainMenuConfigurationRepository;
 	@Autowired
@@ -401,7 +402,7 @@ public class RestApiController {
 
 	@Autowired
 	SpecialCakeRepository specialcakeRepository;
-	
+
 	@Autowired
 	RouteMasterRepository routeMasterRepository;
 
@@ -528,6 +529,7 @@ public class RestApiController {
 		return info;
 
 	}
+
 	@RequestMapping(value = { "/postCreditNoteForUpdate" }, method = RequestMethod.POST)
 	public @ResponseBody Info postCreditNoteForUpdate(@RequestBody PostCreditNoteHeaderList postCreditNoteHeader) {
 
@@ -556,13 +558,15 @@ public class RestApiController {
 	GetGrnGvnForCreditNoteService getGrnGvnForCreditNoteService;
 
 	@RequestMapping(value = "/grnGvnDetailForCreditNote", method = RequestMethod.POST)
-	public @ResponseBody GetGrnGvnForCreditNoteList grnGvnDetailForCreditNote(@RequestParam("isGrn") int isGrn,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,@RequestParam("frList") List<Integer> frList) {
+	public @ResponseBody GetGrnGvnForCreditNoteList grnGvnDetailForCreditNote(@RequestParam("isGrn") int isGrn,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate,
+			@RequestParam("frList") List<Integer> frList) {
 		System.out.println("inside rest");
 
 		System.out.println("Rest : is Grn Received /grnGvnDetailForCreditNote " + isGrn);
 
 		GetGrnGvnForCreditNoteList getGrnGvnForCreditNoteList = getGrnGvnForCreditNoteService
-				.getGrnGvnForCreditNote(isGrn,fromDate,toDate,frList);
+				.getGrnGvnForCreditNote(isGrn, fromDate, toDate, frList);
 
 		return getGrnGvnForCreditNoteList;
 
@@ -1109,8 +1113,10 @@ public class RestApiController {
 		return frNameIdByRouteIdList;
 
 	}
+
 	@RequestMapping(value = "/getFranchiseForDispatchByFrIds", method = RequestMethod.POST)
-	public @ResponseBody List<FranchiseForDispatch> getFranchiseForDispatchByFrIds(@RequestParam("frIds") List<String> frIds) {
+	public @ResponseBody List<FranchiseForDispatch> getFranchiseForDispatchByFrIds(
+			@RequestParam("frIds") List<String> frIds) {
 
 		List<FranchiseForDispatch> frNameIdByRouteIdList = franchiseForDispatchRepository
 				.getFranchiseForDispatchByFrIds(frIds);
@@ -1118,6 +1124,7 @@ public class RestApiController {
 		return frNameIdByRouteIdList;
 
 	}
+
 	@RequestMapping(value = "/getBillDetails", method = RequestMethod.POST)
 	public @ResponseBody GetBillDetailsList getBillDetails(@RequestParam("billNo") int billNo) {
 		System.out.println("inside rest");
@@ -1159,8 +1166,7 @@ public class RestApiController {
 
 				info.setError(false);
 				info.setMessage("post bill header inserted  Successfully");
-			}
-			else {
+			} else {
 				info.setError(true);
 				info.setMessage("Error in post bill header insertion : RestApi");
 			}
@@ -1185,13 +1191,13 @@ public class RestApiController {
 		if (jsonBillHeader.size() > 0) {
 			info.setError(false);
 			info.setMessage("post bill header inserted  Successfully");
-		}
-		else {
+		} else {
 			info.setError(true);
 			info.setMessage("Error in post bill header insertion : RestApi");
 		}
 		return info;
 	}
+
 	@RequestMapping(value = { "/insertSellBillData" }, method = RequestMethod.POST)
 	public @ResponseBody SellBillHeader sellBillData(@RequestBody SellBillHeader sellBillHeader)
 			throws ParseException, JsonParseException, JsonMappingException, IOException {
@@ -1510,121 +1516,122 @@ public class RestApiController {
 		jsonResult = orderService.placeOrder(orderJson);
 		return jsonResult;
 	}
+
 	// Place Item Order
-		@RequestMapping(value = { "/placeSplitedOrder" }, method = RequestMethod.POST)
-		public @ResponseBody List<Orders> placeSplitedOrder(@RequestBody List<SplitOrderData> orderJson)
-				throws ParseException, JsonParseException, JsonMappingException, IOException {
+	@RequestMapping(value = { "/placeSplitedOrder" }, method = RequestMethod.POST)
+	public @ResponseBody List<Orders> placeSplitedOrder(@RequestBody List<SplitOrderData> orderJson)
+			throws ParseException, JsonParseException, JsonMappingException, IOException {
 
-			List<Orders> jsonResult;
-			List<Orders> saveList=new ArrayList<>();
-			for(int i=0;i<orderJson.size();i++)
-			{
-				Orders order=orderRepository.findByOrderId(orderJson.get(i).getOrderId());
-				Orders ordersNew=new Orders();
-				ordersNew.setOrderId(0);
-				ordersNew.setDeliveryDate(orderJson.get(i).getDeliveryDate());
-				ordersNew.setOrderQty(orderJson.get(i).getOrderQty());
-				ordersNew.setEditQty(orderJson.get(i).getOrderQty());
-				ordersNew.setProductionDate(orderJson.get(i).getProductionDate());
-				ordersNew.setMenuId(orderJson.get(i).getMenuId());
-				
-				ordersNew.setFrId(order.getFrId());
-				ordersNew.setGrnType(order.getGrnType());
-				ordersNew.setIsBillGenerated(order.getIsBillGenerated());
-				ordersNew.setIsEdit(order.getIsEdit());
-				ordersNew.setIsPositive(order.getIsPositive());
-				ordersNew.setItemId(order.getItemId());
-				ordersNew.setOrderDatetime(order.getOrderDatetime());
-				ordersNew.setOrderMrp(order.getOrderMrp());
-				ordersNew.setOrderRate(order.getOrderRate());
-				ordersNew.setOrderStatus(order.getOrderStatus());
-				ordersNew.setOrderSubType(order.getOrderSubType());
-				ordersNew.setOrderType(order.getOrderType());
-				ordersNew.setRefId(order.getRefId());
-				ordersNew.setUserId(order.getUserId());
-				ordersNew.setOrderDate(order.getOrderDate());
-				saveList.add(ordersNew);
+		List<Orders> jsonResult;
+		List<Orders> saveList = new ArrayList<>();
+		for (int i = 0; i < orderJson.size(); i++) {
+			Orders order = orderRepository.findByOrderId(orderJson.get(i).getOrderId());
+			Orders ordersNew = new Orders();
+			ordersNew.setOrderId(0);
+			ordersNew.setDeliveryDate(orderJson.get(i).getDeliveryDate());
+			ordersNew.setOrderQty(orderJson.get(i).getOrderQty());
+			ordersNew.setEditQty(orderJson.get(i).getOrderQty());
+			ordersNew.setProductionDate(orderJson.get(i).getProductionDate());
+			ordersNew.setMenuId(orderJson.get(i).getMenuId());
+
+			ordersNew.setFrId(order.getFrId());
+			ordersNew.setGrnType(order.getGrnType());
+			ordersNew.setIsBillGenerated(order.getIsBillGenerated());
+			ordersNew.setIsEdit(order.getIsEdit());
+			ordersNew.setIsPositive(order.getIsPositive());
+			ordersNew.setItemId(order.getItemId());
+			ordersNew.setOrderDatetime(order.getOrderDatetime());
+			ordersNew.setOrderMrp(order.getOrderMrp());
+			ordersNew.setOrderRate(order.getOrderRate());
+			ordersNew.setOrderStatus(order.getOrderStatus());
+			ordersNew.setOrderSubType(order.getOrderSubType());
+			ordersNew.setOrderType(order.getOrderType());
+			ordersNew.setRefId(order.getRefId());
+			ordersNew.setUserId(order.getUserId());
+			ordersNew.setOrderDate(order.getOrderDate());
+			saveList.add(ordersNew);
 			OrderLog log = new OrderLog();
 			log.setFrId(order.getFrId());
 			log.setJson(order.toString());
 			logRespository.save(log);
-			}
-			jsonResult = orderService.placeOrder(saveList);
-			return jsonResult;
 		}
-		@RequestMapping(value = { "/updateSplitedOrder" }, method = RequestMethod.POST)
-		public @ResponseBody List<Orders> updateSplitedOrder(@RequestBody LinkedHashMap<Integer, Integer> updateLhm)
-				throws ParseException, JsonParseException, JsonMappingException, IOException {
+		jsonResult = orderService.placeOrder(saveList);
+		return jsonResult;
+	}
 
-			List<Orders> jsonResult;
-			List<Orders> saveList=new ArrayList<>();
-			
-			for (Map.Entry<Integer,Integer> entry : updateLhm.entrySet()) {
+	@RequestMapping(value = { "/updateSplitedOrder" }, method = RequestMethod.POST)
+	public @ResponseBody List<Orders> updateSplitedOrder(@RequestBody LinkedHashMap<Integer, Integer> updateLhm)
+			throws ParseException, JsonParseException, JsonMappingException, IOException {
 
-				Orders order=orderRepository.findByOrderId(entry.getKey());
-				order.setOrderQty(entry.getValue());
-				saveList.add(order);
+		List<Orders> jsonResult;
+		List<Orders> saveList = new ArrayList<>();
+
+		for (Map.Entry<Integer, Integer> entry : updateLhm.entrySet()) {
+
+			Orders order = orderRepository.findByOrderId(entry.getKey());
+			order.setOrderQty(entry.getValue());
+			saveList.add(order);
 			OrderLog log = new OrderLog();
 			log.setFrId(order.getFrId());
 			log.setJson(order.toString());
 			logRespository.save(log);
-			}
-			jsonResult = orderService.placeOrder(saveList);
-			return jsonResult;
 		}
+		jsonResult = orderService.placeOrder(saveList);
+		return jsonResult;
+	}
+
 	// Place Item Manual Order
-		@Autowired
-		GenerateBillRepository generateBillRepository;
-		@RequestMapping(value = { "/placeManualOrderNew" }, method = RequestMethod.POST)
-		public @ResponseBody List<GenerateBill> placeManualOrderNew(@RequestBody List<Orders> orderJson)
-				throws ParseException, JsonParseException, JsonMappingException, IOException {
-			List<GenerateBill> billList=null;
-			List<Orders> jsonResult;
-			OrderLog log = new OrderLog();
-			log.setFrId(orderJson.get(0).getFrId());
-			log.setJson(orderJson.toString());
-			logRespository.save(log);
+	@Autowired
+	GenerateBillRepository generateBillRepository;
 
-			jsonResult = orderService.placeManualOrder(orderJson);
-			ArrayList<Integer> list = new ArrayList<Integer>();
+	@RequestMapping(value = { "/placeManualOrderNew" }, method = RequestMethod.POST)
+	public @ResponseBody List<GenerateBill> placeManualOrderNew(@RequestBody List<Orders> orderJson)
+			throws ParseException, JsonParseException, JsonMappingException, IOException {
+		List<GenerateBill> billList = null;
+		List<Orders> jsonResult;
+		OrderLog log = new OrderLog();
+		log.setFrId(orderJson.get(0).getFrId());
+		log.setJson(orderJson.toString());
+		logRespository.save(log);
 
-			if(!jsonResult.isEmpty())
-			{
-				for(int i=0;i<jsonResult.size();i++)
-				{
-					list.add(jsonResult.get(i).getOrderId());
-				}
-				
-				 billList=generateBillRepository.getBillOfOrder(list);
+		jsonResult = orderService.placeManualOrder(orderJson);
+		ArrayList<Integer> list = new ArrayList<Integer>();
+
+		if (!jsonResult.isEmpty()) {
+			for (int i = 0; i < jsonResult.size(); i++) {
+				list.add(jsonResult.get(i).getOrderId());
 			}
-			
-			return billList;
+
+			billList = generateBillRepository.getBillOfOrder(list);
 		}
-		@RequestMapping(value = { "/placeManualOrder" }, method = RequestMethod.POST)
-		public @ResponseBody List<GenerateBill> placeManualOrder(@RequestBody List<Orders> orderJson)
-				throws ParseException, JsonParseException, JsonMappingException, IOException {
-			List<GenerateBill> billList=null;
-			List<Orders> jsonResult;
-			OrderLog log = new OrderLog();
-			log.setFrId(orderJson.get(0).getFrId());
-			log.setJson(orderJson.toString());
-			logRespository.save(log);
 
-			jsonResult = orderService.placeOrder(orderJson);
-			ArrayList<Integer> list = new ArrayList<Integer>();
+		return billList;
+	}
 
-			if(!jsonResult.isEmpty())
-			{
-				for(int i=0;i<jsonResult.size();i++)
-				{
-					list.add(jsonResult.get(i).getOrderId());
-				}
-				
-				 billList=generateBillRepository.getBillOfOrder(list);
+	@RequestMapping(value = { "/placeManualOrder" }, method = RequestMethod.POST)
+	public @ResponseBody List<GenerateBill> placeManualOrder(@RequestBody List<Orders> orderJson)
+			throws ParseException, JsonParseException, JsonMappingException, IOException {
+		List<GenerateBill> billList = null;
+		List<Orders> jsonResult;
+		OrderLog log = new OrderLog();
+		log.setFrId(orderJson.get(0).getFrId());
+		log.setJson(orderJson.toString());
+		logRespository.save(log);
+
+		jsonResult = orderService.placeOrder(orderJson);
+		ArrayList<Integer> list = new ArrayList<Integer>();
+
+		if (!jsonResult.isEmpty()) {
+			for (int i = 0; i < jsonResult.size(); i++) {
+				list.add(jsonResult.get(i).getOrderId());
 			}
-			
-			return billList;
+
+			billList = generateBillRepository.getBillOfOrder(list);
 		}
+
+		return billList;
+	}
+
 	// Place SpCake Order
 	@RequestMapping(value = { "/placeSpCakeOrder" }, method = RequestMethod.POST)
 
@@ -1673,15 +1680,16 @@ public class RestApiController {
 		return searchSpCakeResponse;
 
 	}
+
 	// Search Special Cake By SpecialCake SpId
-		@RequestMapping(value = { "/searchSpecialCakeBySpId" }, method = RequestMethod.POST)
-		public @ResponseBody SearchSpCakeResponse searchSpecialCakeBySpId(@RequestParam int spId) {
+	@RequestMapping(value = { "/searchSpecialCakeBySpId" }, method = RequestMethod.POST)
+	public @ResponseBody SearchSpCakeResponse searchSpecialCakeBySpId(@RequestParam int spId) {
 
-			SearchSpCakeResponse searchSpCakeResponse = specialcakeService.searchSpecialCakeBySpId(spId);
+		SearchSpCakeResponse searchSpCakeResponse = specialcakeService.searchSpecialCakeBySpId(spId);
 
-			return searchSpCakeResponse;
+		return searchSpCakeResponse;
 
-		}
+	}
 
 	// Search Special Cake Configured spCode of Franchisee
 	@RequestMapping("/searchSpCodes")
@@ -1696,9 +1704,10 @@ public class RestApiController {
 
 	// Search Special Cake Order History
 	@RequestMapping("/SpCakeOrderHistory")
-	public @ResponseBody SpCkOrderHisList searchSpCakeOrderHistory(@RequestParam List<String> catId,@RequestParam String spDeliveryDt, String frCode) {
+	public @ResponseBody SpCkOrderHisList searchSpCakeOrderHistory(@RequestParam List<String> catId,
+			@RequestParam String spDeliveryDt, String frCode) {
 
-		SpCkOrderHisList spCakeOrderList = spCakeOrdersService.searchOrderHistory(catId,spDeliveryDt, frCode);
+		SpCkOrderHisList spCakeOrderList = spCakeOrdersService.searchOrderHistory(catId, spDeliveryDt, frCode);
 		return spCakeOrderList;
 
 	}
@@ -1743,8 +1752,8 @@ public class RestApiController {
 
 	// Search Special Cake Order History
 	@RequestMapping("/orderHistory")
-	public @ResponseBody ItemOrderList searchOrderHistory(@RequestParam List<String> catId, @RequestParam String deliveryDt,
-			@RequestParam int frId) throws ParseException {
+	public @ResponseBody ItemOrderList searchOrderHistory(@RequestParam List<String> catId,
+			@RequestParam String deliveryDt, @RequestParam int frId) throws ParseException {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date date = sdf.parse(deliveryDt);
@@ -2059,7 +2068,8 @@ public class RestApiController {
 	// Save Route
 	@RequestMapping(value = { "/insertRoute" }, method = RequestMethod.POST)
 	@ResponseBody
-	public String insertRoute(@RequestParam("routeName") String routeName,@RequestParam("acbType") int acbType,@RequestParam("seqNo") int seqNo) {
+	public String insertRoute(@RequestParam("routeName") String routeName, @RequestParam("acbType") int acbType,
+			@RequestParam("seqNo") int seqNo) {
 		String jsonResult = "";
 
 		System.out.println("input route " + routeName.toString());
@@ -2073,13 +2083,12 @@ public class RestApiController {
 
 		return jsonResult;
 	}
-	
-	//Akshay
+
+	// Akshay
 	@RequestMapping(value = { "/saveRoute" }, method = RequestMethod.POST)
 	@ResponseBody
 	public RouteMaster saveRoute(@RequestBody RouteMaster routeMaster) {
-		 
- 
+
 		RouteMaster jsonResult = routeMasterRepository.save(routeMaster);
 
 		return jsonResult;
@@ -2186,7 +2195,7 @@ public class RestApiController {
 			@RequestParam("mrpRate1") float mrpRate1, @RequestParam("mrpRate2") float mrpRate2,
 			@RequestParam("mrpRate3") float mrpRate3, @RequestParam("spRate1") float spRate1,
 			@RequestParam("spRate2") float spRate2, @RequestParam("spRate3") float spRate3,
-			@RequestParam("isSlotUsed") int isSlotUsed,@RequestParam("noOfChars") int noOfChars) {
+			@RequestParam("isSlotUsed") int isSlotUsed, @RequestParam("noOfChars") int noOfChars) {
 
 		SpecialCake specialCakeRes = null;
 		try {
@@ -2273,7 +2282,7 @@ public class RestApiController {
 			message.setIsActive(isActive);
 			message.setDelStatus(0);
 
-		try {
+			try {
 				jsonResult = messageService.save(message);
 			} catch (Exception e) {
 			}
@@ -2383,16 +2392,48 @@ public class RestApiController {
 
 		return routeList;
 	}
-	
-	// Show Route List
-		@RequestMapping(value = { "/showRouteListNew" }, method = RequestMethod.GET)
-		@ResponseBody
-		public List<RouteMaster> showRouteListNew() {
 
-			List<RouteMaster> routeList=routeMasterRepository.findByDelStatusOrderByRouteNameAsc(0);
- 
-			return routeList;
-		}
+	@RequestMapping(value = { "/showRouteMgmtList" }, method = RequestMethod.GET)
+	@ResponseBody
+	public RouteList showRouteMgmtList() {
+
+		List<Route> jsonRouteList = routeService.showAllRouteMgmt();
+
+		RouteList routeList = new RouteList();
+		routeList.setRoute(jsonRouteList);
+		Info info = new Info();
+		info.setError(false);
+		info.setMessage("Route displayed Successfully ");
+		routeList.setInfo(info);
+
+		return routeList;
+	}
+
+	@RequestMapping(value = { "/showRouteMgmtListByDelivery" }, method = RequestMethod.POST)
+	@ResponseBody
+	public RouteList showRouteMgmtListByDelivery(@RequestParam("isSameDay") int isSameDay) {
+
+		List<Route> jsonRouteList = routeService.showAllRouteMgmtByIsSameDay(isSameDay);
+
+		RouteList routeList = new RouteList();
+		routeList.setRoute(jsonRouteList);
+		Info info = new Info();
+		info.setError(false);
+		info.setMessage("Route displayed Successfully ");
+		routeList.setInfo(info);
+
+		return routeList;
+	}
+
+	// Show Route List
+	@RequestMapping(value = { "/showRouteListNew" }, method = RequestMethod.GET)
+	@ResponseBody
+	public List<RouteMaster> showRouteListNew() {
+
+		List<RouteMaster> routeList = routeMasterRepository.findByDelStatusOrderByRouteNameAsc(0);
+
+		return routeList;
+	}
 
 	// show Special Cake
 	@RequestMapping(value = { "/showSpecialCakeList" }, method = RequestMethod.GET)
@@ -2408,6 +2449,7 @@ public class RestApiController {
 		return specialCakeList;
 
 	}
+
 	@RequestMapping(value = { "/showSpecialCakeListOrderBySpCode" }, method = RequestMethod.GET)
 	@ResponseBody
 	public SpecialCakeList showSpecialCakeListOrderBySpCode() {
@@ -2421,6 +2463,7 @@ public class RestApiController {
 		return specialCakeList;
 
 	}
+
 	// Show Message List
 	@RequestMapping(value = { "/showMessageList" }, method = RequestMethod.GET)
 	@ResponseBody
@@ -2867,16 +2910,16 @@ public class RestApiController {
 		return subCategoryList;
 
 	}
-	
+
 	@RequestMapping(value = "/getSubCatListByCatIdInForDisp", method = RequestMethod.POST)
-	public @ResponseBody List<SubCategory> getSubCatListByCatIdInForDisp(@RequestParam("catId") List<String> catId,@RequestParam("isAllCatSelected")boolean isAllCatSelected) {
-		List<SubCategory> subCategoryList=null;
-		if(isAllCatSelected==false) {
-		 subCategoryList = subCategoryService.getSubCatListByCatIdInForDisp(catId);
-		}else
-		{
+	public @ResponseBody List<SubCategory> getSubCatListByCatIdInForDisp(@RequestParam("catId") List<String> catId,
+			@RequestParam("isAllCatSelected") boolean isAllCatSelected) {
+		List<SubCategory> subCategoryList = null;
+		if (isAllCatSelected == false) {
+			subCategoryList = subCategoryService.getSubCatListByCatIdInForDisp(catId);
+		} else {
 			SubCatergoryList subCategoryListRes = subCategoryService.findAllSubCategories();
-			subCategoryList=subCategoryListRes.getSubCategory();
+			subCategoryList = subCategoryListRes.getSubCategory();
 		}
 		return subCategoryList;
 
@@ -2899,18 +2942,20 @@ public class RestApiController {
 		return items;
 
 	}
+
 	@RequestMapping(value = "/getDiscById", method = RequestMethod.POST)
-	public @ResponseBody float findByIdAndFrId(@RequestParam int id,@RequestParam int frId) {
-		float  discPer=0.0f;
+	public @ResponseBody float findByIdAndFrId(@RequestParam int id, @RequestParam int frId) {
+		float discPer = 0.0f;
 		try {
-		discPer=itemDiscConfiguredRepository.findByIdAndFrId(id,frId);
-		}
-		catch (Exception e) {
+			discPer = itemDiscConfiguredRepository.findByIdAndFrId(id, frId);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return discPer;
 	}
-	// Get Items By Category order by sub cat and sort id(Webservice for Push dump item get and in image(Disc %) taken))
+
+	// Get Items By Category order by sub cat and sort id(Webservice for Push dump
+	// item get and in image(Disc %) taken))
 	@RequestMapping(value = "/getItemsByCatIdAndSortId", method = RequestMethod.POST)
 	public @ResponseBody List<Item> getItemsByCatIdAndSortId(@RequestParam String itemGrp1) {
 
@@ -3014,6 +3059,7 @@ public class RestApiController {
 		return itemResponse;
 
 	}
+
 	@RequestMapping(value = "/getItemsNameById", method = RequestMethod.POST)
 	public @ResponseBody ItemResponse getItemsNameById(@RequestParam List<Integer> itemList) {
 
@@ -3096,8 +3142,7 @@ public class RestApiController {
 
 	// 3
 
-
-@RequestMapping(value = "/getFrItems", method = RequestMethod.POST)
+	@RequestMapping(value = "/getFrItems", method = RequestMethod.POST)
 	public @ResponseBody List<GetFrItems> getFrItems(@RequestParam List<Integer> items, @RequestParam String frId,
 			@RequestParam String date, @RequestParam String menuId) {
 
@@ -3115,9 +3160,7 @@ public class RestApiController {
 			try {
 				orderList = prevItemOrderService.findFrItemOrders(items, frId, date, menuId);
 
-				
 				for (int i = 0; i < itemList.size(); i++) {
-					
 
 					ItemWithSubCat item = itemList.get(i);
 
@@ -3156,11 +3199,11 @@ public class RestApiController {
 						}
 
 					}
-					float  discPer=0.0f;
-					try {//new change of discPer
-						discPer=itemDiscConfiguredRepository.findByIdAndFrId(item.getId(),Integer.parseInt(frId));
+					float discPer = 0.0f;
+					try {// new change of discPer
+						discPer = itemDiscConfiguredRepository.findByIdAndFrId(item.getId(), Integer.parseInt(frId));
 						getFrItems.setDiscPer(discPer);
-					}catch (Exception e) {
+					} catch (Exception e) {
 						// TODO: handle exception
 					}
 					frItemList.add(getFrItems);
@@ -3244,21 +3287,24 @@ public class RestApiController {
 		franchiseeAndMenu.setAllFranchisee(allFranchisee);
 		return franchiseeAndMenu;
 	}
+
 	@RequestMapping(value = { "/getNonConfMenus" }, method = RequestMethod.GET)
 	public @ResponseBody List<AllMenus> getNonConfMenus() {
 
 		List<AllMenus> allMenu = mainMenuConfigurationRepository.getAllNonConfMenus();
-		
+
 		return allMenu;
 	}
+
 	@RequestMapping(value = { "/getAllMenuList" }, method = RequestMethod.GET)
 	public @ResponseBody List<AllMenus> getAllMenuList() {
 
-		List<AllMenus> menus=new ArrayList<AllMenus>();
-		 menus=mainMenuConfigurationRepository.findByDelStatusOrderByMenuTitleAsc(0);
-		
+		List<AllMenus> menus = new ArrayList<AllMenus>();
+		menus = mainMenuConfigurationRepository.findByDelStatusOrderByMenuTitleAsc(0);
+
 		return menus;
 	}
+
 	// Get Item
 	@RequestMapping(value = { "/getItem" }, method = RequestMethod.POST)
 	public @ResponseBody Item findItem(@RequestParam("id") int id) {
@@ -3280,13 +3326,13 @@ public class RestApiController {
 		Route route = routeService.findRoute(routeId);
 		return route;
 	}
-	
+
 	// Get Route
-		@RequestMapping(value = { "/getRouteNew" }, method = RequestMethod.GET)
-		public @ResponseBody RouteMaster getRouteNew(@RequestParam("routeId") int routeId) {
-			RouteMaster route = routeMasterRepository.findByRouteId(routeId);
-			return route;
-		}
+	@RequestMapping(value = { "/getRouteNew" }, method = RequestMethod.GET)
+	public @ResponseBody RouteMaster getRouteNew(@RequestParam("routeId") int routeId) {
+		RouteMaster route = routeMasterRepository.findByRouteId(routeId);
+		return route;
+	}
 
 	// Get Message
 	@RequestMapping(value = { "/getMessage" }, method = RequestMethod.GET)
@@ -3524,7 +3570,8 @@ public class RestApiController {
 			@RequestParam("mrpRate1") float mrpRate1, @RequestParam("mrpRate2") float mrpRate2,
 			@RequestParam("mrpRate3") float mrpRate3, @RequestParam("spRate1") float spRate1,
 			@RequestParam("spRate2") float spRate2, @RequestParam("spRate3") float spRate3,
-			@RequestParam("isUsed") int isUsed, @RequestParam("isSlotUsed") int isSlotUsed,@RequestParam("noOfChars") int noOfChars) {
+			@RequestParam("isUsed") int isUsed, @RequestParam("isSlotUsed") int isSlotUsed,
+			@RequestParam("noOfChars") int noOfChars) {
 
 		SpecialCake specialCake = specialcakeService.findSpecialCake(id);
 		Info info = new Info();
@@ -3561,7 +3608,7 @@ public class RestApiController {
 			specialCake.setSpRate2(spRate2);
 			specialCake.setSpRate3(spRate3);
 			specialCake.setIsSlotUsed(isSlotUsed);
-			specialCake.setNoOfChars(noOfChars);//new
+			specialCake.setNoOfChars(noOfChars);// new
 
 			System.out.println("*********Special Cake:***************" + specialCake.getIsSlotUsed());
 
@@ -3839,15 +3886,15 @@ public class RestApiController {
 		return orderList;
 
 	}
-	
+
 	@RequestMapping(value = { "/getOrderListByItem" }, method = RequestMethod.POST)
 	@ResponseBody
 	public GetOrderList getOrderListByItem(@RequestParam List<String> frId, @RequestParam List<String> menuId,
-			@RequestParam String date,@RequestParam List<Integer> itemId) {
+			@RequestParam String date, @RequestParam List<Integer> itemId) {
 		GetOrderList orderList = new GetOrderList();
 		try {
 			String strDate = Common.convertToYMD(date);
-			List<GetOrder> jsonOrderList = getOrderService.findOrderByItemId(frId, menuId, strDate,itemId);
+			List<GetOrder> jsonOrderList = getOrderService.findOrderByItemId(frId, menuId, strDate, itemId);
 
 			orderList.setGetOrder(jsonOrderList);
 			Info info = new Info();
@@ -3862,7 +3909,7 @@ public class RestApiController {
 		return orderList;
 
 	}
-	
+
 	@RequestMapping(value = { "/getOrdersListRes" }, method = RequestMethod.POST)
 	@ResponseBody
 	public List<GetOrder> getOrdersList(@RequestParam List<String> frId, @RequestParam List<String> menuId,
@@ -3910,16 +3957,18 @@ public class RestApiController {
 		return orderList;
 
 	}
+
 	@RequestMapping(value = { "/getOrderListForAllFrAndItem" }, method = RequestMethod.POST)
 	@ResponseBody
-	public GetOrderList getOrderListForAllFrAndItem(@RequestParam List<String> menuId, @RequestParam String date,@RequestParam List<Integer> itemId) {
+	public GetOrderList getOrderListForAllFrAndItem(@RequestParam List<String> menuId, @RequestParam String date,
+			@RequestParam List<Integer> itemId) {
 		GetOrderList orderList = new GetOrderList();
 		try {
 
 			String strDate = Common.convertToYMD(date);
 			System.out.println("Converted date " + strDate);
 
-			List<GetOrder> jsonOrderList = getOrderService.findOrderAllFrAndItem(menuId, strDate,itemId);
+			List<GetOrder> jsonOrderList = getOrderService.findOrderAllFrAndItem(menuId, strDate, itemId);
 
 			orderList.setGetOrder(jsonOrderList);
 			Info info = new Info();
@@ -3938,14 +3987,15 @@ public class RestApiController {
 
 	@RequestMapping(value = { "/getSpCakeOrderLists" }, method = RequestMethod.POST)
 	@ResponseBody
-	public SpCakeOrdersBeanList SpCakeOrderLists(@RequestParam List<Integer> spMenuId,@RequestParam List<Integer> frId, @RequestParam String prodDate) {
+	public SpCakeOrdersBeanList SpCakeOrderLists(@RequestParam List<Integer> spMenuId, @RequestParam List<Integer> frId,
+			@RequestParam String prodDate) {
 		SpCakeOrdersBeanList spCakeOrderList = new SpCakeOrdersBeanList();
 		try {
 
 			String strDate = Common.convertToYMD(prodDate);
 			System.out.println("Converted date " + strDate);
 
-			List<SpCakeOrdersBean> jsonSpCakeOrderList = spCkOrdersService.findSpCakeOrder(spMenuId,frId, strDate);
+			List<SpCakeOrdersBean> jsonSpCakeOrderList = spCkOrdersService.findSpCakeOrder(spMenuId, frId, strDate);
 
 			spCakeOrderList.setSpCakeOrdersBean(jsonSpCakeOrderList);
 			Info info = new Info();
@@ -3965,14 +4015,15 @@ public class RestApiController {
 
 	@RequestMapping(value = { "/getAllFrSpCakeOrderList" }, method = RequestMethod.POST)
 	@ResponseBody
-	public SpCakeOrdersBeanList getAllFrSpCakeOrderList(@RequestParam List<Integer> spMenuId,@RequestParam String prodDate) {
+	public SpCakeOrdersBeanList getAllFrSpCakeOrderList(@RequestParam List<Integer> spMenuId,
+			@RequestParam String prodDate) {
 		SpCakeOrdersBeanList spCakeOrderList = new SpCakeOrdersBeanList();
 		try {
 
 			String strDate = Common.convertToYMD(prodDate);
 			System.out.println("Converted date " + strDate);
 
-			List<SpCakeOrdersBean> jsonSpCakeOrderList = spCkOrdersService.findSpCakeOrderAllFr(spMenuId,strDate);
+			List<SpCakeOrdersBean> jsonSpCakeOrderList = spCkOrdersService.findSpCakeOrderAllFr(spMenuId, strDate);
 
 			spCakeOrderList.setSpCakeOrdersBean(jsonSpCakeOrderList);
 			Info info = new Info();
@@ -4107,7 +4158,6 @@ public class RestApiController {
 	@ResponseBody
 	public MessageList showFrontEndMessage() {
 
-	
 		java.sql.Date date1 = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 		System.out.println("date " + date1);
 
@@ -4140,7 +4190,7 @@ public class RestApiController {
 		return beanList;
 	}
 
-    //3-01-19
+	// 3-01-19
 	@RequestMapping(value = { "/findConfiguredMenuFrList" }, method = RequestMethod.GET)
 	public @ResponseBody ConfigureFrBeanList findConfiguredMenuFrList() {
 		ConfigureFrBeanList beanList = new ConfigureFrBeanList();
@@ -4161,6 +4211,7 @@ public class RestApiController {
 		ConfigureFranchisee configureFranchisee = connfigureService.findFranchiseeById(settingId);
 		return configureFranchisee;
 	}
+
 	@Autowired
 	PostFrOpStockDetailRepository postFrOpStockDetailRepository;
 
@@ -4196,40 +4247,50 @@ public class RestApiController {
 			String jsonResult = connfigureService.configureFranchisee(configureFranchisee);
 
 			try {
-            //-------------------------------------------------------------------------------------
-			AllFrIdNameList allFrIdNamesList = allFrIdNameService.getFrIdAndName();
-   
-			for(int i=0;i<allFrIdNamesList.getFrIdNamesList().size();i++) {
-				
-			List<PostFrItemStockHeader> prevStockHeader=postFrOpStockHeaderRepository.findByFrIdAndIsMonthClosedAndCatId(allFrIdNamesList.getFrIdNamesList().get(i).getFrId(),0,configureFranchisee.getCatId());
-			//--------------------------------------------------------------------------------------------
-			List<PostFrItemStockDetail> postFrItemStockDetailList = new ArrayList<PostFrItemStockDetail>();
-			List<Integer> ids = Stream.of(configureFranchisee.getItemShow().split(","))
-	                .map(Integer::parseInt)
-	                .collect(Collectors.toList());
-			  System.err.println("16 ids --"+ids.toString());
-			List<Item> itemsList = itemService.findAllItemsByItemId(ids);
-			  System.err.println("17 itemsList --"+itemsList.toString());
-			for (int k = 0; k < itemsList.size(); k++) {
+				// -------------------------------------------------------------------------------------
+				AllFrIdNameList allFrIdNamesList = allFrIdNameService.getFrIdAndName();
 
-				PostFrItemStockDetail	prevFrItemStockDetail=postFrOpStockDetailRepository.findByItemIdAndOpeningStockHeaderId(itemsList.get(k).getId(),prevStockHeader.get(0).getOpeningStockHeaderId());
-				  System.err.println("18 prevFrItemStockDetail --"+prevFrItemStockDetail);
-				if(prevFrItemStockDetail==null) {
-				    PostFrItemStockDetail	postFrItemStockDetail = new PostFrItemStockDetail();
-					postFrItemStockDetail.setOpeningStockHeaderId(prevStockHeader.get(0).getOpeningStockHeaderId());//first stock header (month closed 0 status))
-					postFrItemStockDetail.setOpeningStockDetailId(0);
-					postFrItemStockDetail.setRegOpeningStock(0);
-				    postFrItemStockDetail.setItemId(itemsList.get(k).getId());
-				    postFrItemStockDetail.setRemark("");
-				    postFrItemStockDetailList.add(postFrItemStockDetail);
-				    System.err.println("19 postFrItemStockDetail --"+postFrItemStockDetail.toString());
-				 }
-			}
-		    postFrOpStockDetailRepository.save(postFrItemStockDetailList);
-		    System.err.println("20 postFrItemStockDetailList --"+postFrItemStockDetailList.toString());
-		    //---------------------------------------------------------------------------------------
-			}
-			}catch (Exception e) {
+				for (int i = 0; i < allFrIdNamesList.getFrIdNamesList().size(); i++) {
+
+					List<PostFrItemStockHeader> prevStockHeader = postFrOpStockHeaderRepository
+							.findByFrIdAndIsMonthClosedAndCatId(allFrIdNamesList.getFrIdNamesList().get(i).getFrId(), 0,
+									configureFranchisee.getCatId());
+					// --------------------------------------------------------------------------------------------
+					List<PostFrItemStockDetail> postFrItemStockDetailList = new ArrayList<PostFrItemStockDetail>();
+					List<Integer> ids = Stream.of(configureFranchisee.getItemShow().split(",")).map(Integer::parseInt)
+							.collect(Collectors.toList());
+					System.err.println("16 ids --" + ids.toString());
+					List<Item> itemsList = itemService.findAllItemsByItemId(ids);
+					System.err.println("17 itemsList --" + itemsList.toString());
+					for (int k = 0; k < itemsList.size(); k++) {
+
+						PostFrItemStockDetail prevFrItemStockDetail = postFrOpStockDetailRepository
+								.findByItemIdAndOpeningStockHeaderId(itemsList.get(k).getId(),
+										prevStockHeader.get(0).getOpeningStockHeaderId());
+						System.err.println("18 prevFrItemStockDetail --" + prevFrItemStockDetail);
+						if (prevFrItemStockDetail == null) {
+							PostFrItemStockDetail postFrItemStockDetail = new PostFrItemStockDetail();
+							postFrItemStockDetail
+									.setOpeningStockHeaderId(prevStockHeader.get(0).getOpeningStockHeaderId());// first
+																												// stock
+																												// header
+																												// (month
+																												// closed
+																												// 0
+																												// status))
+							postFrItemStockDetail.setOpeningStockDetailId(0);
+							postFrItemStockDetail.setRegOpeningStock(0);
+							postFrItemStockDetail.setItemId(itemsList.get(k).getId());
+							postFrItemStockDetail.setRemark("");
+							postFrItemStockDetailList.add(postFrItemStockDetail);
+							System.err.println("19 postFrItemStockDetail --" + postFrItemStockDetail.toString());
+						}
+					}
+					postFrOpStockDetailRepository.save(postFrItemStockDetailList);
+					System.err.println("20 postFrItemStockDetailList --" + postFrItemStockDetailList.toString());
+					// ---------------------------------------------------------------------------------------
+				}
+			} catch (Exception e) {
 				// TODO: handle exception
 			}
 			if (jsonResult == null) {
@@ -4529,160 +4590,161 @@ public class RestApiController {
 		System.out.println("Res  :" + regSpCakeOrder.toString());
 		return regSpCakeOrder;
 	}
-	
-	//web service anmol android 21-02-19
+
+	// web service anmol android 21-02-19
 	@RequestMapping(value = { "/getLogin" }, method = RequestMethod.POST)
 	@ResponseBody
 	public GetLogin getLogin(@RequestParam("fr_code") String fr_code, @RequestParam("fr_password") String fr_password) {
 
 		FrLoginResponse frLogRes = franchiseeService.getLogin(fr_code, fr_password);
-		
+
 		List<Event> eventsList = eventService.findAllEvent();
-		
-		GetLogin loginRes=new GetLogin();
-		
-		if(frLogRes.getLoginInfo().isError()==false) {
-			
-			System.err.println("LOgin Success" );
-			
+
+		GetLogin loginRes = new GetLogin();
+
+		if (frLogRes.getLoginInfo().isError() == false) {
+
+			System.err.println("LOgin Success");
+
 			loginRes.setStatus("success");
-			
-			Admin admin=new Admin();
-			
+
+			Admin admin = new Admin();
+
 			admin.setError(false);
-			admin.setFr_id(""+frLogRes.getFranchisee().getFrId());
+			admin.setFr_id("" + frLogRes.getFranchisee().getFrId());
 			admin.setFr_name(frLogRes.getFranchisee().getFrName());
 			admin.setFr_email(frLogRes.getFranchisee().getFrEmail());
 			admin.setFr_image(frLogRes.getFranchisee().getFrImage());
-			admin.setType(""+frLogRes.getFranchisee().getFrRateCat());
-			
+			admin.setType("" + frLogRes.getFranchisee().getFrRateCat());
+
 			loginRes.setAdmin(admin);
-			
-		}
-		else {
-			
+
+		} else {
+
 			loginRes.setStatus("failed");
 		}
 		List<Flavor> flavor = new ArrayList<Flavor>();
-		
-		for(Event event:eventsList) {
-			
-			Flavor flvr=new Flavor();
-			
-			flvr.setDel_status(""+event.getDelStatus());
-			flvr.setSpe_id(""+event.getSpeId());
+
+		for (Event event : eventsList) {
+
+			Flavor flvr = new Flavor();
+
+			flvr.setDel_status("" + event.getDelStatus());
+			flvr.setSpe_id("" + event.getSpeId());
 			flvr.setSpe_name(event.getSpeName());
-			
+
 			flavor.add(flvr);
 		}
 		loginRes.setFlavor(flavor);
-		
+
 		System.out.println("frLogRes" + frLogRes);
-		
+
 		return loginRes;
 
 	}
+
 	// php web service anmol 21-02-19
-		@RequestMapping(value = { "/getAllSpCakes" }, method = RequestMethod.GET)
-		@ResponseBody
-		public SpecialCakeBeanList getAllSpCakes() {
-			SpecialCakeBeanList spBeanList = new SpecialCakeBeanList();
+	@RequestMapping(value = { "/getAllSpCakes" }, method = RequestMethod.GET)
+	@ResponseBody
+	public SpecialCakeBeanList getAllSpCakes() {
+		SpecialCakeBeanList spBeanList = new SpecialCakeBeanList();
 
-			try {
+		try {
 
-				List<SpecialCake> jsonSpecialCakeList = specialcakeService.showAllSpecialCake();
-				System.err.println("Sp cake Size " + jsonSpecialCakeList.size());
+			List<SpecialCake> jsonSpecialCakeList = specialcakeService.showAllSpecialCake();
+			System.err.println("Sp cake Size " + jsonSpecialCakeList.size());
 
-				List<Event> eventsList = eventService.findAllEvent();
-				List<SpecialCakeBean> spList = new ArrayList<SpecialCakeBean>();
-				
-				if (jsonSpecialCakeList.isEmpty() == false) {
-					 
-					  spBeanList.setStatus("success");
-					  
-					 }
-				
-					List<Integer> eIds;
-					for (SpecialCake spCake : jsonSpecialCakeList) {
+			List<Event> eventsList = eventService.findAllEvent();
+			List<SpecialCakeBean> spList = new ArrayList<SpecialCakeBean>();
 
-						SpecialCakeBean bean = new SpecialCakeBean();
+			if (jsonSpecialCakeList.isEmpty() == false) {
 
-						bean.setDel_status(""+spCake.getDelStatus());
-						bean.setErp_link_code(""+spCake.getErpLinkcode());
-						bean.setIs_used(""+spCake.getIsUsed());
-						bean.setSp_book_b4(""+spCake.getSpBookb4());
-						bean.setSp_code(""+spCake.getSpCode());
-						bean.setSp_id(""+spCake.getSpId());
-						bean.setSp_image(""+spCake.getSpImage());
-						bean.setSp_max_wt(""+spCake.getSpMaxwt());
-						bean.setSp_min_wt(""+spCake.getSpMinwt());
-						bean.setSp_name(""+spCake.getSpName());
-						bean.setSp_pho_upload(""+spCake.getSpPhoupload());
-						bean.setSp_tax1(""+spCake.getSpTax1());
-						bean.setSp_tax2(""+spCake.getSpTax2());
-						bean.setSp_tax3(""+spCake.getSpTax3());
-						bean.setSp_type(""+spCake.getSpType());
-						bean.setSpr_add_on_rate(""+spCake.getMrpRate3());
-						bean.setSpr_id(""+spCake.getSprId());
-						bean.setSpr_name(""+spCake.getMrpRate1());
-						bean.setSpr_rate(""+spCake.getMrpRate2());
+				spBeanList.setStatus("success");
 
-						eIds = new ArrayList<Integer>();
-
-					String events=spCake.getSpeIdlist();
-
-						// Remove whitespace and split by comma
-						List<String> result = Arrays.asList(events.split("\\s*,\\s*"));
-						//System.err.println("Sp Name " + spCake.getSpName());
-						//System.err.println("EVENT ARRAYList " + result.toString());
-
-						String eventNameList = "";
-						for (int j = 0; j < result.size(); j++) {
-
-							String strEventId = result.get(j);
-							int eventId = Integer.parseInt(strEventId);
-
-							for (Event event : eventsList) {
-
-								if (event.getSpeId() == eventId) {
-
-									eventNameList = eventNameList + event.getSpeName() + ",";
-								}
-							}
-
-						}
-						bean.setSpe_id_list(eventNameList);
-						spList.add(bean);
-
-					
-				}
-				spBeanList.setSp_cake(spList);
-
-			} catch (Exception e) {
-				
-				System.err.println("Exception in getting sp cake List for Php web service @Rest /getAllSpCakes"+e.getMessage());
-				e.printStackTrace();
-				
 			}
-			return spBeanList;
+
+			List<Integer> eIds;
+			for (SpecialCake spCake : jsonSpecialCakeList) {
+
+				SpecialCakeBean bean = new SpecialCakeBean();
+
+				bean.setDel_status("" + spCake.getDelStatus());
+				bean.setErp_link_code("" + spCake.getErpLinkcode());
+				bean.setIs_used("" + spCake.getIsUsed());
+				bean.setSp_book_b4("" + spCake.getSpBookb4());
+				bean.setSp_code("" + spCake.getSpCode());
+				bean.setSp_id("" + spCake.getSpId());
+				bean.setSp_image("" + spCake.getSpImage());
+				bean.setSp_max_wt("" + spCake.getSpMaxwt());
+				bean.setSp_min_wt("" + spCake.getSpMinwt());
+				bean.setSp_name("" + spCake.getSpName());
+				bean.setSp_pho_upload("" + spCake.getSpPhoupload());
+				bean.setSp_tax1("" + spCake.getSpTax1());
+				bean.setSp_tax2("" + spCake.getSpTax2());
+				bean.setSp_tax3("" + spCake.getSpTax3());
+				bean.setSp_type("" + spCake.getSpType());
+				bean.setSpr_add_on_rate("" + spCake.getMrpRate3());
+				bean.setSpr_id("" + spCake.getSprId());
+				bean.setSpr_name("" + spCake.getMrpRate1());
+				bean.setSpr_rate("" + spCake.getMrpRate2());
+
+				eIds = new ArrayList<Integer>();
+
+				String events = spCake.getSpeIdlist();
+
+				// Remove whitespace and split by comma
+				List<String> result = Arrays.asList(events.split("\\s*,\\s*"));
+				// System.err.println("Sp Name " + spCake.getSpName());
+				// System.err.println("EVENT ARRAYList " + result.toString());
+
+				String eventNameList = "";
+				for (int j = 0; j < result.size(); j++) {
+
+					String strEventId = result.get(j);
+					int eventId = Integer.parseInt(strEventId);
+
+					for (Event event : eventsList) {
+
+						if (event.getSpeId() == eventId) {
+
+							eventNameList = eventNameList + event.getSpeName() + ",";
+						}
+					}
+
+				}
+				bean.setSpe_id_list(eventNameList);
+				spList.add(bean);
+
+			}
+			spBeanList.setSp_cake(spList);
+
+		} catch (Exception e) {
+
+			System.err.println(
+					"Exception in getting sp cake List for Php web service @Rest /getAllSpCakes" + e.getMessage());
+			e.printStackTrace();
 
 		}
-		// Get Items By Item->FR Id and Delete Status 0
-				@RequestMapping(value = "/getOtherItemsForFr", method = RequestMethod.POST)
-				public @ResponseBody ItemResponse getOtherItemsForFr(@RequestParam int frId,@RequestParam int catId) {
+		return spBeanList;
 
-					ItemResponse itemResponse = new ItemResponse();
-					ErrorMessage errorMessage = new ErrorMessage();
-					List<Item> items = itemService.getOtherItemsForFr(frId, catId);
-					if (items != null) {
-						itemResponse.setItemList(items);
-						errorMessage.setError(false);
-						errorMessage.setMessage("Success");
-					} else {
-						errorMessage.setError(true);
-						errorMessage.setMessage("No Items Found");
-					}
-					return itemResponse;
+	}
 
-				}
+	// Get Items By Item->FR Id and Delete Status 0
+	@RequestMapping(value = "/getOtherItemsForFr", method = RequestMethod.POST)
+	public @ResponseBody ItemResponse getOtherItemsForFr(@RequestParam int frId, @RequestParam int catId) {
+
+		ItemResponse itemResponse = new ItemResponse();
+		ErrorMessage errorMessage = new ErrorMessage();
+		List<Item> items = itemService.getOtherItemsForFr(frId, catId);
+		if (items != null) {
+			itemResponse.setItemList(items);
+			errorMessage.setError(false);
+			errorMessage.setMessage("Success");
+		} else {
+			errorMessage.setError(true);
+			errorMessage.setMessage("No Items Found");
+		}
+		return itemResponse;
+
+	}
 }

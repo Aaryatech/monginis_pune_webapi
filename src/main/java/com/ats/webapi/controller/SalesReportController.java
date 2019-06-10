@@ -525,6 +525,7 @@ public class SalesReportController {
 					salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCatAllFrForSpCakeByGrandTotal(catIdList,
 						fromDate, toDate);
 					System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyList.toString());
+					
 
 				} else {
 

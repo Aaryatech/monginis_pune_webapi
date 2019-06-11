@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.webapi.commons.Common;
 import com.ats.webapi.commons.Firebase;
 import com.ats.webapi.model.*;
+import com.ats.webapi.model.frsetting.FrSetting;
 import com.ats.webapi.model.grngvn.GetGrnGvnForCreditNoteList;
 import com.ats.webapi.model.grngvn.GrnGvnHeader;
 import com.ats.webapi.model.grngvn.PostCreditNoteHeader;
@@ -65,6 +66,7 @@ import com.ats.webapi.repository.SpecialCakeRepository;
 import com.ats.webapi.repository.UpdatePBTimeRepo;
 import com.ats.webapi.repository.UpdateSeetingForPBRepo;
 import com.ats.webapi.repository.UserRepository;
+import com.ats.webapi.repository.frsetting.FrSettingRepo;
 import com.ats.webapi.service.AllFrIdNameService;
 import com.ats.webapi.service.CategoryService;
 import com.ats.webapi.service.ConfigureFrBeanService;
@@ -2094,6 +2096,10 @@ public class RestApiController {
 		return jsonResult;
 	}
 
+	// neha
+	@Autowired
+	FrSettingRepo frSettingRepo;
+
 	// Save Franchisee
 	@RequestMapping(value = { "/saveFranchisee" }, method = RequestMethod.POST)
 	@ResponseBody
@@ -2175,6 +2181,27 @@ public class RestApiController {
 
 		System.out.println("" + franchisee.toString());
 		Franchisee frResponse = franchiseeRepository.save(franchisee);
+//neha
+		if (frResponse != null) {
+			FrSetting frSetting = new FrSetting();
+
+			frSetting = frSettingRepo.findByFrId(frResponse.getFrId());
+			/*if (frSetting != null) {*/
+				FrSetting frSettingSave = new FrSetting();
+				frSettingSave.setFrCode(frResponse.getFrCode());
+				frSettingSave.setFrId(frResponse.getFrId());
+				frSettingSave.setGrnGvnNo(1);
+				frSettingSave.setSellBillNo(1);
+				frSettingSave.setSpNo(1);
+
+				System.out.println("***************" + frSettingSave.toString());
+				FrSetting frSettingSaveResponse = frSettingRepo.save(frSettingSave);
+				System.out.println(frSettingSaveResponse.toString());
+			/*} else {
+
+			}
+*/
+		}
 
 		return frResponse;
 	}

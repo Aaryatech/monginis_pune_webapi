@@ -224,9 +224,9 @@ public class DispachRestApi {
 
 				List<FrList> list = new ArrayList<>();
 				if (routId == 0) {
-					list = frListRepository.findByAbcType(abcTypeList, frIndex);
+					list = frListRepository.findByAbcTypeByPass5(abcTypeList, frIndex);
 				} else {
-					list = frListRepository.findByAbcType(abcTypeList, frIndex, routId);
+					list = frListRepository.findByAbcTypeByPass5(abcTypeList, frIndex, routId);
 				}
 
 				try {
@@ -369,7 +369,7 @@ public class DispachRestApi {
 		List<StaionListWithFranchiseeList> stnList = new ArrayList<>();
 		try {
 			List<Integer> frList = new ArrayList<>();
-			//List<FrList> frList1 = new ArrayList<>();
+			// List<FrList> frList1 = new ArrayList<>();
 			if (routId == 0) {
 				frList = frListRepository.findByAbcTypeMin(abcTypeList);
 			} else {
@@ -402,33 +402,26 @@ public class DispachRestApi {
 				StaionListWithFranchiseeList staionListWithFranchiseeList = new StaionListWithFranchiseeList();
 
 				int count = itemListForDispatchReportRepository.getcount(stationNos.get(i));
-				
-				
-				
-				 List<FrList> frList1; 
-				 if(routId==0)
-				 { 
-					 frList1 = new ArrayList<>(); 
-					 frList1 = frListRepository.findByAbcType(abcTypeList,frIndex);
-				  System.out.println("List2222"+frList1); 
-				  }
-				 else 
-				 {
-					 frList1 = new ArrayList<>(); 
-					  frList1 = frListRepository.findByAbcType(abcTypeList,frIndex,routId);
-				  System.out.println("List333"+frList1); 
-				  }
-				 
 
-				
-				 try {
-				 
-				  frIndex=frIndex+ frList1.size();
-				  
-				  }catch (Exception e) {
-				  
-				  }
-				 
+				List<FrList> frList1;
+				if (routId == 0) {
+					frList1 = new ArrayList<>();
+					frList1 = frListRepository.findByAbcType(abcTypeList, frIndex);
+					System.out.println("List2222" + frList1);
+				} else {
+					frList1 = new ArrayList<>();
+					frList1 = frListRepository.findByAbcType(abcTypeList, frIndex, routId);
+					System.out.println("List333" + frList1);
+				}
+
+				try {
+
+					frIndex = frIndex + frList1.size();
+
+				} catch (Exception e) {
+
+				}
+
 				System.out.println("frList1" + frList1.toString());
 				System.out.println("items" + items.toString());
 				System.out.println("allItemList" + allItemList.toString());
@@ -446,10 +439,10 @@ public class DispachRestApi {
 							if ((allItemList.get(j).getFrId() == frList1.get(k).getFrId())
 									&& (allItemList.get(j).getItemId() == items.get(m).getId())
 									&& (items.get(m).getItemMrp2() == (Integer.parseInt("" + stationNos.get(i))))) {
-								//System.out.println("items.get(m).getItemMrp2" + items.get(m).getItemMrp2());
-								//System.out.println("(Integer.parseInt(\"\"+stationNos.get(i)))"
-								//		+ (Integer.parseInt("" + stationNos.get(i))));
-								//System.out.println("Flag 1");
+								// System.out.println("items.get(m).getItemMrp2" + items.get(m).getItemMrp2());
+								// System.out.println("(Integer.parseInt(\"\"+stationNos.get(i)))"
+								// + (Integer.parseInt("" + stationNos.get(i))));
+								// System.out.println("Flag 1");
 								flag = 1;
 								ItemListForDispatchReport dRport = new ItemListForDispatchReport();
 								dRport.setId(allItemList.get(j).getId());
@@ -463,11 +456,11 @@ public class DispachRestApi {
 						}
 
 						if (flag == 0) {
-							//System.out.println("items.get(m).getItemMrp2" + items.get(m).getItemMrp2());
-							//System.out.println("(Integer.parseInt(\"\"+stationNos.get(i)))"
-								//	+ (Integer.parseInt("" + stationNos.get(i))));
+							// System.out.println("items.get(m).getItemMrp2" + items.get(m).getItemMrp2());
+							// System.out.println("(Integer.parseInt(\"\"+stationNos.get(i)))"
+							// + (Integer.parseInt("" + stationNos.get(i))));
 							if (items.get(m).getItemMrp2() == (Integer.parseInt("" + stationNos.get(i)))) {
-							//	System.out.println("Flag 0");
+								// System.out.println("Flag 0");
 								ItemListForDispatchReport dRport = new ItemListForDispatchReport();
 
 								String concat = Integer.toString(items.get(m).getId())
@@ -532,6 +525,25 @@ public class DispachRestApi {
 
 			System.err.println(routeId);
 			routeList = franchiseForDispatchRepository.getFranchiseForDispatchRouteID(routeId);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return routeList;
+	}
+
+	// neha 13 June
+	@RequestMapping(value = { "/getFranchiseForDispatchRouteIDByPass5" }, method = RequestMethod.POST)
+	@ResponseBody
+	public List<FranchiseForDispatch> getFranchiseForDispatchRouteIDByPass5(
+			@RequestParam("routeId") List<Integer> routeId) {
+
+		List<FranchiseForDispatch> routeList = new ArrayList<>();
+		try {
+
+			System.err.println(routeId);
+			routeList = franchiseForDispatchRepository.getFranchiseForDispatchRouteIDByPass5(routeId);
 
 		} catch (Exception e) {
 			e.printStackTrace();

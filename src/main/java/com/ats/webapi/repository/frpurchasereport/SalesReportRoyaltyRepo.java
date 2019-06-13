@@ -694,12 +694,12 @@ public interface SalesReportRoyaltyRepo extends JpaRepository<SalesReportRoyalty
 		List<SalesReportRoyalty> getSaleReportRoyConsoByCatAllFrAndType2(@Param("catIdList") List<String> catIdList,@Param("fromDate") String fromDate,@Param("toDate") String toDate);
 
 		@Query(value="SELECT				        m_sp_cake.sp_id AS  id, " + 
-				"							        m_sp_cake.sp_name AS item_name ,m_sp_cake.sp_name AS item_name , 5 AS cat_id ,5 as sub_cat_id,'Special Cake' AS cat_name,  " + 
+				"							        m_sp_cake.sp_name AS item_name, 5 AS cat_id ,5 as sub_cat_id,'Special Cake' AS cat_name,  " + 
 				"							        COALESCE((SELECT  SUM(t_bill_detail.bill_qty)  FROM   t_bill_detail, " + 
 				"							            t_bill_header, " + 
 				"							            m_franchisee  " + 
 				"							        WHERE " + 
-				"							            t_bill_header.bill_date BETWEEN  :fromDate AND :toDate + " + 
+				"							            t_bill_header.bill_date BETWEEN  :fromDate AND :toDate " + 
 				"							            AND t_bill_header.bill_no=t_bill_detail.bill_no  " + 
 				"							            AND m_sp_cake.sp_id=t_bill_detail.item_id   " + 
 				"							            AND t_bill_header.fr_id =m_franchisee.fr_id  " + 

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.model.Info;
+import com.ats.webapi.model.calculatetray.CalCulateTray;
+import com.ats.webapi.model.calculatetray.CalculateTrayRepo;
 import com.ats.webapi.model.route.GetRouteMgmt;
 import com.ats.webapi.model.route.GetRouteMgmtRepo;
 import com.ats.webapi.model.route.RouteMgmt;
@@ -32,6 +34,9 @@ public class RouteMgmtApiController {
 
 	@Autowired
 	TallyFranchiseeRepository tallyFranchiseeRepository;
+
+	@Autowired
+	CalculateTrayRepo calculateTrayRepo;
 
 	// --------------------------------------Route Mgmt-------------------------
 
@@ -68,6 +73,62 @@ public class RouteMgmtApiController {
 
 		}
 		return routeList;
+
+	}
+
+	@RequestMapping(value = { "/getAllRouteMgmtListByDelType" }, method = RequestMethod.POST)
+	public @ResponseBody List<RouteMgmt> getAllRouteMgmtListByDelType(@RequestParam("isSameDay") int isSameDay) {
+
+		List<RouteMgmt> routeList = new ArrayList<RouteMgmt>();
+
+		try {
+
+			routeList = routeMgmtRepo.findByIsSameDayAndDelStatusAndIsActive(isSameDay, 0, 1);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return routeList;
+
+	}
+
+	@RequestMapping(value = { "/getAllCalTrayReport" }, method = RequestMethod.POST)
+	public @ResponseBody List<CalCulateTray> getAllCalTrayReport(@RequestParam("deliveryDate") String deliveryDate,
+			@RequestParam("frIdList") List<Integer> frIdList, @RequestParam("menuIdList") List<Integer> menuIdList) {
+
+		List<CalCulateTray> list = new ArrayList<CalCulateTray>();
+
+		try {
+
+			list = calculateTrayRepo.getCalculateTray(deliveryDate, frIdList, menuIdList);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/getFranByMultipleRouteTrayId" }, method = RequestMethod.POST)
+	public @ResponseBody List<RouteMgmt> getFranByMultipleRouteTrayId(
+			@RequestParam("routeIdList") List<Integer> routeIdList) {
+
+		List<RouteMgmt> list = new ArrayList<RouteMgmt>();
+
+		try {
+
+			list = routeMgmtRepo.findByRouteTrayIdInAndDelStatus(routeIdList,0);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
 
 	}
 

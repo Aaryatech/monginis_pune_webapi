@@ -19,4 +19,8 @@ public interface RouteMgmtRepo extends JpaRepository<RouteMgmt, Integer> {
 	@Query("UPDATE RouteMgmt SET  delStatus=1 WHERE route_tray_id=:routeTrayId")
 	int deleteRouteMgmt(@Param("routeTrayId") int routeTrayId);
 
+	List<RouteMgmt> findByIsSameDayAndDelStatusAndIsActive(int isSameDay, int i, int j);
+
+	List<RouteMgmt> findByRouteTrayIdInAndDelStatus(List<Integer> routeIdList, int i);
+
 }

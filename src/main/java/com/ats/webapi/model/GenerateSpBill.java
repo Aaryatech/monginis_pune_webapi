@@ -66,8 +66,6 @@ public class GenerateSpBill {
 	
 	@Column(name="sp_tax3")
 	private double spTax3;
-	
-	
 		
 	@Column(name="sp_delivery_date") // delivery Date
 	Date  spDeliveryDate;
@@ -84,8 +82,20 @@ public class GenerateSpBill {
 	@Column(name="party_address")//new
 	private String  partyAddress;
 	
+	@Column(name="hsn_code")//new
+	private String  hsnCode;
 	
 	
+	public String getHsnCode() {
+		return hsnCode;
+	}
+
+
+	public void setHsnCode(String hsnCode) {
+		this.hsnCode = hsnCode;
+	}
+
+
 	public String getPartyName() {
 		return partyName;
 	}
@@ -316,7 +326,9 @@ public class GenerateSpBill {
 				+ spGrandTotal + ", frName=" + frName + ", menuTitle=" + menuTitle + ", spName=" + spName + ", catId="
 				+ catId + ", frCode=" + frCode + ", rateType=" + rateType + ", subCatId=" + subCatId + ", spTax1="
 				+ spTax1 + ", spTax2=" + spTax2 + ", spTax3=" + spTax3 + ", spDeliveryDate=" + spDeliveryDate
-				+ ", disc=" + disc + "]";
+				+ ", disc=" + disc + ", partyName=" + partyName + ", partyGstin=" + partyGstin + ", partyAddress="
+				+ partyAddress + ", hsnCode=" + hsnCode + "]";
 	}
+    
     
 }

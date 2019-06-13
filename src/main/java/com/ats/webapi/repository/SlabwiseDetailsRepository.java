@@ -16,7 +16,7 @@ public interface SlabwiseDetailsRepository extends JpaRepository<SlabwiseBill, I
 	
 	//@Query(value="select  m_item_sup.item_hsncd,t_bill_detail.cgst_per+t_bill_detail.sgst_per as tax_per,SUM(t_bill_detail.bill_qty) as bill_qty,SUM(t_bill_detail.taxable_amt) as taxable_amt,SUM(t_bill_detail.cgst_rs) as cgst_amt,SUM(t_bill_detail.sgst_rs) as sgst_amt,SUM(t_bill_detail.total_tax) as total_tax,SUM(t_bill_detail.grand_total) as grand_total from  t_bill_detail,m_item_sup where m_item_sup.item_id=t_bill_detail.item_id and bill_no=:billNo group by m_item_sup.item_hsncd",nativeQuery=true)
 	@Query(value="select   t_bill_detail.bill_detail_no,\n" + 
-			"        m_item_sup.item_hsncd,\n" + 
+			"        t_bill_detail.hsn_code as item_hsncd,\n" + 
 			"        t_bill_detail.cgst_per+t_bill_detail.sgst_per as tax_per,\n" + 
 			"        SUM(t_bill_detail.bill_qty) as bill_qty,\n" + 
 			"        SUM(t_bill_detail.taxable_amt) as taxable_amt,\n" + 
@@ -25,33 +25,12 @@ public interface SlabwiseDetailsRepository extends JpaRepository<SlabwiseBill, I
 			"        SUM(t_bill_detail.total_tax) as total_tax,\n" + 
 			"        SUM(t_bill_detail.grand_total) as grand_total \n" + 
 			"    from\n" + 
-			"        t_bill_detail,\n" + 
-			"        m_item_sup \n" + 
+			"        t_bill_detail\n" + 
+		
 			"    where\n" + 
-			"        m_item_sup.item_id=t_bill_detail.item_id \n" + 
-			"        and bill_detail_no IN(select bill_detail_no from t_bill_detail where cat_id!=5 and bill_no=:billNo)\n" + 
+			"      bill_detail_no IN(select bill_detail_no from t_bill_detail where cat_id!=5 and bill_no=:billNo)\n" + 
 			"    group by\n" + 
-			"        m_item_sup.item_hsncd\n" + 
-			"\n" + 
-			"UNION ALL\n" + 
-			"\n" + 
-			"select \n" + 
-			"       t_bill_detail.bill_detail_no, m_spcake_sup.sp_hsncd,\n" + 
-			"        t_bill_detail.cgst_per+t_bill_detail.sgst_per as tax_per,\n" + 
-			"        SUM(t_bill_detail.bill_qty) as bill_qty,\n" + 
-			"        SUM(t_bill_detail.taxable_amt) as taxable_amt,\n" + 
-			"        SUM(t_bill_detail.cgst_rs) as cgst_amt,\n" + 
-			"        SUM(t_bill_detail.sgst_rs) as sgst_amt,\n" + 
-			"        SUM(t_bill_detail.total_tax) as total_tax,\n" + 
-			"        SUM(t_bill_detail.grand_total) as grand_total \n" + 
-			"    from\n" + 
-			"        t_bill_detail,\n" + 
-			"        m_spcake_sup \n" + 
-			"    where\n" + 
-			"        m_spcake_sup.sp_id=t_bill_detail.item_id \n" + 
-			" and bill_detail_no IN(select bill_detail_no from t_bill_detail where cat_id=5 and bill_no=:billNo)\n" + 
-			"    group by\n" + 
-			"        m_spcake_sup.sp_hsncd",nativeQuery=true)
+			"        item_hsncd",nativeQuery=true)
 	List<SlabwiseBill> getSlabwiseBillData(@Param("billNo")int billNo);
 
 }

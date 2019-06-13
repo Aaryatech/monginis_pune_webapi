@@ -41,7 +41,6 @@ public class PostBillDetail {
 	@Column(name="order_id")
 	private int orderId;
 	
-	
 	@Column(name="rate_type")
 	private int rateType;
 	
@@ -78,7 +77,6 @@ public class PostBillDetail {
 	@Column(name="disc_per")//new
 	private float discPer;
 	
-	
 	@Column(name="taxable_amt")
 	private float taxableAmt;
 	
@@ -88,13 +86,11 @@ public class PostBillDetail {
 	@Column(name="total_tax")
 	private float totalTax;
 	
-	
 	@Column(name="del_status")
 	private int delStatus;
 
 	@Column(name="grn_type")//new added
 	private int grnType;
-	
 	
 	@Column(name="expiry_date")//new added
 	private Date expiryDate;
@@ -102,8 +98,17 @@ public class PostBillDetail {
 	@Column(name="is_grngvn_applied")//new added
 	private int  isGrngvnApplied;
 	
+	@Column(name="hsn_code")//new added
+	private String hsnCode;
 	
-	
+	public String getHsnCode() {
+		return hsnCode;
+	}
+
+	public void setHsnCode(String hsnCode) {
+		this.hsnCode = hsnCode;
+	}
+
 	public float getDiscPer() {
 		return discPer;
 	}
@@ -334,10 +339,8 @@ public class PostBillDetail {
 				+ ", igstPer=" + igstPer + ", igstRs=" + igstRs + ", baseRate=" + baseRate + ", discPer=" + discPer
 				+ ", taxableAmt=" + taxableAmt + ", remark=" + remark + ", totalTax=" + totalTax + ", delStatus="
 				+ delStatus + ", grnType=" + grnType + ", expiryDate=" + expiryDate + ", isGrngvnApplied="
-				+ isGrngvnApplied + "]";
+				+ isGrngvnApplied + ", hsnCode=" + hsnCode + "]";
 	}
 
-
-	
 	
 }

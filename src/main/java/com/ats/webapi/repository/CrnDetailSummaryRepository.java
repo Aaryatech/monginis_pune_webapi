@@ -12,19 +12,7 @@ import com.ats.webapi.model.CrnDetailsSummary;
 @Repository
 public interface CrnDetailSummaryRepository extends JpaRepository<CrnDetailsSummary, Integer>{
 
-	@Query(value="  SELECT CASE  WHEN  detail.cat_id=5 THEN (SELECT\n" + 
-			"                m_spcake_sup.sp_hsncd \n" + 
-			"            from\n" + 
-			"                m_spcake_sup \n" + 
-			"            WHERE\n" + 
-			"                detail.item_id=m_spcake_sup.sp_id)\n" + 
-			"            ELSE (SELECT\n" + 
-			"                m_item_sup.item_hsncd \n" + 
-			"            from\n" + 
-			"                m_item_sup \n" + 
-			"            where\n" + 
-			"                m_item_sup.item_id=detail.item_id) \n" + 
-			"        END AS item_hsncd,\n" + 
+	@Query(value="  SELECT detail.hsn_code AS item_hsncd,\n" + 
 			"        CASE \n" + 
 			"            WHEN detail.cat_id=5 THEN 'Special Cake'\n" + 
 			"            ELSE (SELECT\n" + 

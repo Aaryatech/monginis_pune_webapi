@@ -22,13 +22,12 @@ public interface GstRegisterSpRepo extends JpaRepository<GstRegisterSp, Integer>
 				"	  ROUND(SUM(t_bill_detail.total_tax), 2) as total_tax," + 
 				"	  ROUND(SUM(t_bill_detail.grand_total), 2) as grand_total," + 
 				"	  " + 
-				"	  ROUND(SUM(t_bill_detail.bill_qty), 2) as bill_qty, m_spcake_sup.sp_hsncd as " + 
-				"	  hsn_code from t_bill_detail, t_bill_header," + 
-				"	  m_franchisee,m_sp_cake,m_spcake_sup where " + 
+				"	  ROUND(SUM(t_bill_detail.bill_qty), 2) as bill_qty, t_bill_detail.hsn_code from t_bill_detail, t_bill_header," + 
+				"	  m_franchisee,m_sp_cake where " + 
 				"	  t_bill_header.bill_no=t_bill_detail.bill_no AND t_bill_detail.cat_id=5 and " + 
-				"	  m_sp_cake.sp_id=t_bill_detail.item_id AND m_sp_cake.sp_id=m_spcake_sup.sp_id " + 
+				"	  m_sp_cake.sp_id=t_bill_detail.item_id " + 
 				"	  AND t_bill_header.bill_date BETWEEN :fromDate AND :toDate AND " + 
-				"	  m_franchisee.fr_id=t_bill_header.fr_id GROUP BY  t_bill_detail.bill_no,m_spcake_sup.sp_hsncd  order by t_bill_header.invoice_no", nativeQuery = true)
+				"	  m_franchisee.fr_id=t_bill_header.fr_id GROUP BY  t_bill_detail.bill_no,t_bill_detail.hsn_code  order by t_bill_header.invoice_no", nativeQuery = true)
 
 		List<GstRegisterSp> getGstRegisterAllFrSp(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
 
@@ -42,14 +41,13 @@ public interface GstRegisterSpRepo extends JpaRepository<GstRegisterSp, Integer>
 				"	  ROUND(SUM(t_bill_detail.total_tax), 2) as total_tax," + 
 				"	  ROUND(SUM(t_bill_detail.grand_total), 2) as grand_total," + 
 				"	  " + 
-				"	  ROUND(SUM(t_bill_detail.bill_qty), 2) as bill_qty, m_spcake_sup.sp_hsncd as " + 
-				"	  hsn_code from t_bill_detail, t_bill_header," + 
-				"	  m_franchisee,m_sp_cake,m_spcake_sup where " + 
+				"	  ROUND(SUM(t_bill_detail.bill_qty), 2) as bill_qty, t_bill_detail.hsn_code from t_bill_detail, t_bill_header," + 
+				"	  m_franchisee,m_sp_cake where " + 
 				"	  t_bill_header.bill_no=t_bill_detail.bill_no AND t_bill_detail.cat_id=5 and  " + 
 				"	  m_sp_cake.sp_id=t_bill_detail.item_id AND m_sp_cake.sp_id=m_spcake_sup.sp_id " + 
 				"	  AND t_bill_header.bill_date BETWEEN :fromDate AND :toDate AND " + 
 				"	  m_franchisee.fr_id=t_bill_header.fr_id AND m_franchisee.fr_id IN (:frIdList) "
-				+ "   GROUP BY   t_bill_detail.bill_no,m_spcake_sup.sp_hsncd  order by t_bill_header.invoice_no", nativeQuery = true)
+				+ "   GROUP BY   t_bill_detail.bill_no,t_bill_detail.hsn_code  order by t_bill_header.invoice_no", nativeQuery = true)
 
 		List<GstRegisterSp> getGstRegisterSpecFrSp(@Param("fromDate") String fromDate, @Param("toDate") String toDate,
 				 @Param("frIdList") String frIdList);

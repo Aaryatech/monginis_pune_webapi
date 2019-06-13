@@ -42,7 +42,7 @@ public interface GrnGvnForCreditNoteRepositoty extends JpaRepository<GetGrnGvnFo
 			"        t_grn_gvn.is_credit_note," + 
 			"        t_grn_gvn.menu_id," + 
 			"        t_grn_gvn.cat_id," + 
-			"        t_grn_gvn.invoice_no," + 
+			"        t_grn_gvn.invoice_no,t_grn_gvn.hsn_code," + 
 			"        t_grn_gvn.ref_invoice_date," + 
 			"      " + 
 			"        CAST(t_grn_gvn.approved_datetime_acc AS CHAR) as approved_datetime_acc," + 

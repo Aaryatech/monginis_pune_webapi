@@ -22,12 +22,12 @@ public interface GstRegisterItemRepo extends JpaRepository<GstRegisterItem, Inte
 			"	  ROUND(SUM(t_bill_detail.total_tax), 2) as total_tax," + 
 			"	  ROUND(SUM(t_bill_detail.grand_total), 2) as grand_total," + 
 			"	  " + 
-			"	  ROUND(SUM(t_bill_detail.bill_qty), 2) as bill_qty, m_item_sup.item_hsncd as " + 
-			"	  hsn_code from t_bill_detail, t_bill_header, m_franchisee,m_item,m_item_sup " + 
+			"	  ROUND(SUM(t_bill_detail.bill_qty), 2) as bill_qty, t_bill_detail.hsn_code as " + 
+			"	  hsn_code from t_bill_detail, t_bill_header, m_franchisee,m_item" + 
 			"	  where t_bill_header.bill_no=t_bill_detail.bill_no AND " + 
-			"	  m_item.id=t_bill_detail.item_id AND m_item.id=m_item_sup.item_id AND " + 
+			"	  m_item.id=t_bill_detail.item_id AND " + 
 			"	  t_bill_header.bill_date BETWEEN :fromDate AND :toDate AND t_bill_detail.cat_id!=5 and " + 
-			"	  m_franchisee.fr_id=t_bill_header.fr_id GROUP BY t_bill_detail.bill_no,m_item_sup.item_hsncd   order by t_bill_header.invoice_no", nativeQuery = true)
+			"	  m_franchisee.fr_id=t_bill_header.fr_id GROUP BY t_bill_detail.bill_no,hsn_code   order by t_bill_header.invoice_no", nativeQuery = true)
 
 	List<GstRegisterItem> getGstRegisterAllFrItem(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
 
@@ -41,13 +41,13 @@ public interface GstRegisterItemRepo extends JpaRepository<GstRegisterItem, Inte
 			"	  ROUND(SUM(t_bill_detail.total_tax), 2) as total_tax," + 
 			"	  ROUND(SUM(t_bill_detail.grand_total), 2) as grand_total," + 
 			"	  " + 
-			"	  ROUND(SUM(t_bill_detail.bill_qty), 2) as bill_qty, m_item_sup.item_hsncd as " + 
-			"	  hsn_code from t_bill_detail, t_bill_header, m_franchisee,m_item,m_item_sup " + 
+			"	  ROUND(SUM(t_bill_detail.bill_qty), 2) as bill_qty, t_bill_detail.hsn_code as " + 
+			"	  hsn_code from t_bill_detail, t_bill_header, m_franchisee,m_item," + 
 			"	  where t_bill_header.bill_no=t_bill_detail.bill_no AND " + 
-			"	  m_item.id=t_bill_detail.item_id AND m_item.id=m_item_sup.item_id AND t_bill_detail.cat_id!=5 and " + 
+			"	  m_item.id=t_bill_detail.item_id AND t_bill_detail.cat_id!=5 and " + 
 			"	  t_bill_header.bill_date BETWEEN :fromDate AND :toDate AND " + 
 			"	  m_franchisee.fr_id=t_bill_header.fr_id AND m_franchisee.fr_id IN (:frIdList)  "
-			+ "   GROUP BY t_bill_detail.bill_no,m_item_sup.item_hsncd  order by t_bill_header.invoice_no", nativeQuery = true)
+			+ "   GROUP BY t_bill_detail.bill_no,hsn_code  order by t_bill_header.invoice_no", nativeQuery = true)
 
 	List<GstRegisterItem> getGstRegisterSpecFrItem(@Param("fromDate") String fromDate, @Param("toDate") String toDate,
 			 @Param("frIdList") String frIdList);

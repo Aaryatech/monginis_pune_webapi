@@ -68,20 +68,7 @@ public interface SaleReportBillwiseAllFrRepo extends JpaRepository<SalesReportBi
 			"        m_franchisee.fr_city,\n" + 
 			"        m_franchisee.fr_gst_no,\n" + 
 			"        m_franchisee.is_same_state,\n" + 
-			"        CASE \n" + 
-			"            WHEN t_bill_detail.cat_id=5 THEN (SELECT\n" + 
-			"                m_spcake_sup.sp_hsncd  \n" + 
-			"            FROM\n" + 
-			"                m_spcake_sup          \n" + 
-			"            WHERE\n" + 
-			"                m_spcake_sup.sp_id=t_bill_detail.item_id)                      \n" + 
-			"            ELSE (SELECT\n" + 
-			"                m_item_sup.item_hsncd \n" + 
-			"            FROM\n" + 
-			"                m_item_sup           \n" + 
-			"            WHERE\n" + 
-			"                m_item_sup.item_id=t_bill_detail.item_id)                   \n" + 
-			"        END AS item_hsncd,\n" + 
+			"      t_bill_detail.hsn_code AS item_hsncd,\n" + 
 			"        CASE  \n" + 
 			"            WHEN t_bill_detail.cat_id=5 THEN (SELECT\n" + 
 			"                m_sp_cake.sp_name  \n" + 

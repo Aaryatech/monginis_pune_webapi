@@ -147,6 +147,17 @@ public class GetGrnGvnForCreditNote implements Serializable {
 	//new column 23 FEB
 	@Column(name = "grn_gvn_header_id")
 	private int grnGvnHeaderId;
+	//new column 4june19
+	private String hsnCode;
+
+	
+	public String getHsnCode() {
+		return hsnCode;
+	}
+
+	public void setHsnCode(String hsnCode) {
+		this.hsnCode = hsnCode;
+	}
 
 	public int getGrnGvnId() {
 		return grnGvnId;
@@ -432,8 +443,7 @@ public class GetGrnGvnForCreditNote implements Serializable {
 				+ aprTaxableAmt + ", aprTotalTax=" + aprTotalTax + ", aprROff=" + aprROff + ", itemName=" + itemName
 				+ ", frName=" + frName + ", isCreditNote=" + isCreditNote + ", menuId=" + menuId + ", catId=" + catId
 				+ ", invoiceNo=" + invoiceNo + ", refInvoiceDate=" + refInvoiceDate + ", grngvnSrno=" + grngvnSrno
-				+ ", grnGvnHeaderId=" + grnGvnHeaderId + "]";
+				+ ", grnGvnHeaderId=" + grnGvnHeaderId + ", hsnCode=" + hsnCode + "]";
 	}
-	
-
+    
 }

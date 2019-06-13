@@ -225,6 +225,7 @@ public class GenerateBillServiceImpl implements GenerateBillService {
 			generateBill.setPartyName(regSpBill.getPartyName());
 			generateBill.setPartyAddress(regSpBill.getPartyAddress());
 			generateBill.setPartyGstin(regSpBill.getPartyGstin());
+			generateBill.setHsnCode(regSpBill.getHsnCode());//new
 			generateBillList.add(generateBill);
 			
 			System.out.println("converted Bill : "+generateBillList.toString());
@@ -269,6 +270,7 @@ public class GenerateBillServiceImpl implements GenerateBillService {
             generateBill.setPartyName(spBill.getPartyName());
             generateBill.setPartyAddress(spBill.getPartyAddress());
             generateBill.setPartyGstin(spBill.getPartyGstin());
+            generateBill.setHsnCode(spBill.getHsnCode());//new
 			generateBillList.add(generateBill);
 		}
 

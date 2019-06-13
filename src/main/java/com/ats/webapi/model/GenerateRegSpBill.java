@@ -89,9 +89,19 @@ public class GenerateRegSpBill {
 		@Column(name="party_address")//new
 		private String  partyAddress;
 		
+		@Column(name="hsn_code")//new
+		private String  hsnCode;
 		
 		
 		
+		public String getHsnCode() {
+			return hsnCode;
+		}
+
+		public void setHsnCode(String hsnCode) {
+			this.hsnCode = hsnCode;
+		}
+
 		public String getPartyName() {
 			return partyName;
 		}
@@ -284,9 +294,9 @@ public class GenerateRegSpBill {
 					+ ", isSameState=" + isSameState + ", rspDeliveryDt=" + rspDeliveryDt + ", frName=" + frName
 					+ ", itemName=" + itemName + ", menuTitle=" + menuTitle + ", itemGrp1=" + itemGrp1 + ", itemGrp2="
 					+ itemGrp2 + ", itemTax1=" + itemTax1 + ", itemTax2=" + itemTax2 + ", itemTax3=" + itemTax3
-					+ ", item_shelf_life=" + item_shelf_life + "]";
+					+ ", item_shelf_life=" + item_shelf_life + ", partyName=" + partyName + ", partyGstin=" + partyGstin
+					+ ", partyAddress=" + partyAddress + ", hsnCode=" + hsnCode + "]";
 		}
-		
 
-	
+        
 }

@@ -48,20 +48,7 @@ public interface TallyCreditNoteRepository extends JpaRepository<CreditNote, Int
 			"            where\n" + 
 			"                i.id=d.item_id)                            \n" + 
 			"        END AS item_code,\n" + 
-			"        CASE \n" + 
-			"            WHEN d.cat_id = 5 THEN (select\n" + 
-			"                spsup.sp_hsncd \n" + 
-			"            from\n" + 
-			"                m_spcake_sup spsup \n" + 
-			"            where\n" + 
-			"                spsup.sp_id=d.item_id) \n" + 
-			"            ELSE  (select\n" + 
-			"                itemsup.item_hsncd \n" + 
-			"            from\n" + 
-			"                m_item_sup itemsup \n" + 
-			"            where\n" + 
-			"                itemsup.item_id=d.item_id)  \n" + 
-			"        END AS hsn_code,\n" + 
+			"        d.hsn_code,\n" + 
 			"        CASE \n" + 
 			"            WHEN d.cat_id = 5 THEN (select\n" + 
 			"                spsup.sp_uom \n" + 
@@ -136,20 +123,7 @@ public interface TallyCreditNoteRepository extends JpaRepository<CreditNote, Int
 			"            where\n" + 
 			"                i.id=d.item_id)                   \n" + 
 			"        END AS item_name,\n" + 
-			"        CASE                           \n" + 
-			"            WHEN d.cat_id = 5 THEN (select\n" + 
-			"                spsup.sp_hsncd                           \n" + 
-			"            from\n" + 
-			"                m_spcake_sup spsup                           \n" + 
-			"            where\n" + 
-			"                spsup.sp_id=d.item_id)                           \n" + 
-			"            ELSE  (select\n" + 
-			"                itemsup.item_hsncd                           \n" + 
-			"            from\n" + 
-			"                m_item_sup itemsup                           \n" + 
-			"            where\n" + 
-			"                itemsup.item_id=d.item_id)                    \n" + 
-			"        END AS hsn_code,\n "
+			"        d.hsn_code,\n "
 			+ "CASE WHEN d.cat_id = 5  THEN (select\n" + 
 			"                s.sp_code                                        \n" + 
 			"            from\n" + 

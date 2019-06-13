@@ -31,7 +31,6 @@ public class GetGrnItemConfig implements Serializable {
 	//new grnQty
 	@Transient
 	private int autoGrnQty;
-	
 
 	@Column(name="item_name")
 	private String itemName;
@@ -66,9 +65,6 @@ public class GetGrnItemConfig implements Serializable {
 	@Column(name="igst_per")
 	private float igstPer;
 	
-	
-	 
-	
 	//newly Added
 	@Column(name="menu_id")
 	private int menuId;
@@ -81,9 +77,16 @@ public class GetGrnItemConfig implements Serializable {
 	
 	private float discPer;//new field added on 1 Feb 2019
 	
-	
-	
-	
+	@Column(name="hsn_code")
+	private String hsnCode;
+    
+	public String getHsnCode() {
+		return hsnCode;
+	}
+
+	public void setHsnCode(String hsnCode) {
+		this.hsnCode = hsnCode;
+	}
 
 	public float getDiscPer() {
 		return discPer;
@@ -251,7 +254,7 @@ public class GetGrnItemConfig implements Serializable {
 				+ billNo + ", billDateTime=" + billDateTime + ", rate=" + rate + ", billDate=" + billDate + ", mrp="
 				+ mrp + ", billQty=" + billQty + ", sgstPer=" + sgstPer + ", cgstPer=" + cgstPer + ", igstPer="
 				+ igstPer + ", menuId=" + menuId + ", catId=" + catId + ", invoiceNo=" + invoiceNo + ", discPer="
-				+ discPer + "]";
+				+ discPer + ", hsnCode=" + hsnCode + "]";
 	}
-
+     
 }

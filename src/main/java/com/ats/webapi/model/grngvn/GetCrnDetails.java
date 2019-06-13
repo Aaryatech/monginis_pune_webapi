@@ -114,7 +114,7 @@ public class GetCrnDetails {
 		private String itemName;
 		
 		
-		@Column(name="item_hsncd")
+		@Column(name="hsn_code")
 		private String itemHsncd;
 		
 		@Column(name="item_uom")

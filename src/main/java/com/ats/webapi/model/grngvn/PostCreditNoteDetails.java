@@ -19,22 +19,17 @@ public class PostCreditNoteDetails implements Serializable {
 	@Column(name="crnd_id")
 	private int crndId;
 	
-	
 	@Column(name="crn_id")
 	private int crnId;
-	
 	
 	@Column(name="item_id")
 	private int itemId;
 	
-	
 	@Column(name="grn_gvn_id")
 	private int grnGvnId;
 	
-	
 	@Column(name="is_grn")
 	private int isGrn;
-	
 	
 	@Column(name="grn_type")
 	private int grnType;
@@ -60,7 +55,6 @@ public class PostCreditNoteDetails implements Serializable {
 	@Column(name="sgst_per")
 	private float sgstPer;
 	
-	
 	@Column(name="igst_per")
 	private float igstPer;
 	
@@ -84,7 +78,6 @@ public class PostCreditNoteDetails implements Serializable {
 	
 	@Column(name="bill_date")
 	private Date billDate;
-	
 	
 	//newly added
 	
@@ -110,6 +103,16 @@ public class PostCreditNoteDetails implements Serializable {
 		@Column(name = "grn_gvn_header_id")
 		private int grnGvnHeaderId;
 		
+		private String hsnCode;
+		
+
+	    public String getHsnCode() {
+			return hsnCode;
+		}
+
+		public void setHsnCode(String hsnCode) {
+			this.hsnCode = hsnCode;
+		}
 
 	public int getBillNo() {
 		return billNo;
@@ -336,7 +339,7 @@ public class PostCreditNoteDetails implements Serializable {
 				+ ", sgstRs=" + sgstRs + ", igstRs=" + igstRs + ", cessRs=" + cessRs + ", delStatus=" + delStatus
 				+ ", billNo=" + billNo + ", billDate=" + billDate + ", catId=" + catId + ", baseRate=" + baseRate
 				+ ", cessPer=" + cessPer + ", refInvoiceNo=" + refInvoiceNo + ", grngvnSrno=" + grngvnSrno
-				+ ", grnGvnHeaderId=" + grnGvnHeaderId + "]";
+				+ ", grnGvnHeaderId=" + grnGvnHeaderId + ", hsnCode=" + hsnCode + "]";
 	}
 
 	

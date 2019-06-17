@@ -115,8 +115,17 @@ public class GetBillDetails implements Serializable {
 		@Column(name="disc_per")
 		private float discPer;
 		
+		@Column(name="hsn_code")
+		private String hsnCode;
 		
-		
+		public String getHsnCode() {
+			return hsnCode;
+		}
+
+		public void setHsnCode(String hsnCode) {
+			this.hsnCode = hsnCode;
+		}
+
 		public float getDiscPer() {
 			return discPer;
 		}
@@ -377,9 +386,8 @@ public class GetBillDetails implements Serializable {
 					+ ", taxableAmt=" + taxableAmt + ", remark=" + remark + ", delStatus=" + delStatus + ", itemName="
 					+ itemName + ", catName=" + catName + ", totalTax=" + totalTax + ", baseRate=" + baseRate
 					+ ", grnType=" + grnType + ", expiryDate=" + expiryDate + ", isGrngvnApplied=" + isGrngvnApplied
-					+ ", discPer=" + discPer + "]";
+					+ ", discPer=" + discPer + ", hsnCode=" + hsnCode + "]";
 		}
 
-		
-		
+	    
 }

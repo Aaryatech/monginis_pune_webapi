@@ -1,10 +1,15 @@
 package com.ats.webapi.model.route;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import com.ats.webapi.model.tally.GetFranchiseeList;
 
 @Entity
 public class GetRouteMgmt {
@@ -48,6 +53,9 @@ public class GetRouteMgmt {
 	private String exVar2;
 
 	private String frName;
+
+	@Transient
+	private List<GetFranchiseeList> getFranchiseeList;
 
 	public int getRouteTrayId() {
 		return routeTrayId;
@@ -153,12 +161,20 @@ public class GetRouteMgmt {
 		this.frName = frName;
 	}
 
+	public List<GetFranchiseeList> getGetFranchiseeList() {
+		return getFranchiseeList;
+	}
+
+	public void setGetFranchiseeList(List<GetFranchiseeList> getFranchiseeList) {
+		this.getFranchiseeList = getFranchiseeList;
+	}
+
 	@Override
 	public String toString() {
 		return "GetRouteMgmt [routeTrayId=" + routeTrayId + ", routeName=" + routeName + ", routeType=" + routeType
 				+ ", frIds=" + frIds + ", srNo=" + srNo + ", isSameDay=" + isSameDay + ", delStatus=" + delStatus
 				+ ", isActive=" + isActive + ", exInt1=" + exInt1 + ", exInt2=" + exInt2 + ", exVar1=" + exVar1
-				+ ", exVar2=" + exVar2 + ", frName=" + frName + "]";
+				+ ", exVar2=" + exVar2 + ", frName=" + frName + ", getFranchiseeList=" + getFranchiseeList + "]";
 	}
 
 }

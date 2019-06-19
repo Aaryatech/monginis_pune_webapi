@@ -21,6 +21,7 @@ import com.ats.webapi.model.route.GetRouteMgmtRepo;
 import com.ats.webapi.model.route.RouteMgmt;
 import com.ats.webapi.model.route.RouteMgmtRepo;
 import com.ats.webapi.model.tally.Franchisee;
+import com.ats.webapi.model.tally.GetFranchiseeList;
 import com.ats.webapi.repository.tally.TallyFranchiseeRepository;
 
 @RestController
@@ -102,6 +103,9 @@ public class RouteMgmtApiController {
 
 		try {
 
+			System.out.println("frIdList" + frIdList);
+			System.out.println("menuIdList" + menuIdList);
+
 			list = calculateTrayRepo.getCalculateTray(deliveryDate, frIdList, menuIdList);
 
 		} catch (Exception e) {
@@ -121,7 +125,61 @@ public class RouteMgmtApiController {
 
 		try {
 
-			list = routeMgmtRepo.findByRouteTrayIdInAndDelStatus(routeIdList,0);
+			list = routeMgmtRepo.findByRouteTrayIdInAndDelStatus(routeIdList, 0);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
+
+	@RequestMapping(value = { "/getFranByMultipleRouteTrayIdNew" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetRouteMgmt> getFranByMultipleRouteTrayIdNew(
+			@RequestParam("routeIdList") List<Integer> routeIdList) {
+
+		List<GetRouteMgmt> list = new ArrayList<GetRouteMgmt>();
+
+		try {
+
+			list = getRouteMgmtRepo.getAllRouteMgmt();
+			List<Franchisee> franchiseeList = tallyFranchiseeRepository.findByIsTallySync();
+
+			for (int i = 0; i < list.size(); i++) {
+
+				List<GetFranchiseeList> frListNew = new ArrayList<GetFranchiseeList>();
+
+				List<Integer> frIdList = Stream.of(list.get(i).getFrIds().split(",")).map(Integer::parseInt)
+						.collect(Collectors.toList());
+
+				franchiseeList = tallyFranchiseeRepository.getFranchisee(frIdList);
+
+				String frName = "";
+
+				for (int j = 0; j < franchiseeList.size(); j++) {
+
+					frName = franchiseeList.get(j).getCustomerName() + "," + frName;
+
+					for (int k = 0; k < frIdList.size(); k++) {
+
+						if (franchiseeList.get(j).getCustomerId() == frIdList.get(k)) {
+							GetFranchiseeList getFranchiseeList = new GetFranchiseeList();
+							getFranchiseeList.setFrId(franchiseeList.get(j).getCustomerId());
+
+							getFranchiseeList.setFrName(franchiseeList.get(j).getCustomerName());
+							getFranchiseeList.setId(Integer.parseInt(
+									list.get(i).getRouteTrayId() + "" + franchiseeList.get(j).getCustomerId()));
+
+							frListNew.add(getFranchiseeList);
+						}
+
+					}
+
+				}
+				list.get(i).setGetFranchiseeList(frListNew);
+			}
 
 		} catch (Exception e) {
 

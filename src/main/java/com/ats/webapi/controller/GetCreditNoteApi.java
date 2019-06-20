@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ats.webapi.commons.Common;
 import com.ats.webapi.model.CrnDetailsSummary;
 import com.ats.webapi.model.CrnHsnwiseExcelReport;
+import com.ats.webapi.model.crncumulative.GetCrnCumulative;
 import com.ats.webapi.model.grngvn.GetCreditNoteHeaders;
 import com.ats.webapi.model.grngvn.GetCreditNoteHeadersList;
 import com.ats.webapi.model.grngvn.GetCreditNoteReport;
@@ -23,6 +24,7 @@ import com.ats.webapi.model.grngvn.GetCrnDetailsList;
 import com.ats.webapi.model.grngvn.PostCreditNoteDetails;
 import com.ats.webapi.repository.CrnDetailSummaryRepository;
 import com.ats.webapi.repository.CrnHsnwiseExcelReportRepository;
+import com.ats.webapi.repository.crncumulative.GetCrnCumulativeRepository;
 import com.ats.webapi.repository.getcreditnote.GetCreditNoteDetailRepo;
 import com.ats.webapi.repository.getcreditnote.GetCreditNoteHeaderRepo;
 import com.ats.webapi.repository.getcreditnote.GetCreditNoteReportRepo;
@@ -44,6 +46,9 @@ public class GetCreditNoteApi {
 	//27/04
 	@Autowired
 	CrnHsnwiseExcelReportRepository crnHsnwiseExcelReportRepository;
+	
+	@Autowired
+	GetCrnCumulativeRepository getCrnCumulativeRepository;
 	
 	@RequestMapping(value = { "/getCreditNoteReport" }, method = RequestMethod.POST)
 	public @ResponseBody GetCreditNoteReportList getCreditNoteReport( @RequestParam("crnIdList") List<String> crnIdList)
@@ -264,7 +269,6 @@ public class GetCreditNoteApi {
 	@RequestMapping(value = { "/getCreditNoteHeadersByCrnIds" }, method = RequestMethod.POST)
 	public @ResponseBody GetCreditNoteHeadersList getCreditNoteHeadersByCrnIds(
 			@RequestParam("crnIdList") List<String> crnIdList)
-
 	{
 		GetCreditNoteHeadersList headerResponse = new GetCreditNoteHeadersList();
 		List<GetCreditNoteHeaders> headerList = new ArrayList<>();
@@ -296,6 +300,24 @@ public class GetCreditNoteApi {
 			e.printStackTrace();
 		}
 		return report;
+	}
+	@RequestMapping(value = { "/getCumulativeCrn" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetCrnCumulative> getCumulativeCrn(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("frIdList") List<String> frIdList)
+	{
+		List<GetCrnCumulative> headerList = new ArrayList<GetCrnCumulative>();
+
+		try {
+			System.err.println("frIdList"+frIdList.toString()+"fromDate"+fromDate);
+			headerList=getCrnCumulativeRepository.getCumulativeCrn(fromDate,toDate,frIdList);
+		} catch (Exception e) {
+			
+			System.out.println("Exce In getting crn cumulative " + e.getMessage());
+
+			e.printStackTrace();
+		}
+
+		return headerList;
 	}
 	
 }

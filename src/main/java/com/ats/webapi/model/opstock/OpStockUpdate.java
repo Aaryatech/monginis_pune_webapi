@@ -134,6 +134,7 @@ public class OpStockUpdate {
 		this.reason = reason;
 	}
 
+	@JsonFormat(locale = "hi", timezone = "Asia/Kolkata", pattern = "dd-MM-yyyy")
 	public Date getDate() {
 		return date;
 	}

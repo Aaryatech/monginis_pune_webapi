@@ -18,9 +18,11 @@ public interface CalculateTrayRepo extends JpaRepository<CalCulateTray, Integer>
 			"	AND t_order.delivery_date=:deliveryDate\n" + 
 			"	AND t_order.menu_id IN(:menuIdList) \n" + 
 			"	AND t_order.fr_id \n" + 
-			"	IN(:frIdList) AND\n" + 
+			"	IN(:frIdList)  \n" + 
+			"	 AND m_route_tray_mgmt.route_tray_id IN(:routeIdList) AND " + 
+			
 			"	m_item_sup.item_id=t_order.item_id GROUP BY t_order.fr_id,t_order.order_sub_type", nativeQuery = true)
 	List<CalCulateTray> getCalculateTray(@Param("deliveryDate") String deliveryDate,
-			@Param("frIdList") List<Integer> frIdList, @Param("menuIdList") List<Integer> menuIdList);
+			@Param("frIdList") List<Integer> frIdList, @Param("menuIdList") List<Integer> menuIdList, @Param("routeIdList") List<Integer> routeIdList);
 
 }

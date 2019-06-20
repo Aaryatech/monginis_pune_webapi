@@ -97,7 +97,8 @@ public class RouteMgmtApiController {
 
 	@RequestMapping(value = { "/getAllCalTrayReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<CalCulateTray> getAllCalTrayReport(@RequestParam("deliveryDate") String deliveryDate,
-			@RequestParam("frIdList") List<Integer> frIdList, @RequestParam("menuIdList") List<Integer> menuIdList) {
+			@RequestParam("frIdList") List<Integer> frIdList, @RequestParam("menuIdList") List<Integer> menuIdList,
+			@RequestParam("routeIdList") List<Integer> routeIdList) {
 
 		List<CalCulateTray> list = new ArrayList<CalCulateTray>();
 
@@ -105,8 +106,9 @@ public class RouteMgmtApiController {
 
 			System.out.println("frIdList" + frIdList);
 			System.out.println("menuIdList" + menuIdList);
+			System.out.println("routeIdList" + routeIdList);
 
-			list = calculateTrayRepo.getCalculateTray(deliveryDate, frIdList, menuIdList);
+			list = calculateTrayRepo.getCalculateTray(deliveryDate, frIdList, menuIdList, routeIdList);
 
 		} catch (Exception e) {
 
@@ -144,7 +146,7 @@ public class RouteMgmtApiController {
 
 		try {
 
-			list = getRouteMgmtRepo.getAllRouteMgmt();
+			list = getRouteMgmtRepo.getAllRouteMgmtByRouteIdList(routeIdList);
 			List<Franchisee> franchiseeList = tallyFranchiseeRepository.findByIsTallySync();
 
 			for (int i = 0; i < list.size(); i++) {

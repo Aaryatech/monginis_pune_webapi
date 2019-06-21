@@ -57,6 +57,19 @@ public class ReportControllerV2 {
 		return saleList;
 	}
 
+	@RequestMapping(value = { "/getHsnBillReportByFrId" }, method = RequestMethod.POST)
+	public @ResponseBody List<HSNWiseReport> getHsnBillReportByFrId(@RequestParam("frId") int frId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
+		List<HSNWiseReport> saleList = new ArrayList<>();
+		try {
+
+			saleList = hSNWiseReportRepo.getReportByFrId(frId, fromDate, toDate);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return saleList;
+	}
+
 	@RequestMapping(value = { "/getHsnReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<HSNWiseReport> getHsnReport(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate) {
@@ -65,6 +78,23 @@ public class ReportControllerV2 {
 		try {
 
 			saleList = hSNWiseReportRepo.getReportHsn(fromDate, toDate);
+			System.out.println(saleList.toString());
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return saleList;
+	}
+
+	@RequestMapping(value = { "/getHsnReportByFrId" }, method = RequestMethod.POST)
+	public @ResponseBody List<HSNWiseReport> getHsnReportByFrId(@RequestParam("frId") int frId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
+
+		List<HSNWiseReport> saleList = new ArrayList<>();
+		try {
+
+			saleList = hSNWiseReportRepo.getReportHsnByFrId(frId,fromDate, toDate);
 			System.out.println(saleList.toString());
 
 		} catch (Exception e) {
@@ -150,18 +180,18 @@ public class ReportControllerV2 {
 
 	// neha
 	@RequestMapping(value = { "/getCrNoteRegisterByFrId" }, method = RequestMethod.POST)
-	public @ResponseBody CrNoteRegisterList getCrNoteRegisterByFrId(@RequestParam("frId") int frId,@RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate) {
+	public @ResponseBody CrNoteRegisterList getCrNoteRegisterByFrId(@RequestParam("frId") int frId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
 
 		CrNoteRegisterList crNoteList = new CrNoteRegisterList();
 
 		List<CrNoteRegItem> crNoteRegItemList;
 		List<CrNoteRegSp> crNoteRegSpList;
 
-		crNoteRegItemList = getCrNoteRegItemRepo.getCrNoteRegItemByFrId(frId,fromDate, toDate);
+		crNoteRegItemList = getCrNoteRegItemRepo.getCrNoteRegItemByFrId(frId, fromDate, toDate);
 		crNoteList.setCrNoteRegItemList(crNoteRegItemList);
 
-		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpByFrId(frId,fromDate, toDate);
+		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpByFrId(frId, fromDate, toDate);
 		crNoteList.setCrNoteRegSpList(crNoteRegSpList);
 
 		System.err.println("size Item  crNoteList " + crNoteList.getCrNoteRegItemList().size());
@@ -193,18 +223,18 @@ public class ReportControllerV2 {
 
 	// neha
 	@RequestMapping(value = { "/getCrNoteRegisterDoneByFrId" }, method = RequestMethod.POST)
-	public @ResponseBody CrNoteRegisterList getCrNoteRegisterDoneByFrId(@RequestParam("frId") int frId,@RequestParam("fromDate") String fromDate,
-			@RequestParam("toDate") String toDate) {
+	public @ResponseBody CrNoteRegisterList getCrNoteRegisterDoneByFrId(@RequestParam("frId") int frId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
 
 		CrNoteRegisterList crNoteList = new CrNoteRegisterList();
 
 		List<CrNoteRegItem> crNoteRegItemList;
 		List<CrNoteRegSp> crNoteRegSpList;
 
-		crNoteRegItemList = getCrNoteRegItemRepo.getCrNoteRegItemDoneByFrId(frId,fromDate, toDate);
+		crNoteRegItemList = getCrNoteRegItemRepo.getCrNoteRegItemDoneByFrId(frId, fromDate, toDate);
 		crNoteList.setCrNoteRegItemList(crNoteRegItemList);
 
-		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpDoneByFrId(frId,fromDate, toDate);
+		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpDoneByFrId(frId, fromDate, toDate);
 		crNoteList.setCrNoteRegSpList(crNoteRegSpList);
 
 		System.err.println("size Item  crNoteList " + crNoteList.getCrNoteRegItemList().size());

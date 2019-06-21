@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ats.webapi.model.SellBillDetail;
 @Repository
-public interface SellBillDetailRepository extends JpaRepository<SellBillDetail, Long>{
+public interface SellBillDetailRepository extends JpaRepository<SellBillDetail, Integer>{
 
 	SellBillDetail save(SellBillDetail sellBillDetail);
 
@@ -21,7 +21,6 @@ public interface SellBillDetailRepository extends JpaRepository<SellBillDetail, 
 	@Query(" DELETE FROM SellBillDetail WHERE  sellBillDetailNo=:sellBillDetailNo")
 	
 	int  deleteSellBillDetail(@Param("sellBillDetailNo") int sellBillDetailNo);
-	
-	
+
 	
 }

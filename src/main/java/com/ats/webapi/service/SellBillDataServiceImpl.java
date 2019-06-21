@@ -26,29 +26,30 @@ public class SellBillDataServiceImpl implements SellBillDataService{
 
 		SellBillHeader sellBillHeaderRes=new SellBillHeader();
 		
-			 
+		try {	 
 			
 		sellBillHeaderRes=sellBillHeaderRepository.save(sellBillHeader);
-		
-		          int sellBillNo=sellBillHeaderRes.getSellBillNo();
-		
-		 
+	     int sellBillNo=sellBillHeaderRes.getSellBillNo();
+			 
 		           List<SellBillDetail> sellBillDetailList=sellBillHeaderRes.getSellBillDetailsList();
-		
 		           List<SellBillDetail> sellBillDetailRes=new ArrayList<SellBillDetail>();
-		       for(int j=0;j<sellBillDetailList.size();j++) {
+		           if(sellBillDetailList!=null) {
+		        	   
+		             for(int j=0;j<sellBillDetailList.size();j++) {
 			
 		             	   SellBillDetail sellBillDetail=sellBillDetailList.get(j);
 			
 			               sellBillDetail.setSellBillNo(sellBillNo);
-			
-			
+						
 			               sellBillDetail=sellBillDetailRepository.save(sellBillDetail);
 			               sellBillDetailRes.add(sellBillDetail);
 		            }
-		
-	
+		           }
 		       sellBillHeaderRes.setSellBillDetailsList(sellBillDetailRes);
+		}
+		catch (Exception e) {
+		e.printStackTrace();
+		}
 		return sellBillHeaderRes;
 	}
 	

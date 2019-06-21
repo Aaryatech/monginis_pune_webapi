@@ -15,13 +15,20 @@ import com.ats.webapi.model.HsnwiseBillExcelSummary;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.SellBillDataCommon;
 import com.ats.webapi.model.SellBillDetail;
+import com.ats.webapi.model.SellBillDetailEdit;
 import com.ats.webapi.model.SellBillDetailList;
+import com.ats.webapi.model.SellBillDetails;
+import com.ats.webapi.model.SellBillEditBean;
 import com.ats.webapi.model.SellBillHeader;
 import com.ats.webapi.model.bill.ExpressBillService;
 import com.ats.webapi.model.bill.GetItemHsnCode;
 import com.ats.webapi.model.bill.SlabwiseBill;
 import com.ats.webapi.model.bill.SlabwiseBillList;
+import com.ats.webapi.repository.ExpressBillRepository;
 import com.ats.webapi.repository.HsnwiseBillExcelSummaryRepository;
+import com.ats.webapi.repository.SellBillDetailEditRepository;
+import com.ats.webapi.repository.SellBillDetailRepository;
+import com.ats.webapi.repository.SellBillDetailsRepository;
 import com.ats.webapi.repository.SlabwiseDetailsRepository;
 import com.ats.webapi.repository.UpdateSellBillTimeStampRepo;
 
@@ -36,8 +43,18 @@ public class BillingController {
 	
 	@Autowired
 	UpdateSellBillTimeStampRepo  updateSellBillTimeStampRepo;
+	
 	@Autowired
 	HsnwiseBillExcelSummaryRepository hsnwiseBillExcelSummaryRepository;
+	
+	@Autowired
+	ExpressBillRepository  expressBillRepository;
+	
+	@Autowired
+	SellBillDetailRepository sellBillDetailRepository;
+	
+	@Autowired
+	SellBillDetailEditRepository sellBillDetailEditRepository;
 	
 	@RequestMapping(value = { "/updateSellBillTimeStamp" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateSellBillTimeStamp(@RequestParam("sellBillNo") int sellBillNo,
@@ -81,6 +98,16 @@ public class BillingController {
 		SellBillDetailList sellBillDetailList=expressBillService.getSellBillDetails(billNo);
 		    
 			return sellBillDetailList;
+	  }
+	@RequestMapping(value = { "/getSellBillHeaderAndDetails" }, method = RequestMethod.POST)
+	public @ResponseBody SellBillEditBean getSellBillHeaderAndDetails(@RequestParam("billNo") int billNo) {
+
+		SellBillEditBean sellBillEditBean=new SellBillEditBean();
+		SellBillHeader sellBillHeader=expressBillRepository.findBySellBillNo(billNo);
+		List<SellBillDetailEdit> sellBillDetails=sellBillDetailEditRepository.findBySellBillNo(billNo);
+		sellBillEditBean.setSellBillHeader(sellBillHeader);
+		sellBillEditBean.setSellBillDetailList(sellBillDetails);	
+		return sellBillEditBean;
 	  }
 	@RequestMapping(value = { "/saveSellBillHeader" }, method = RequestMethod.POST)
 	public @ResponseBody SellBillHeader saveSellBillHeader(@RequestBody SellBillHeader sellBillHeader) {

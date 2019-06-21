@@ -24,4 +24,7 @@ public interface SpCakeOrderHisRepository extends JpaRepository<SpCkOrderHis, Lo
 
 	@Query(value="select t_sp_cake.*,m_sp_flavour.spf_name,m_sp_cake.sp_name from t_sp_cake,m_sp_flavour,m_sp_cake where t_sp_cake.sp_delivery_date=:spDeliveryDt AND t_sp_cake.menu_id IN(:menuList) AND  t_sp_cake.fr_code=:frCode AND t_sp_cake.sp_flavour_id=m_sp_flavour.spf_id AND t_sp_cake.sp_id=m_sp_cake.sp_id",nativeQuery=true)
 	List<SpCkOrderHis> findByMenuIdInAndSpDeliveryDtByMenu(@Param("menuList")List<String> menuList,@Param("spDeliveryDt") String spDeliveryDt,@Param("frCode") String frCode);
+
+	@Query(value="select t_sp_cake.*,m_sp_flavour.spf_name,m_sp_cake.sp_name from t_sp_cake,m_sp_flavour,m_sp_cake where sp_order_no=:spOrderNo And t_sp_cake.sp_flavour_id=m_sp_flavour.spf_id AND t_sp_cake.sp_id=m_sp_cake.sp_id",nativeQuery=true)
+	SpCkOrderHis findByOrderNoForExBillPrint(@Param("spOrderNo")int spOrderNo);
 }

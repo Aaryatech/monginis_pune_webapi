@@ -58,6 +58,7 @@ import com.ats.webapi.repository.PostFrOpStockDetailRepository;
 import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
 import com.ats.webapi.repository.RouteMasterRepository;
 import com.ats.webapi.repository.RouteRepository;
+import com.ats.webapi.repository.SellBillDetailRepository;
 import com.ats.webapi.repository.SpCakeOrderHisRepository;
 import com.ats.webapi.repository.SpCakeOrderUpdateRepository;
 import com.ats.webapi.repository.SpCakeOrdersRepository;
@@ -407,6 +408,8 @@ public class RestApiController {
 
 	@Autowired
 	RouteMasterRepository routeMasterRepository;
+	@Autowired
+	SellBillDetailRepository sellBillDetailRepository;
 
 	@RequestMapping(value = { "/changeAdminUserPass" }, method = RequestMethod.POST)
 	public @ResponseBody Info changeAdminUserPass(@RequestBody User user) {
@@ -1232,6 +1235,30 @@ public class RestApiController {
 		return jsonSellBillHeader;
 
 	}
+	@RequestMapping(value = { "/insertSellBillDetails" }, method = RequestMethod.POST)
+	public @ResponseBody   List<SellBillDetail>  insertSellBillDetails(@RequestBody   List<SellBillDetail> sellBillDetailList)
+			throws ParseException, JsonParseException, JsonMappingException, IOException {
+
+		   List<SellBillDetail> sellBillDetailRes=new ArrayList<SellBillDetail>();
+	       for(int j=0;j<sellBillDetailList.size();j++) {
+		
+	             	   SellBillDetail sellBillDetail=sellBillDetailList.get(j);
+		               sellBillDetail=sellBillDetailRepository.save(sellBillDetail);
+		               sellBillDetailRes.add(sellBillDetail);
+	            }
+			Info info = new Info();
+		if (sellBillDetailRes.size()>0) {
+			info.setError(false);
+			info.setMessage("Sell bill Detail inserted  Successfully");
+			System.out.println("Response : " + info.toString());
+		}
+		else {
+			info.setError(true);
+			info.setMessage("Error in Sell bill Detail insertion : RestApi");
+			System.out.println("Response : " + info.toString());
+		}
+		return sellBillDetailRes;
+	}
 
 	@RequestMapping(value = "/getBillHeader", method = RequestMethod.POST)
 	public @ResponseBody GetBillHeaderList getBillHeader(@RequestParam("frId") List<String> frId,
@@ -1751,7 +1778,20 @@ public class RestApiController {
 
 		return spHistoryExBill;
 	}
+	@RequestMapping(value = { "/getSpCkOrderForExBillPrint" }, method = RequestMethod.POST)
+	@ResponseBody
+	public SpCkOrderHis getSpCkOrderForExBill(@RequestParam("spOrderNo") int spOrderNo) {
+		
+		SpCkOrderHis spCakeOrder=null;
+		try {
+				 spCakeOrder = spCakeOrderHisRepository.findByOrderNoForExBillPrint(spOrderNo);
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return spCakeOrder;
+	}
 	// Search Special Cake Order History
 	@RequestMapping("/orderHistory")
 	public @ResponseBody ItemOrderList searchOrderHistory(@RequestParam List<String> catId,

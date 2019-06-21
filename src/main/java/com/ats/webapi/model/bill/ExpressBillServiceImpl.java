@@ -20,7 +20,7 @@ import com.ats.webapi.repository.SellBillDetailsRepository;
 public class ExpressBillServiceImpl implements ExpressBillService{
 
 	@Autowired
-	ExpressBillRepository  expressBillRepository  ;
+	ExpressBillRepository  expressBillRepository;
 	
 	@Autowired
 	SellBillDetailRepository sellBillDetailRepository;

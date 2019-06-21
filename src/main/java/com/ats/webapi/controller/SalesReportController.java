@@ -78,6 +78,38 @@ public class SalesReportController {
 		}
 		return tax1ReportList;
 	}
+	
+	@RequestMapping(value = { "/getTax1ReportByFrId" }, method = RequestMethod.POST)
+	public @ResponseBody List<Tax1Report> getTax1ReportByFrId(@RequestParam("frId")int frId,@RequestParam("fromDate")String fromDate,@RequestParam("toDate") String toDate) {
+
+		List<Tax1Report> tax1ReportList = null;
+		try {
+			fromDate = Common.convertToYMD(fromDate);
+			toDate = Common.convertToYMD(toDate);
+
+			tax1ReportList = tax1ReportRepository.getTax1ReportByFrId(frId,fromDate, toDate);
+		} catch (Exception e) {
+			System.out.println(" Exce in Tax1 Report " + e.getMessage());
+			e.printStackTrace();
+		}
+		return tax1ReportList;
+	}
+	
+	@RequestMapping(value = { "/getTax2ReportByFrId" }, method = RequestMethod.POST)
+	public @ResponseBody List<Tax2Report> getTax2ReportByFrId(@RequestParam("frId")int frId,@RequestParam("fromDate")String fromDate,@RequestParam("toDate") String toDate) {
+
+		List<Tax2Report> tax1ReportList = null;
+		try {
+			fromDate = Common.convertToYMD(fromDate);
+			toDate = Common.convertToYMD(toDate);
+
+			tax1ReportList = tax2ReportRepository.getTax2ReportByFrId(frId,fromDate, toDate);
+		} catch (Exception e) {
+			System.out.println(" Exce in Tax2 Report " + e.getMessage());
+			e.printStackTrace();
+		}
+		return tax1ReportList;
+	}
 
 	@RequestMapping(value = { "/getTax2Report" }, method = RequestMethod.POST)
 	public @ResponseBody List<Tax2Report> getTax2Report(@RequestParam("fromDate")String fromDate,@RequestParam("toDate") String toDate) {

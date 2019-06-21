@@ -148,6 +148,28 @@ public class ReportControllerV2 {
 		return crNoteList;
 	}
 
+	// neha
+	@RequestMapping(value = { "/getCrNoteRegisterByFrId" }, method = RequestMethod.POST)
+	public @ResponseBody CrNoteRegisterList getCrNoteRegisterByFrId(@RequestParam("frId") int frId,@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		CrNoteRegisterList crNoteList = new CrNoteRegisterList();
+
+		List<CrNoteRegItem> crNoteRegItemList;
+		List<CrNoteRegSp> crNoteRegSpList;
+
+		crNoteRegItemList = getCrNoteRegItemRepo.getCrNoteRegItemByFrId(frId,fromDate, toDate);
+		crNoteList.setCrNoteRegItemList(crNoteRegItemList);
+
+		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpByFrId(frId,fromDate, toDate);
+		crNoteList.setCrNoteRegSpList(crNoteRegSpList);
+
+		System.err.println("size Item  crNoteList " + crNoteList.getCrNoteRegItemList().size());
+		System.err.println("size Sp  crNoteList " + crNoteList.getCrNoteRegSpList());
+
+		return crNoteList;
+	}
+
 	@RequestMapping(value = { "/getCrNoteRegisterDone" }, method = RequestMethod.POST)
 	public @ResponseBody CrNoteRegisterList getCrNoteRegisterDone(@RequestParam("fromDate") String fromDate,
 			@RequestParam("toDate") String toDate) {
@@ -161,6 +183,28 @@ public class ReportControllerV2 {
 		crNoteList.setCrNoteRegItemList(crNoteRegItemList);
 
 		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpDone(fromDate, toDate);
+		crNoteList.setCrNoteRegSpList(crNoteRegSpList);
+
+		System.err.println("size Item  crNoteList " + crNoteList.getCrNoteRegItemList().size());
+		System.err.println("size Sp  crNoteList " + crNoteList.getCrNoteRegSpList());
+
+		return crNoteList;
+	}
+
+	// neha
+	@RequestMapping(value = { "/getCrNoteRegisterDoneByFrId" }, method = RequestMethod.POST)
+	public @ResponseBody CrNoteRegisterList getCrNoteRegisterDoneByFrId(@RequestParam("frId") int frId,@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate) {
+
+		CrNoteRegisterList crNoteList = new CrNoteRegisterList();
+
+		List<CrNoteRegItem> crNoteRegItemList;
+		List<CrNoteRegSp> crNoteRegSpList;
+
+		crNoteRegItemList = getCrNoteRegItemRepo.getCrNoteRegItemDoneByFrId(frId,fromDate, toDate);
+		crNoteList.setCrNoteRegItemList(crNoteRegItemList);
+
+		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpDoneByFrId(frId,fromDate, toDate);
 		crNoteList.setCrNoteRegSpList(crNoteRegSpList);
 
 		System.err.println("size Item  crNoteList " + crNoteList.getCrNoteRegItemList().size());

@@ -2,6 +2,7 @@ package com.ats.webapi.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,8 @@ import com.ats.webapi.commons.Common;
 import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.TrayMgtDetailList;
+import com.ats.webapi.model.route.RouteMgmt;
+import com.ats.webapi.model.route.RouteMgmtRepo;
 import com.ats.webapi.model.tray.FrOutTrays;
 import com.ats.webapi.model.tray.FranchiseInRoute;
 import com.ats.webapi.model.tray.GetTrayMgtHeader;
@@ -26,11 +29,13 @@ import com.ats.webapi.model.tray.GetVehDriverMobNo;
 import com.ats.webapi.model.tray.GetVehicleAvg;
 import com.ats.webapi.model.tray.TrayMgtDetail;
 import com.ats.webapi.model.tray.TrayMgtDetailBean;
+import com.ats.webapi.model.tray.TrayMgtDetailInTray;
 import com.ats.webapi.model.tray.TrayMgtHeader;
 import com.ats.webapi.repository.tray.GetTrayMgtReportRepo;
 import com.ats.webapi.repository.tray.GetVehDriverMobNoRepo;
 import com.ats.webapi.repository.tray.GetVehicleAvgRepository;
 import com.ats.webapi.repository.tray.TrayMgtDetailBeanRepository;
+import com.ats.webapi.repository.tray.TrayMgtDetailInTrayRepo;
 import com.ats.webapi.repository.tray.TrayMgtHeaderRepository;
 import com.ats.webapi.service.tray.TrayMgtService;
 
@@ -39,6 +44,9 @@ import com.ats.webapi.service.tray.TrayMgtService;
 public class TrayManagementController {
 	@Autowired
 	TrayMgtHeaderRepository trayMgtHeaderRepository;
+
+	@Autowired
+	TrayMgtDetailInTrayRepo trayMgtDetailInTrayRepo; // neha 26June
 
 	@Autowired
 	TrayMgtService trayMgtService;
@@ -54,6 +62,71 @@ public class TrayManagementController {
 
 	@Autowired
 	GetTrayMgtReportRepo getTrayMgtReportRepo;
+
+	@Autowired
+	RouteMgmtRepo routeMgmtRepo;
+
+	@RequestMapping(value = { "/saveTrayMgmtDeatilInTray" }, method = RequestMethod.POST)
+	public @ResponseBody TrayMgtDetailInTray saveTrayMgmtDeatilInTray(
+			@RequestBody TrayMgtDetailInTray trayMgtDetailInTray) {
+
+		TrayMgtDetailInTray res = new TrayMgtDetailInTray();
+
+		try {
+
+			res = trayMgtDetailInTrayRepo.saveAndFlush(trayMgtDetailInTray);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
+
+	@RequestMapping(value = { "/getTrayMgmtTrayByFrId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetTrayMgtHeader> getTrayMgmtTrayByFrId(@RequestParam("frId") int frId) {
+
+		List<RouteMgmt> list = new ArrayList<RouteMgmt>();
+		List<GetTrayMgtHeader> trayMgtDetailRes = new ArrayList<>();
+
+		try {
+
+			list = routeMgmtRepo.findByFrIdAndDelStatus(frId);
+
+			for (int i = 0; i < list.size(); i++) {
+
+				trayMgtDetailRes = trayMgtService.getTrayMgtHeaderByRouteId(list.get(i).getRouteTrayId());
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return trayMgtDetailRes;
+
+	}
+
+	@RequestMapping(value = { "/getTrayMgmtDeatilInTrayByFrIdAndDate" }, method = RequestMethod.POST)
+	public @ResponseBody List<TrayMgtDetailInTray> getTrayMgmtDeatilInTrayByFrIdAndDate(@RequestParam("frId") int frId,
+			@RequestParam("intrayDate") String intrayDate) {
+
+		List<TrayMgtDetailInTray> list = new ArrayList<TrayMgtDetailInTray>();
+
+		try {
+
+			list = trayMgtDetailInTrayRepo.findByFrIdAndIntrayDateAndDelStatus(frId, intrayDate, 0);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
 
 	@RequestMapping(value = { "/trayDetailByFrIdBySum" }, method = RequestMethod.POST)
 	public @ResponseBody List<TrayMgtDetailBean> trayDetailByFrIdBySum(@RequestParam("frId") int frId,
@@ -309,8 +382,7 @@ public class TrayManagementController {
 	}
 
 	@RequestMapping(value = { "/getTrayDetailForBalanceByFr" }, method = RequestMethod.POST)
-	public @ResponseBody List<TrayMgtDetail> getTrayDetailForBalanceByFr(@RequestParam("frId") int frId
-		 ) {
+	public @ResponseBody List<TrayMgtDetail> getTrayDetailForBalanceByFr(@RequestParam("frId") int frId) {
 
 		List<TrayMgtDetail> trayMgtDetailRes = trayMgtService.getTrayDetailForBalanceByFr(frId);
 

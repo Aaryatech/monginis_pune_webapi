@@ -78,4 +78,7 @@ public interface TrayMgtService {
 	
 	
 	List<TrayMgtDetail> getTrayDetailForBalanceByFr(int frId);
+	
+	
+	List<GetTrayMgtHeader> getTrayMgtHeaderByRouteId(int routeId);
 }

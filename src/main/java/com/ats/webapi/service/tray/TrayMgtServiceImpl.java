@@ -198,6 +198,20 @@ public class TrayMgtServiceImpl implements TrayMgtService {
 	}
 
 	@Override
+	public List<GetTrayMgtHeader> getTrayMgtHeaderByRouteId(int routeId) {
+
+		List<GetTrayMgtHeader> trayMgtHeaderRes;
+		try {
+
+			trayMgtHeaderRes = getTrayMgtHeaderRepository.getTrayMgtHeaderByRouteId(routeId);
+		} catch (Exception e) {
+			trayMgtHeaderRes = new ArrayList<>();
+			e.printStackTrace();
+		}
+		return trayMgtHeaderRes;
+	}
+
+	@Override
 	public Info updateDieselForTransaction(int tranId, float diesel) {
 		int isUpdated = trayMgtHeaderRepository.updateDieselForTransaction(tranId, diesel);
 		Info info = new Info();

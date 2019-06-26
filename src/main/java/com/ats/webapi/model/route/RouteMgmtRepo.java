@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ats.webapi.model.tray.TrayMgtDetail;
+
 public interface RouteMgmtRepo extends JpaRepository<RouteMgmt, Integer> {
 
 	List<RouteMgmt> findByDelStatusAndIsActive(int i, int j);
@@ -22,5 +24,10 @@ public interface RouteMgmtRepo extends JpaRepository<RouteMgmt, Integer> {
 	List<RouteMgmt> findByIsSameDayAndDelStatusAndIsActive(int isSameDay, int i, int j);
 
 	List<RouteMgmt> findByRouteTrayIdInAndDelStatus(List<Integer> routeIdList, int i);
+
+	@Query(value = "SELECT r.* FROM m_route_tray_mgmt r WHERE r.del_status=0 AND FIND_IN_SET (:frId,r.fr_ids)", nativeQuery = true)
+	List<RouteMgmt> findByFrIdAndDelStatus(@Param("frId") int frId);
+
+	//
 
 }

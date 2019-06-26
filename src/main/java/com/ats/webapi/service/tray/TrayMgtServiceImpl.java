@@ -164,11 +164,10 @@ public class TrayMgtServiceImpl implements TrayMgtService {
 			RouteMgmt routeMgmt = new RouteMgmt();
 
 			routeMgmt = routeMgmtRepo.findByRouteTrayIdAndDelStatus(routeId, 0);
-			
+
 			List<Integer> frIdList = Stream.of(routeMgmt.getFrIds().split(",")).map(Integer::parseInt)
 					.collect(Collectors.toList());
 
-					 
 			frInRoute = franchiseInRouteRepository.findFrInFranchisee(frIdList, tranId);
 		} catch (Exception e) {
 			frInRoute = new ArrayList<FranchiseInRoute>();
@@ -289,6 +288,19 @@ public class TrayMgtServiceImpl implements TrayMgtService {
 
 			trayMgtDetailRes = trayMgtDetailRepository.findByFrIdAndIsSameDayAndDelStatusAndTrayStatusIn(frId,
 					isSameDay, 0);
+		} catch (Exception e) {
+			trayMgtDetailRes = new ArrayList<>();
+			e.printStackTrace();
+		}
+		return trayMgtDetailRes;
+	}
+
+	@Override
+	public List<TrayMgtDetail> getTrayDetailForBalanceByFr(int frId) {
+		List<TrayMgtDetail> trayMgtDetailRes;
+		try {
+
+			trayMgtDetailRes = trayMgtDetailRepository.findByFrIdAndDelStatus(frId, 0);
 		} catch (Exception e) {
 			trayMgtDetailRes = new ArrayList<>();
 			e.printStackTrace();

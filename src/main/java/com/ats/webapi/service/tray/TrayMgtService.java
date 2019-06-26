@@ -75,5 +75,7 @@ public interface TrayMgtService {
 	List<TrayMgtDetailList> getTrayMgtDetailsByTranIdAndDate(int tranId, String date);
 	
 	List<FranchiseInRoute> getFranchiseInRouteMgmt(int routeId, int tranId);
-
+	
+	
+	List<TrayMgtDetail> getTrayDetailForBalanceByFr(int frId);
 }

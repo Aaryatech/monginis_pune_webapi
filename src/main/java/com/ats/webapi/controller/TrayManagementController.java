@@ -308,6 +308,16 @@ public class TrayManagementController {
 
 	}
 
+	@RequestMapping(value = { "/getTrayDetailForBalanceByFr" }, method = RequestMethod.POST)
+	public @ResponseBody List<TrayMgtDetail> getTrayDetailForBalanceByFr(@RequestParam("frId") int frId
+		 ) {
+
+		List<TrayMgtDetail> trayMgtDetailRes = trayMgtService.getTrayDetailForBalanceByFr(frId);
+
+		return trayMgtDetailRes;
+
+	}
+
 	// ------------------------------------------------------------------------------------
 	// --------Getting Out Trays of different types For Franchise(Based on order of
 	// Items,no. of tray needed to Franchise)----

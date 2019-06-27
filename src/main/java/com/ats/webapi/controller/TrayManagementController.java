@@ -85,6 +85,38 @@ public class TrayManagementController {
 
 	}
 
+	// TrayMgtDetailBean trayMgtDetailRes =
+	// trayMgtService.getTrayDetailByDetailId(tranStatus3);
+
+	@RequestMapping(value = { "/getTrayDetailByTrayDetId" }, method = RequestMethod.POST)
+	public @ResponseBody TrayMgtDetailBean getTrayDetailByTrayDetId(@RequestParam("tranDetId") int tranDetId) {
+
+		TrayMgtDetailBean trayMgtDetailRes = null;
+		TrayMgtDetailBean res = null;
+
+		try {
+			trayMgtDetailRes = trayMgtService.getTrayDetailByDetailId(tranDetId);
+
+			if (trayMgtDetailRes.getTrayStatus() == 1) {
+
+				trayMgtDetailRes.setBalanceBig(trayMgtDetailRes.getOuttrayBig());
+				trayMgtDetailRes.setBalanceExtra(trayMgtDetailRes.getOuttrayExtra());
+				trayMgtDetailRes.setBalanceLead(trayMgtDetailRes.getOuttrayLead());
+				trayMgtDetailRes.setBalanceSmall(trayMgtDetailRes.getOuttraySmall());
+				trayMgtDetailRes.setTrayStatus(2);
+
+				res = trayMgtDetailBeanRepository.saveAndFlush(trayMgtDetailRes);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return res;
+
+	}
+
 	@RequestMapping(value = { "/getTrayMgmtTrayByFrId" }, method = RequestMethod.POST)
 	public @ResponseBody List<GetTrayMgtHeader> getTrayMgmtTrayByFrId(@RequestParam("frId") int frId) {
 

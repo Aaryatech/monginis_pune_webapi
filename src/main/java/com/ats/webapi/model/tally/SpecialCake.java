@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="m_sp_cake")
+//@Table(name="m_sp_cake")
 public class SpecialCake implements Serializable {
 
 	@Id

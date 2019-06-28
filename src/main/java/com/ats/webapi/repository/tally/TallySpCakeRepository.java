@@ -10,7 +10,7 @@ import com.ats.webapi.model.tally.SpecialCake;
 
 
 @Repository
-public interface TallySpCakeRepository extends JpaRepository<SpecialCake, Long>{
+public interface TallySpCakeRepository extends JpaRepository<SpecialCake, Integer>{
 
 	
 	@Query(value="SELECT\n" + 

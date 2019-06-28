@@ -164,12 +164,12 @@ public class ReportControllerV2 {
 		CrNoteRegisterList crNoteList = new CrNoteRegisterList();
 
 		List<CrNoteRegItem> crNoteRegItemList;
-		List<CrNoteRegSp> crNoteRegSpList;
+		List<CrNoteRegSp> crNoteRegSpList=new ArrayList<CrNoteRegSp>();
 
 		crNoteRegItemList = getCrNoteRegItemRepo.getCrNoteRegItem(fromDate, toDate);
 		crNoteList.setCrNoteRegItemList(crNoteRegItemList);
 
-		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSp(fromDate, toDate);
+		//crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSp(fromDate, toDate);
 		crNoteList.setCrNoteRegSpList(crNoteRegSpList);
 
 		System.err.println("size Item  crNoteList " + crNoteList.getCrNoteRegItemList().size());
@@ -186,12 +186,12 @@ public class ReportControllerV2 {
 		CrNoteRegisterList crNoteList = new CrNoteRegisterList();
 
 		List<CrNoteRegItem> crNoteRegItemList;
-		List<CrNoteRegSp> crNoteRegSpList;
+		List<CrNoteRegSp> crNoteRegSpList=new ArrayList<CrNoteRegSp>();
 
 		crNoteRegItemList = getCrNoteRegItemRepo.getCrNoteRegItemByFrId(frId, fromDate, toDate);
 		crNoteList.setCrNoteRegItemList(crNoteRegItemList);
 
-		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpByFrId(frId, fromDate, toDate);
+		//crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpByFrId(frId, fromDate, toDate);
 		crNoteList.setCrNoteRegSpList(crNoteRegSpList);
 
 		System.err.println("size Item  crNoteList " + crNoteList.getCrNoteRegItemList().size());
@@ -207,12 +207,12 @@ public class ReportControllerV2 {
 		CrNoteRegisterList crNoteList = new CrNoteRegisterList();
 
 		List<CrNoteRegItem> crNoteRegItemList;
-		List<CrNoteRegSp> crNoteRegSpList;
+		List<CrNoteRegSp> crNoteRegSpList=new ArrayList<>();
 
 		crNoteRegItemList = getCrNoteRegItemRepo.getCrNoteRegItemDone(fromDate, toDate);
 		crNoteList.setCrNoteRegItemList(crNoteRegItemList);
 
-		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpDone(fromDate, toDate);
+		//crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpDone(fromDate, toDate);
 		crNoteList.setCrNoteRegSpList(crNoteRegSpList);
 
 		System.err.println("size Item  crNoteList " + crNoteList.getCrNoteRegItemList().size());
@@ -229,12 +229,12 @@ public class ReportControllerV2 {
 		CrNoteRegisterList crNoteList = new CrNoteRegisterList();
 
 		List<CrNoteRegItem> crNoteRegItemList;
-		List<CrNoteRegSp> crNoteRegSpList;
+		List<CrNoteRegSp> crNoteRegSpList=new ArrayList<CrNoteRegSp>();
 
 		crNoteRegItemList = getCrNoteRegItemRepo.getCrNoteRegItemDoneByFrId(frId, fromDate, toDate);
 		crNoteList.setCrNoteRegItemList(crNoteRegItemList);
 
-		crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpDoneByFrId(frId, fromDate, toDate);
+		//crNoteRegSpList = getCrNoteRegSpRepo.getCrNoteRegSpDoneByFrId(frId, fromDate, toDate);
 		crNoteList.setCrNoteRegSpList(crNoteRegSpList);
 
 		System.err.println("size Item  crNoteList " + crNoteList.getCrNoteRegItemList().size());

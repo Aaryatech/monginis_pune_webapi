@@ -9,7 +9,9 @@ import com.ats.webapi.model.Info;
 import com.ats.webapi.model.TrayMgtDetailList;
 import com.ats.webapi.model.tray.FrOutTrays;
 import com.ats.webapi.model.tray.FranchiseInRoute;
+import com.ats.webapi.model.tray.GetInTrays;
 import com.ats.webapi.model.tray.GetTrayMgtHeader;
+import com.ats.webapi.model.tray.GetTrayMgtReport;
 import com.ats.webapi.model.tray.TrayMgtDetail;
 import com.ats.webapi.model.tray.TrayMgtDetailBean;
 import com.ats.webapi.model.tray.TrayMgtHeader;
@@ -81,4 +83,8 @@ public interface TrayMgtService {
 	
 	
 	List<GetTrayMgtHeader> getTrayMgtHeaderByRouteId(int routeId);
+
+	List<GetTrayMgtReport> getTrayMgtBalanceTrayList(int tranId, List<Integer> frIdList);
+
+	List<GetInTrays> getTrayMgtInTrayList(int tranId, List<Integer> frIdList);
 }

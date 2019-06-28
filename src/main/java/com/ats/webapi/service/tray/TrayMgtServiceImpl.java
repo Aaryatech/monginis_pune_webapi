@@ -17,13 +17,17 @@ import com.ats.webapi.model.route.RouteMgmt;
 import com.ats.webapi.model.route.RouteMgmtRepo;
 import com.ats.webapi.model.tray.FrOutTrays;
 import com.ats.webapi.model.tray.FranchiseInRoute;
+import com.ats.webapi.model.tray.GetInTrays;
 import com.ats.webapi.model.tray.GetTrayMgtHeader;
+import com.ats.webapi.model.tray.GetTrayMgtReport;
 import com.ats.webapi.model.tray.TrayMgtDetail;
 import com.ats.webapi.model.tray.TrayMgtDetailBean;
 import com.ats.webapi.model.tray.TrayMgtHeader;
 import com.ats.webapi.repository.tray.FrOutTrayRepository;
 import com.ats.webapi.repository.tray.FranchiseInRouteRepository;
+import com.ats.webapi.repository.tray.GetInTraysRepository;
 import com.ats.webapi.repository.tray.GetTrayMgtHeaderRepository;
+import com.ats.webapi.repository.tray.GetTrayMgtReportRepo;
 import com.ats.webapi.repository.tray.TrayMgtDetailBeanRepository;
 import com.ats.webapi.repository.tray.TrayMgtDetailRepository;
 import com.ats.webapi.repository.tray.TrayMgtHeaderRepository;
@@ -48,7 +52,11 @@ public class TrayMgtServiceImpl implements TrayMgtService {
 
 	@Autowired
 	FranchiseInRouteRepository franchiseInRouteRepository;
-
+	@Autowired
+	GetTrayMgtReportRepo getTrayMgtReportRepo;
+	
+	@Autowired
+	GetInTraysRepository getInTraysRepository;
 	@Override
 	public TrayMgtHeader saveTrayMgtHeader(TrayMgtHeader trayMgtHeader) {
 
@@ -464,6 +472,20 @@ public class TrayMgtServiceImpl implements TrayMgtService {
 			e.printStackTrace();
 		}
 		return trayMgtDetailList;
+	}
+
+	@Override
+	public List<GetTrayMgtReport> getTrayMgtBalanceTrayList(int tranId, List<Integer> frIdList) {
+		List<GetTrayMgtReport> getTrayMgtBalanceTrayList= getTrayMgtReportRepo.getTrayMgtBalanceTrayList(tranId, frIdList);;
+
+		return getTrayMgtBalanceTrayList;
+	}
+
+	@Override
+	public List<GetInTrays> getTrayMgtInTrayList(int tranId, List<Integer> frIdList) {
+		List<GetInTrays> getTrayMgtInTrayList= getInTraysRepository.getTrayMgtInTrayList(tranId, frIdList);;
+
+		return getTrayMgtInTrayList;
 	}
 
 }

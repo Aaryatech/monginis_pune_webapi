@@ -23,6 +23,8 @@ import com.ats.webapi.model.route.RouteMgmt;
 import com.ats.webapi.model.route.RouteMgmtRepo;
 import com.ats.webapi.model.tray.FrOutTrays;
 import com.ats.webapi.model.tray.FranchiseInRoute;
+import com.ats.webapi.model.tray.GetInTrays;
+import com.ats.webapi.model.tray.GetTotalTray;
 import com.ats.webapi.model.tray.GetTrayMgtHeader;
 import com.ats.webapi.model.tray.GetTrayMgtReport;
 import com.ats.webapi.model.tray.GetVehDriverMobNo;
@@ -813,5 +815,59 @@ public class TrayManagementController {
 			e.printStackTrace();
 		}
 		return getTrayMgtDetail;
+	}
+	@RequestMapping(value = { "/getTotalTray" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetTotalTray> getTotalTray(@RequestParam("tranId") int tranId) {
+
+		List<GetTotalTray> getTrayMgtReport= null;
+		try {
+			getTrayMgtReport=new ArrayList<GetTotalTray>();
+			List<TrayMgtDetail> trayMgtDetailList = trayMgtService.getTrayMgtDetailByTranId(tranId);
+			List<Integer> frIdList=new ArrayList<>();
+            for(TrayMgtDetail trayMgtDetail:trayMgtDetailList)
+            {
+            	frIdList.add(trayMgtDetail.getFrId());
+            }
+			List<GetTrayMgtReport> getTrayMgtBalanceTrayList= trayMgtService.getTrayMgtBalanceTrayList(tranId, frIdList);;
+			System.err.println("getTrayMgtBalanceTrayList"+getTrayMgtBalanceTrayList.toString());
+
+			List<GetInTrays> getTrayMgtInTrayList= trayMgtService.getTrayMgtInTrayList(tranId, frIdList);;
+			System.err.println("getTrayMgtInTrayList"+getTrayMgtInTrayList.toString());
+			for(TrayMgtDetail trayMgtDetail:trayMgtDetailList)
+	            {
+				 GetTotalTray getTray=new GetTotalTray();
+				 
+				 getTray.setFrId(trayMgtDetail.getFrId());
+				 getTray.setFrName(trayMgtDetail.getFrName());
+				 getTray.setOuttrayBig(trayMgtDetail.getOuttrayBig());
+				 getTray.setOuttrayLead(trayMgtDetail.getOuttrayLead());
+				 getTray.setOuttraySmall(trayMgtDetail.getOuttraySmall());
+				 
+				 for(int i=0;i<getTrayMgtBalanceTrayList.size();i++)
+				 {
+					 if(trayMgtDetail.getFrId()==getTrayMgtBalanceTrayList.get(i).getFrId())
+					 {
+						
+						 getTray.setBalanceBig(getTrayMgtBalanceTrayList.get(i).getBalanceBig());
+						 getTray.setBalanceLead(getTrayMgtBalanceTrayList.get(i).getBalanceLead());
+						 getTray.setBalanceSmall(getTrayMgtBalanceTrayList.get(i).getBalanceSmall());
+					 }
+				 }
+				 for(int j=0;j<getTrayMgtInTrayList.size();j++)
+				 {
+					 if(trayMgtDetail.getFrId()==getTrayMgtInTrayList.get(j).getFrId())
+					 {
+						 getTray.setIntrayBig(getTrayMgtInTrayList.get(j).getIntrayBig());
+						 getTray.setIntrayLead(getTrayMgtInTrayList.get(j).getIntrayLead());
+						 getTray.setIntraySmall(getTrayMgtInTrayList.get(j).getIntraySmall());
+					 }
+				 }
+				 getTrayMgtReport.add(getTray);
+	            }
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return getTrayMgtReport;
 	}
 }

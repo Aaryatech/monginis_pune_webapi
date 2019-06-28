@@ -1,6 +1,6 @@
 package com.ats.webapi.model.tray;
 
-import java.util.Date;
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,13 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
 @Entity
-public class GetTrayMgtReport {
+public class GetTotalTray implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-
 	@Column(name = "fr_id")
 	private int frId;
 
@@ -26,9 +24,6 @@ public class GetTrayMgtReport {
 
 	@Column(name = "outtray_lead")
 	private int outtrayLead;
-
-	@Column(name = "outtray_date")
-	private String outtrayDate;
 
 	@Column(name = "intray_big")
 	private int intrayBig;
@@ -49,6 +44,7 @@ public class GetTrayMgtReport {
 	private int balanceLead;
 
 	private String frName;
+	
 	private String frCode;
 
 	public int getFrId() {
@@ -81,14 +77,6 @@ public class GetTrayMgtReport {
 
 	public void setOuttrayLead(int outtrayLead) {
 		this.outtrayLead = outtrayLead;
-	}
-
-	public String getOuttrayDate() {
-		return outtrayDate;
-	}
-
-	public void setOuttrayDate(String outtrayDate) {
-		this.outtrayDate = outtrayDate;
 	}
 
 	public int getIntrayBig() {
@@ -157,11 +145,11 @@ public class GetTrayMgtReport {
 
 	@Override
 	public String toString() {
-		return "GetTrayMgtReport [frId=" + frId + ", outtrayBig=" + outtrayBig + ", outtraySmall=" + outtraySmall
-				+ ", outtrayLead=" + outtrayLead + ", outtrayDate=" + outtrayDate + ", intrayBig=" + intrayBig
-				+ ", intraySmall=" + intraySmall + ", intrayLead=" + intrayLead + ", balanceBig=" + balanceBig
-				+ ", balanceSmall=" + balanceSmall + ", balanceLead=" + balanceLead + ", frName=" + frName + ", frCode="
-				+ frCode + "]";
+		return "GetTotalTray [frId=" + frId + ", outtrayBig=" + outtrayBig + ", outtraySmall=" + outtraySmall
+				+ ", outtrayLead=" + outtrayLead + ", intrayBig=" + intrayBig + ", intraySmall=" + intraySmall
+				+ ", intrayLead=" + intrayLead + ", balanceBig=" + balanceBig + ", balanceSmall=" + balanceSmall
+				+ ", balanceLead=" + balanceLead + ", frName=" + frName + ", frCode=" + frCode + "]";
 	}
-
+	
+	
 }

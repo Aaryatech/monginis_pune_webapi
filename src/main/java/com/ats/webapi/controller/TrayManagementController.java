@@ -767,15 +767,46 @@ public class TrayManagementController {
 		System.out.println(toDate);
 
 		List<GetTrayMgtReport> getTrayMgtDetail = null;
+		List<TrayMgtDetailInTray> trayMgtDetailInTrayList = null;
 		try {
 
 			if (!frIdList.contains("-1"))
 
 			{
+				trayMgtDetailInTrayList = trayMgtDetailInTrayRepo.getTrayMgtDetail(fromDate, toDate, frIdList);
+
 				getTrayMgtDetail = getTrayMgtReportRepo.getTrayMgtDetail(fromDate, toDate, frIdList);
 
+				for (int i = 0; i < getTrayMgtDetail.size(); i++) {
+
+					for (int j = 0; j < trayMgtDetailInTrayList.size(); j++) {
+						if (getTrayMgtDetail.get(i).getFrId() == trayMgtDetailInTrayList.get(j).getFrId()) {
+							getTrayMgtDetail.get(i).setIntrayBig(trayMgtDetailInTrayList.get(j).getIntrayBig());
+							getTrayMgtDetail.get(i).setIntrayLead(trayMgtDetailInTrayList.get(j).getIntrayLead());
+							getTrayMgtDetail.get(i).setIntraySmall(trayMgtDetailInTrayList.get(j).getIntraySmall());
+						}
+
+					}
+
+				}
+
 			} else {
+				trayMgtDetailInTrayList = trayMgtDetailInTrayRepo.getTrayMgtDetailBetDate(fromDate, toDate);
 				getTrayMgtDetail = getTrayMgtReportRepo.getTrayMgtDetailBetDate(fromDate, toDate);
+
+				for (int i = 0; i < getTrayMgtDetail.size(); i++) {
+
+					for (int j = 0; j < trayMgtDetailInTrayList.size(); j++) {
+						if (getTrayMgtDetail.get(i).getFrId() == trayMgtDetailInTrayList.get(j).getFrId()) {
+							getTrayMgtDetail.get(i).setIntrayBig(trayMgtDetailInTrayList.get(j).getIntrayBig());
+							getTrayMgtDetail.get(i).setIntrayLead(trayMgtDetailInTrayList.get(j).getIntrayLead());
+							getTrayMgtDetail.get(i).setIntraySmall(trayMgtDetailInTrayList.get(j).getIntraySmall());
+						}
+
+					}
+
+				}
+
 			}
 
 		} catch (Exception e) {

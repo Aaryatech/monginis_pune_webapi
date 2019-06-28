@@ -12,9 +12,7 @@ public interface GetTrayMgtReportRepo extends JpaRepository<GetTrayMgtReport, In
 
 	@Query(value = "  SELECT d.fr_id,d.outtray_date,SUM(d.outtray_big) as outtray_big\n"
 			+ " ,SUM(d.outtray_small) as outtray_small\n" + " ,SUM(d.outtray_lead) as outtray_lead\n"
-			+ " ,SUM(d.intray_big+d.intray_big1+d.intray_big2) as intray_big\n"
-			+ " ,SUM(d.intray_small+d.intray_small1+d.intray_small2) as intray_small\n"
-			+ ",SUM(d.intray_lead+d.intray_lead1+d.intray_lead2) as intray_lead\n"
+			+ " ,0 as intray_big\n" + " ,0 as intray_small\n" + ",0 as intray_lead\n"
 			+ " ,SUM(d.balance_big) as balance_big\n" + "  ,SUM(d.balance_small) as balance_small \n"
 			+ "  ,SUM(d.balance_lead) as balance_lead\n" + "  ,f.fr_name,f.fr_code\n"
 			+ " FROM t_tray_mgt_detail d,m_franchisee f WHERE d.del_status=0 AND d.fr_id IN(:frIdList) AND d.outtray_date  "
@@ -24,9 +22,7 @@ public interface GetTrayMgtReportRepo extends JpaRepository<GetTrayMgtReport, In
 
 	@Query(value = "  SELECT d.fr_id,d.outtray_date,SUM(d.outtray_big) as outtray_big\n"
 			+ " ,SUM(d.outtray_small) as outtray_small\n" + " ,SUM(d.outtray_lead) as outtray_lead\n"
-			+ " ,SUM(d.intray_big+d.intray_big1+d.intray_big2) as intray_big\n"
-			+ " ,SUM(d.intray_small+d.intray_small1+d.intray_small2) as intray_small\n"
-			+ ",SUM(d.intray_lead+d.intray_lead1+d.intray_lead2) as intray_lead\n"
+			+ " ,0 as intray_big\n" + " ,0 as intray_small\n" + ",0 as intray_lead\n"
 			+ " ,SUM(d.balance_big) as balance_big\n" + "  ,SUM(d.balance_small) as balance_small \n"
 			+ "  ,SUM(d.balance_lead) as balance_lead\n" + "  ,f.fr_name,f.fr_code\n"
 			+ " FROM t_tray_mgt_detail d,m_franchisee f WHERE d.del_status=0 AND d.outtray_date  "

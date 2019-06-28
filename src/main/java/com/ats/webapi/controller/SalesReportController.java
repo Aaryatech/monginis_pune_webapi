@@ -19,10 +19,12 @@ import com.ats.webapi.model.report.frpurchase.SalesReportBillwiseAllFr;
 import com.ats.webapi.model.report.frpurchase.SalesReportItemwise;
 import com.ats.webapi.model.report.frpurchase.SalesReportRoyalty;
 import com.ats.webapi.model.report.frpurchase.SalesReportRoyaltyFr;
+import com.ats.webapi.model.salesvaluereport.SalesReturnItemDaoList;
 import com.ats.webapi.model.salesvaluereport.SalesReturnQtyDao;
 import com.ats.webapi.model.salesvaluereport.SalesReturnQtyReportList;
 import com.ats.webapi.model.salesvaluereport.SalesReturnValueDao;
 import com.ats.webapi.model.salesvaluereport.SalesReturnValueDaoList;
+import com.ats.webapi.model.salesvaluereport.SalesReturnValueItemDao;
 import com.ats.webapi.model.taxreport.Tax1Report;
 import com.ats.webapi.model.taxreport.Tax2Report;
 import com.ats.webapi.repository.frpurchasereport.SaleReportBillwiseAllFrRepo;
@@ -749,11 +751,11 @@ public class SalesReportController {
 	}
 
 	@RequestMapping(value = { "/getSalesReturnValueItemReport" }, method = RequestMethod.POST)
-	public @ResponseBody List<SalesReturnValueDaoList> getSalesReturnValueItemReport(
+	public @ResponseBody List<SalesReturnItemDaoList> getSalesReturnValueItemReport(
 			@RequestParam("fromYear") int fromYear, @RequestParam("toYear") int toYear,
 			@RequestParam("catId") int catId) throws ParseException {
 
-		List<SalesReturnValueDaoList> repList = new ArrayList<>();
+		List<SalesReturnItemDaoList> repList = new ArrayList<>();
 		List<String> months = new ArrayList<String>();
 		months.add(fromYear + "-04");
 		months.add(fromYear + "-05");
@@ -773,13 +775,15 @@ public class SalesReportController {
 			// output format: yyyy-MM-dd
 			SimpleDateFormat formatter = new SimpleDateFormat("MMM-yyyy");
 			String month = formatter.format(parser.parse(months.get(i)));
-			SalesReturnValueDaoList salesReturnValueReportList = new SalesReturnValueDaoList();
-			salesReturnValueReportList.setMonth(month);
-			List<SalesReturnValueDao> salesReturnValueDao = salesReturnValueItemDaoRepo
-					.getSalesReturnValueItemReport(months.get(i));
-			salesReturnValueReportList.setSalesReturnQtyValueList(salesReturnValueDao);
-			repList.add(salesReturnValueReportList);
+			SalesReturnItemDaoList salesReturnItemDaoList = new SalesReturnItemDaoList();
+			salesReturnItemDaoList.setMonth(month);
+			List<SalesReturnValueItemDao> salesReturnValueDao = salesReturnValueItemDaoRepo
+					.getSalesReturnValueItemReport1(months.get(i), catId);
+			salesReturnItemDaoList.setSalesReturnValueItemDao(salesReturnValueDao);
+			repList.add(salesReturnItemDaoList);
 		}
+
+		System.out.println("repListrepListrepListrepListrepListrepList" + repList.toString());
 		return repList;
 
 	}

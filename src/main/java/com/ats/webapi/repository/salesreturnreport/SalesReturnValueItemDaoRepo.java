@@ -11,7 +11,7 @@ import com.ats.webapi.model.salesvaluereport.SalesReturnValueItemDao;
 
 public interface SalesReturnValueItemDaoRepo extends JpaRepository<SalesReturnValueItemDao, Integer> {
 
-	@Query(value = "select\n" + "        CONCAT(:catId,\n" + "        \"\",\n" + "        id) as id,\n"
+	@Query(value = "select\n" + "        CONCAT(:month,\n" + "        \"\",\n" + "        id) as id,\n"
 			+ "        id as item_id,\n" + "        coalesce((SELECT\n"
 			+ "            SUM(t_bill_detail.grand_total) as grand_total  \n" + "        FROM\n"
 			+ "            t_bill_detail,\n" + "            t_bill_header\n" + "        WHERE\n"

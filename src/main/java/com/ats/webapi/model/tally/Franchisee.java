@@ -11,7 +11,7 @@ import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 
 
-@Entity
+@Entity(name="tallyfr")
 public class Franchisee implements Serializable{
 	
 	@Id

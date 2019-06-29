@@ -11,7 +11,7 @@ import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-@Entity
+@Entity(name="tallysp")
 //@Table(name="m_sp_cake")
 public class SpecialCake implements Serializable {
 

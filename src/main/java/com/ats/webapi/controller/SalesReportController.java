@@ -753,7 +753,7 @@ public class SalesReportController {
 	@RequestMapping(value = { "/getSalesReturnValueItemReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<SalesReturnItemDaoList> getSalesReturnValueItemReport(
 			@RequestParam("fromYear") int fromYear, @RequestParam("toYear") int toYear,
-			@RequestParam("catId") int catId) throws ParseException {
+			@RequestParam("subCatId") List<Integer> subCatId) throws ParseException {
 
 		List<SalesReturnItemDaoList> repList = new ArrayList<>();
 		List<String> months = new ArrayList<String>();
@@ -778,9 +778,10 @@ public class SalesReportController {
 			SalesReturnItemDaoList salesReturnItemDaoList = new SalesReturnItemDaoList();
 			salesReturnItemDaoList.setMonth(month);
 			List<SalesReturnValueItemDao> salesReturnValueDao = salesReturnValueItemDaoRepo
-					.getSalesReturnValueItemReport1(months.get(i), catId);
+					.getSalesReturnValueItemReport1(months.get(i), subCatId);
 			salesReturnItemDaoList.setSalesReturnValueItemDao(salesReturnValueDao);
 			repList.add(salesReturnItemDaoList);
+			System.out.println(months.toString());
 		}
 
 		System.out.println("repListrepListrepListrepListrepListrepList" + repList.toString());

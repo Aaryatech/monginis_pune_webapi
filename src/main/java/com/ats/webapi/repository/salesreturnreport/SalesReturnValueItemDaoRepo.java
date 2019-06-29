@@ -35,8 +35,8 @@ public interface SalesReturnValueItemDaoRepo extends JpaRepository<SalesReturnVa
 			+ "            and t_credit_note_header.is_grn=0\n" + "            and t_credit_note_details.cat_id!=5\n"
 			+ "            and m_item.id=t_credit_note_details.item_id\n" + "            ),\n"
 			+ "        0) as gvn_qty  \n" + "    from\n" + "        m_item\n" + "    where\n"
-			+ "        m_item.item_grp1=:catId\n" + "        and m_item.del_status=0  ", nativeQuery = true)
+			+ "        m_item.item_grp2 IN (:subCatId)\n" + "        and m_item.del_status=0  ", nativeQuery = true)
 	List<SalesReturnValueItemDao> getSalesReturnValueItemReport1(@Param("month") String month,
-			@Param("catId") int catId);
+			@Param("subCatId") List<Integer> subCatId);
 
 }

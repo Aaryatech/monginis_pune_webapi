@@ -11,24 +11,32 @@ import com.ats.webapi.repository.GetItemByCatIdRepository;
 
 @Service
 public class GetItemByCatIdServiceImpl implements GetItemByCatIdService {
-	
+
 	@Autowired
 	GetItemByCatIdRepository getItemByCatIdRepository;
 
 	@Override
 	public GetItemByCatIdList getItemByCatId(int catId) {
-	
-		GetItemByCatIdList itemList=new GetItemByCatIdList();
-		
-		List<GetItemByCatId> itemByCatId=getItemByCatIdRepository.getItemByCategory(catId);
-		
+
+		GetItemByCatIdList itemList = new GetItemByCatIdList();
+
+		List<GetItemByCatId> itemByCatId = getItemByCatIdRepository.getItemByCategory(catId);
+
 		itemList.setGetItemByCatId(itemByCatId);
-		
-		
-		
+
 		return itemList;
 	}
-	
-	
+
+	@Override
+	public GetItemByCatIdList getItemBySubCatId(int subCatId) {
+
+		GetItemByCatIdList itemList = new GetItemByCatIdList();
+
+		List<GetItemByCatId> itemByCatId = getItemByCatIdRepository.getItemByCategoryBySubCatId(subCatId);
+
+		itemList.setGetItemByCatId(itemByCatId);
+
+		return itemList;
+	}
 
 }

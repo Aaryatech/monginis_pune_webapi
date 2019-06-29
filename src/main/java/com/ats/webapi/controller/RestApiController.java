@@ -140,9 +140,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 public class RestApiController {
 
 	public static String incrementDate(String date, int day) {
-		
-		
-		
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		Calendar c = Calendar.getInstance();
@@ -814,6 +811,15 @@ public class RestApiController {
 
 	}
 
+	@RequestMapping(value = "/getItemBySubCatId", method = RequestMethod.POST)
+	public @ResponseBody GetItemByCatIdList getItemByCategoryIdAndSubCatId(@RequestParam("subCatId") int subCatId) {
+
+		GetItemByCatIdList getItemByCatIdList = getItemByCatIdService.getItemBySubCatId(subCatId);
+
+		return getItemByCatIdList;
+
+	}
+
 	@RequestMapping(value = "/getMCategory", method = RequestMethod.GET)
 	public @ResponseBody GetMCategoryList getMCategory() {
 
@@ -1238,24 +1244,25 @@ public class RestApiController {
 		return jsonSellBillHeader;
 
 	}
+
 	@RequestMapping(value = { "/insertSellBillDetails" }, method = RequestMethod.POST)
-	public @ResponseBody   List<SellBillDetail>  insertSellBillDetails(@RequestBody   List<SellBillDetail> sellBillDetailList)
+	public @ResponseBody List<SellBillDetail> insertSellBillDetails(
+			@RequestBody List<SellBillDetail> sellBillDetailList)
 			throws ParseException, JsonParseException, JsonMappingException, IOException {
 
-		   List<SellBillDetail> sellBillDetailRes=new ArrayList<SellBillDetail>();
-	       for(int j=0;j<sellBillDetailList.size();j++) {
-		
-	             	   SellBillDetail sellBillDetail=sellBillDetailList.get(j);
-		               sellBillDetail=sellBillDetailRepository.save(sellBillDetail);
-		               sellBillDetailRes.add(sellBillDetail);
-	            }
-			Info info = new Info();
-		if (sellBillDetailRes.size()>0) {
+		List<SellBillDetail> sellBillDetailRes = new ArrayList<SellBillDetail>();
+		for (int j = 0; j < sellBillDetailList.size(); j++) {
+
+			SellBillDetail sellBillDetail = sellBillDetailList.get(j);
+			sellBillDetail = sellBillDetailRepository.save(sellBillDetail);
+			sellBillDetailRes.add(sellBillDetail);
+		}
+		Info info = new Info();
+		if (sellBillDetailRes.size() > 0) {
 			info.setError(false);
 			info.setMessage("Sell bill Detail inserted  Successfully");
 			System.out.println("Response : " + info.toString());
-		}
-		else {
+		} else {
 			info.setError(true);
 			info.setMessage("Error in Sell bill Detail insertion : RestApi");
 			System.out.println("Response : " + info.toString());
@@ -1781,13 +1788,14 @@ public class RestApiController {
 
 		return spHistoryExBill;
 	}
+
 	@RequestMapping(value = { "/getSpCkOrderForExBillPrint" }, method = RequestMethod.POST)
 	@ResponseBody
 	public SpCkOrderHis getSpCkOrderForExBill(@RequestParam("spOrderNo") int spOrderNo) {
-		
-		SpCkOrderHis spCakeOrder=null;
+
+		SpCkOrderHis spCakeOrder = null;
 		try {
-				 spCakeOrder = spCakeOrderHisRepository.findByOrderNoForExBillPrint(spOrderNo);
+			spCakeOrder = spCakeOrderHisRepository.findByOrderNoForExBillPrint(spOrderNo);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1795,6 +1803,7 @@ public class RestApiController {
 
 		return spCakeOrder;
 	}
+
 	// Search Special Cake Order History
 	@RequestMapping("/orderHistory")
 	public @ResponseBody ItemOrderList searchOrderHistory(@RequestParam List<String> catId,
@@ -2229,21 +2238,22 @@ public class RestApiController {
 			FrSetting frSetting = new FrSetting();
 
 			frSetting = frSettingRepo.findByFrId(frResponse.getFrId());
-			/*if (frSetting != null) {*/
-				FrSetting frSettingSave = new FrSetting();
-				frSettingSave.setFrCode(frResponse.getFrCode());
-				frSettingSave.setFrId(frResponse.getFrId());
-				frSettingSave.setGrnGvnNo(1);
-				frSettingSave.setSellBillNo(1);
-				frSettingSave.setSpNo(1);
+			/* if (frSetting != null) { */
+			FrSetting frSettingSave = new FrSetting();
+			frSettingSave.setFrCode(frResponse.getFrCode());
+			frSettingSave.setFrId(frResponse.getFrId());
+			frSettingSave.setGrnGvnNo(1);
+			frSettingSave.setSellBillNo(1);
+			frSettingSave.setSpNo(1);
 
-				System.out.println("***************" + frSettingSave.toString());
-				FrSetting frSettingSaveResponse = frSettingRepo.save(frSettingSave);
-				System.out.println(frSettingSaveResponse.toString());
-			/*} else {
-
-			}
-*/
+			System.out.println("***************" + frSettingSave.toString());
+			FrSetting frSettingSaveResponse = frSettingRepo.save(frSettingSave);
+			System.out.println(frSettingSaveResponse.toString());
+			/*
+			 * } else {
+			 * 
+			 * }
+			 */
 		}
 
 		return frResponse;

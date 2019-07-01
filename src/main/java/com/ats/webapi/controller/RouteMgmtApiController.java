@@ -20,6 +20,8 @@ import com.ats.webapi.model.route.GetRouteMgmt;
 import com.ats.webapi.model.route.GetRouteMgmtRepo;
 import com.ats.webapi.model.route.RouteMgmt;
 import com.ats.webapi.model.route.RouteMgmtRepo;
+import com.ats.webapi.model.route.RouteTime;
+import com.ats.webapi.model.route.RouteTimeRepo;
 import com.ats.webapi.model.tally.Franchisee;
 import com.ats.webapi.model.tally.GetFranchiseeList;
 import com.ats.webapi.repository.tally.TallyFranchiseeRepository;
@@ -38,6 +40,46 @@ public class RouteMgmtApiController {
 
 	@Autowired
 	CalculateTrayRepo calculateTrayRepo;
+
+	@Autowired
+	RouteTimeRepo routeTimeRepo;
+
+	@RequestMapping(value = { "/getAllRouteMgmtTimeList" }, method = RequestMethod.GET)
+	public @ResponseBody List<RouteTime> getAllRouteMgmtTimeList() {
+
+		List<RouteTime> routeList = new ArrayList<RouteTime>();
+
+		try {
+
+			routeList = routeTimeRepo.findByDelStatus(0);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return routeList;
+
+	}
+
+	@RequestMapping(value = { "/getRouteTimeByTimeRouteId" }, method = RequestMethod.POST)
+	public @ResponseBody RouteTime getRouteTimeByTimeRouteId(@RequestParam("timeRouteId") int timeRouteId) {
+		System.out.println("timeRouteId" + timeRouteId);
+
+		RouteTime routeMgmt = new RouteTime();
+
+		try {
+			routeMgmt = routeTimeRepo.findByTimeRouteIdAndDelStatus(timeRouteId, 0);
+			System.out.println("routeMgmt" + routeMgmt.toString());
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return routeMgmt;
+
+	}
 
 	// --------------------------------------Route Mgmt-------------------------
 

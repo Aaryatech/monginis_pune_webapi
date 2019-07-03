@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 // Bean to search order :Listing Bills @Sachin
 @Entity
- 
 public class GetBillHeader implements Serializable {
 	
 	@Id
@@ -70,8 +69,47 @@ public class GetBillHeader implements Serializable {
 	@Column(name="party_gstin")
 	private String partyGstin;
 	
+	private String vehNo;
 	
+	private String billTime;
 	
+	private String exVarchar1;
+	
+	private String exVarchar2;
+	
+    
+	
+	public String getVehNo() {
+		return vehNo;
+	}
+
+	public void setVehNo(String vehNo) {
+		this.vehNo = vehNo;
+	}
+
+	public String getBillTime() {
+		return billTime;
+	}
+
+	public void setBillTime(String billTime) {
+		this.billTime = billTime;
+	}
+
+	public String getExVarchar1() {
+		return exVarchar1;
+	}
+
+	public void setExVarchar1(String exVarchar1) {
+		this.exVarchar1 = exVarchar1;
+	}
+
+	public String getExVarchar2() {
+		return exVarchar2;
+	}
+
+	public void setExVarchar2(String exVarchar2) {
+		this.exVarchar2 = exVarchar2;
+	}
 
 	public String getPartyName() {
 		return partyName;
@@ -220,10 +258,10 @@ public class GetBillHeader implements Serializable {
 				+ taxApplicable + ", invoiceNo=" + invoiceNo + ", billDate=" + billDate + ", frId=" + frId + ", frCode="
 				+ frCode + ", grandTotal=" + grandTotal + ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax
 				+ ", status=" + status + ", DelStatus=" + DelStatus + ", remark=" + remark + ", partyName=" + partyName
-				+ ", partyAddress=" + partyAddress + ", partyGstin=" + partyGstin + "]";
+				+ ", partyAddress=" + partyAddress + ", partyGstin=" + partyGstin + ", vehNo=" + vehNo + ", billTime="
+				+ billTime + ", exVarchar1=" + exVarchar1 + ", exVarchar2=" + exVarchar2 + "]";
 	}
 
-	
 	
 
 }

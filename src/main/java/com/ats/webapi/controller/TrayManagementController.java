@@ -131,7 +131,8 @@ public class TrayManagementController {
 
 			for (int i = 0; i < list.size(); i++) {
 
-				trayMgtDetailRes = trayMgtService.getTrayMgtHeaderByRouteId(list.get(i).getRouteTrayId());
+				List<GetTrayMgtHeader>	trayMgtDetailResponse= trayMgtService.getTrayMgtHeaderByRouteId(list.get(i).getRouteTrayId());
+				trayMgtDetailRes.addAll(trayMgtDetailResponse);
 			}
 
 		} catch (Exception e) {

@@ -89,13 +89,51 @@ public class PostBillHeader implements Serializable {
 	@Column(name="party_address")
 	private String partyAddress;//new for m order
 	
+	private String vehNo;
 	
+	private String billTime;
+	
+	private String exVarchar1;
+	
+	private String exVarchar2;
 	
 	@Transient
 	List<PostBillDetail> postBillDetailsList;
 	
 	
 	
+	public String getVehNo() {
+		return vehNo;
+	}
+
+	public void setVehNo(String vehNo) {
+		this.vehNo = vehNo;
+	}
+
+	public String getBillTime() {
+		return billTime;
+	}
+
+	public void setBillTime(String billTime) {
+		this.billTime = billTime;
+	}
+
+	public String getExVarchar1() {
+		return exVarchar1;
+	}
+
+	public void setExVarchar1(String exVarchar1) {
+		this.exVarchar1 = exVarchar1;
+	}
+
+	public String getExVarchar2() {
+		return exVarchar2;
+	}
+
+	public void setExVarchar2(String exVarchar2) {
+		this.exVarchar2 = exVarchar2;
+	}
+
 	public String getPartyName() {
 		return partyName;
 	}
@@ -282,9 +320,11 @@ public class PostBillHeader implements Serializable {
 				+ ", billDate=" + billDate + ", frId=" + frId + ", frCode=" + frCode + ", grandTotal=" + grandTotal
 				+ ", taxableAmt=" + taxableAmt + ", totalTax=" + totalTax + ", status=" + status + ", DelStatus="
 				+ DelStatus + ", remark=" + remark + ", time=" + time + ", billDateTime=" + billDateTime + ", sgstSum="
-				+ sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", discAmt=" + discAmt
+				+ sgstSum + ", cgstSum=" + cgstSum + ", igstSum=" + igstSum + ", discAmt=" + discAmt + ", partyName="
+				+ partyName + ", partyGstin=" + partyGstin + ", partyAddress=" + partyAddress + ", vehNo=" + vehNo
+				+ ", billTime=" + billTime + ", exVarchar1=" + exVarchar1 + ", exVarchar2=" + exVarchar2
 				+ ", postBillDetailsList=" + postBillDetailsList + "]";
 	}
-
+    
 	
 }

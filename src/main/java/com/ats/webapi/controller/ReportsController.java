@@ -35,10 +35,12 @@ import com.ats.webapi.model.report.GetRepMenuwiseSell;
 import com.ats.webapi.model.report.GetRepMonthwiseSell;
 import com.ats.webapi.model.report.GetRepTaxSell;
 import com.ats.webapi.model.report.PDispatchReport;
+import com.ats.webapi.model.report.SpKgSummaryDao;
 import com.ats.webapi.repository.DispatchOrderRepository;
 import com.ats.webapi.repository.ItemReportDetailRepo;
 import com.ats.webapi.repository.ItemReportRepo;
 import com.ats.webapi.repository.PDispatchReportRepository;
+import com.ats.webapi.repository.SpKgSummaryRepository;
 import com.ats.webapi.service.RepFrSellServise;
 import com.ats.webapi.service.ReportsService;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -64,6 +66,9 @@ public class ReportsController {
 
 	@Autowired
 	ItemReportDetailRepo itemReportDetailRepo;
+	
+	@Autowired
+	SpKgSummaryRepository spKgSummaryRepository;
 
 	@RequestMapping(value = { "/getItemDetailReport" }, method = RequestMethod.POST)
 	public @ResponseBody List<ItemReportDetail> getItemDetailReport(@RequestParam("fromDate") String fromDate,
@@ -538,6 +543,16 @@ public class ReportsController {
 		System.out.println(" fr................." + dispatchReportList.toString());
 
 		return dispatchReportList;
+
+	}
+	// ------------------------------------------------------------------------------------------------
+	@RequestMapping(value = "/getSpKgSummaryReport", method = RequestMethod.POST)
+	public @ResponseBody List<SpKgSummaryDao> getSpKgSummaryReport(
+			@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate, @RequestParam("frId") List<Integer> frId) {
+
+		List<SpKgSummaryDao> spKgSummaryDaoList = spKgSummaryRepository.getSpKgSummaryReport(fromDate, toDate, frId);
+	
+		return spKgSummaryDaoList;
 
 	}
 	// ------------------------------------------------------------------------------------------------

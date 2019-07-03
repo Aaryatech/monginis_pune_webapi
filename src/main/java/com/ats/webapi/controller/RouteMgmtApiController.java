@@ -233,7 +233,50 @@ public class RouteMgmtApiController {
 		return list;
 
 	}
+	@RequestMapping(value = { "/getFranByRouteTrayId" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetFranchiseeList> getFranByRouteTrayId(
+			@RequestParam("routeId")int routeId) {
 
+		List<GetFranchiseeList> list = new ArrayList<GetFranchiseeList>();
+
+		try {
+
+			GetRouteMgmt getRouteMgmt = getRouteMgmtRepo.findByRouteId(routeId);
+			List<Franchisee> franchiseeList = tallyFranchiseeRepository.findByIsTallySync();
+
+
+				List<Integer> frIdList = Stream.of(getRouteMgmt.getFrIds().split(",")).map(Integer::parseInt)
+						.collect(Collectors.toList());
+
+				franchiseeList = tallyFranchiseeRepository.getFranchisee(frIdList);
+
+				for (int j = 0; j < franchiseeList.size(); j++) {
+
+					for (int k = 0; k < frIdList.size(); k++) {
+
+						if (franchiseeList.get(j).getCustomerId() == frIdList.get(k)) {
+							GetFranchiseeList getFranchiseeList = new GetFranchiseeList();
+							getFranchiseeList.setFrId(franchiseeList.get(j).getCustomerId());
+
+							getFranchiseeList.setFrName(franchiseeList.get(j).getCustomerName());
+							getFranchiseeList.setId(Integer.parseInt(
+									getRouteMgmt.getRouteTrayId() + "" + franchiseeList.get(j).getCustomerId()));
+
+							list.add(getFranchiseeList);
+						}
+
+					}
+
+				}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+		return list;
+
+	}
 	@RequestMapping(value = { "/getRouteByRouteDetailId" }, method = RequestMethod.POST)
 	public @ResponseBody RouteMgmt getRouteByRouteDetailId(@RequestParam("routeTrayId") int routeTrayId) {
 		System.out.println("routeTrayIdrouteTrayId" + routeTrayId);

@@ -59,6 +59,7 @@ import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
 import com.ats.webapi.repository.RouteMasterRepository;
 import com.ats.webapi.repository.RouteRepository;
 import com.ats.webapi.repository.SellBillDetailRepository;
+import com.ats.webapi.repository.SettingRepository;
 import com.ats.webapi.repository.SpCakeOrderHisRepository;
 import com.ats.webapi.repository.SpCakeOrderUpdateRepository;
 import com.ats.webapi.repository.SpCakeOrdersRepository;
@@ -1049,6 +1050,18 @@ public class RestApiController {
 		int value = frItemConfService.findbykey("mrn_no");
 		value = value + 1;
 		int Updatevalue = settingService.updateValue(value);
+
+		return Updatevalue;
+
+	}
+
+	@Autowired
+	SettingRepository settingRepository;
+
+	@RequestMapping(value = "/getLeftMenuBySettingValue", method = RequestMethod.GET)
+	public @ResponseBody List<Setting> getLeftMenuBySettingValue() {
+
+		List<Setting> Updatevalue = settingRepository.findBySettingValue(-1);
 
 		return Updatevalue;
 

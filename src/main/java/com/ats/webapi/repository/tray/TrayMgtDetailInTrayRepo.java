@@ -2,11 +2,13 @@ package com.ats.webapi.repository.tray;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.ats.webapi.model.tray.GetTrayMgtReport;
 import com.ats.webapi.model.tray.TrayMgtDetailInTray;
 
 public interface TrayMgtDetailInTrayRepo extends JpaRepository<TrayMgtDetailInTray, Integer> {
@@ -33,4 +35,16 @@ public interface TrayMgtDetailInTrayRepo extends JpaRepository<TrayMgtDetailInTr
 			+ ":toDate GROUP BY dt.fr_id", nativeQuery = true)
 	List<TrayMgtDetailInTray> getTrayMgtDetailBetDate(@Param("fromDate") String fromDate,
 			@Param("toDate") String toDate);
+
+	@Query(value = "  SELECT d.* FROM t_tray_mgmt_detail_intray d WHERE d.del_status=0  AND d.intray_date BETWeen :fromDate AND :toDate AND d.fr_id=:frId", nativeQuery = true)
+	List<TrayMgtDetailInTray> getTrayMgtDetailBetDateAndFrId(@Param("fromDate") String fromDate,
+			@Param("toDate") String toDate, @Param("frId") int frId);
+
+	@Modifying
+	@Transactional
+	@Query("Update TrayMgtDetailInTray  SET intray_big=:intrayBig,intray_lead=:intrayLead,intray_small=:intraySmall"
+			+ " WHERE tranDetailId =:tranDetailId")
+	int updateInTrayDetail(@Param("inTrayId") int inTrayId, @Param("intrayBig") int intrayBig,
+			@Param("intrayLead") int intrayLead, @Param("intraySmall") int intraySmall);
+
 }

@@ -58,6 +58,7 @@ import com.ats.webapi.model.SpCake;
 import com.ats.webapi.model.SpCakeSupplement;
 import com.ats.webapi.model.SubCategory;
 import com.ats.webapi.model.SubCategoryRes;
+import com.ats.webapi.model.newsetting.NewSetting;
 import com.ats.webapi.model.tally.FranchiseeList;
 import com.ats.webapi.model.tray.TrayType;
 import com.ats.webapi.repository.ConfigureFrRepository;
@@ -73,6 +74,7 @@ import com.ats.webapi.repository.ItemForMOrderRepository;
 import com.ats.webapi.repository.ItemIdOnlyRepository;
 import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.ItemSupRepository;
+import com.ats.webapi.repository.NewSettingRepository;
 import com.ats.webapi.repository.OrderRepository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
 import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
@@ -180,6 +182,9 @@ public class MasterController {
 	
 	@Autowired
 	FrItemStockConfigureRepository frItemStockConfRepo;
+	
+	@Autowired
+	NewSettingRepository newSettingRepository;
 	
 	
 	 @RequestMapping(value = { "/updateBillStatusToProduction" }, method = RequestMethod.POST)
@@ -1251,6 +1256,14 @@ public class MasterController {
 							msg=true;
 						}
 					return msg;
+				}
+				
+				@RequestMapping(value = { "/findNewSettingByKey" }, method = RequestMethod.POST)
+				public @ResponseBody NewSetting findNewSettingByKey(@RequestParam("settingKey") String settingKey) {
+					
+					NewSetting	newSetting = newSettingRepository.findBySettingKeyAndDelStatus(settingKey,0);
+							  
+					return newSetting;
 				}
 				
 }

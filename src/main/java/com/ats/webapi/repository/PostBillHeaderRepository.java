@@ -1,15 +1,27 @@
 package com.ats.webapi.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import com.ats.webapi.model.PostBillHeader;
 
 public interface PostBillHeaderRepository extends JpaRepository<PostBillHeader, Integer> {
 
 	PostBillHeader save(PostBillHeader postBillHeader);
 
-	// sum(CASE WHEN payment_mode = 1 THEN payable_amt ELSE 0 END) as cash,
+	@Query(value = " SELECT * FROM t_bill_header WHERE del_status=0 AND bill_date BETWEEN :fromDate AND :toDate AND fr_id IN(:frId)\n"
+			+ "", nativeQuery = true)
+	List<PostBillHeader> getBillDetailByFrId(@Param("frId") List<Integer> frId, @Param("fromDate") String fromDate,
+			@Param("toDate") String toDate);
 
-	
+	@Query(value = " SELECT * FROM t_bill_header WHERE del_status=0 AND bill_date BETWEEN :fromDate AND :toDate \n"
+			+ "", nativeQuery = true)
+	List<PostBillHeader> getBillDetail(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
+
+	// sum(CASE WHEN payment_mode = 1 THEN payable_amt ELSE 0 END) as cash,
 
 	// (SELECT m_fr_opening_stock_header.month FROM m_fr_opening_stock_header WHERE
 	// fr_id=15 AND is_month_closed=0)

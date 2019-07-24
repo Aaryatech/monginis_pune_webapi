@@ -37,6 +37,7 @@ import com.ats.webapi.model.phpwebservice.GetLogin;
 import com.ats.webapi.model.phpwebservice.SpecialCakeBean;
 import com.ats.webapi.model.phpwebservice.SpecialCakeBeanList;
 import com.ats.webapi.model.remarks.GetAllRemarksList;
+import com.ats.webapi.model.reportv2.CreditNoteBillReport;
 import com.ats.webapi.repository.ConfigureFrListRepository;
 import com.ats.webapi.repository.FlavourRepository;
 import com.ats.webapi.repository.FranchiseForDispatchRepository;
@@ -54,6 +55,7 @@ import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.MessageRepository;
 import com.ats.webapi.repository.OrderLogRespository;
 import com.ats.webapi.repository.OrderRepository;
+import com.ats.webapi.repository.PostBillHeaderRepository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
 import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
 import com.ats.webapi.repository.RouteMasterRepository;
@@ -69,6 +71,7 @@ import com.ats.webapi.repository.UpdatePBTimeRepo;
 import com.ats.webapi.repository.UpdateSeetingForPBRepo;
 import com.ats.webapi.repository.UserRepository;
 import com.ats.webapi.repository.frsetting.FrSettingRepo;
+import com.ats.webapi.repository.reportv2.CreditNoteBillReportRepo;
 import com.ats.webapi.service.AllFrIdNameService;
 import com.ats.webapi.service.CategoryService;
 import com.ats.webapi.service.ConfigureFrBeanService;
@@ -1204,6 +1207,41 @@ public class RestApiController {
 			e.printStackTrace();
 		}
 		return jsonBillHeader;
+
+	}
+
+	@Autowired
+	PostBillHeaderRepository postBillHeaderRepository;
+
+	@RequestMapping(value = "/getBillNoDateByFrId", method = RequestMethod.POST)
+	public @ResponseBody List<PostBillHeader> getBillNoDateByFrId(@RequestParam("frId") List<Integer> frId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
+		System.out.println("inside rest");
+
+		List<PostBillHeader> billDetailsList = null;
+
+		if (frId.contains(-1)) {
+			billDetailsList = postBillHeaderRepository.getBillDetail( fromDate, toDate);
+		} else {
+
+			billDetailsList = postBillHeaderRepository.getBillDetailByFrId(frId, fromDate, toDate);
+		}
+
+		return billDetailsList;
+
+	}
+
+	@Autowired
+	CreditNoteBillReportRepo creditNoteBillReportRepo;
+
+	@RequestMapping(value = "/getCreditNoteDetailReport", method = RequestMethod.POST)
+	public @ResponseBody List<CreditNoteBillReport> getCreditNoteDetailReport(
+			@RequestParam("billNoList") List<Integer> billNoList) {
+		System.out.println("inside rest");
+
+		List<CreditNoteBillReport> billDetailsList = creditNoteBillReportRepo.getCrNoteRegItem(billNoList);
+
+		return billDetailsList;
 
 	}
 

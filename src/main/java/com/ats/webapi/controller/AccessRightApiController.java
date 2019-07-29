@@ -27,6 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class AccessRightApiController {
 
+	
+	
 	@Autowired
 	AccessRightService accessRightService;
 	

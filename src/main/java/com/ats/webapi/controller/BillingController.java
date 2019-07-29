@@ -35,7 +35,7 @@ import com.ats.webapi.repository.UpdateSellBillTimeStampRepo;
 @RestController
 public class BillingController {
 
-	@Autowired
+	@Autowired 
 	ExpressBillService expressBillService;
 	
 	@Autowired

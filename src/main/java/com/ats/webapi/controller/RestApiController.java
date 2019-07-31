@@ -3101,6 +3101,25 @@ public class RestApiController {
 		return items;
 
 	}
+	
+	//---ANMOL----------------31-7-2019
+	@RequestMapping(value = "/getItemsByIdAndSortId", method = RequestMethod.POST)
+	public @ResponseBody List<Item> getItemsByIdAndSortId(@RequestParam List<Integer> itemIds) {
+
+		List<Item> items = null;
+		try {
+			items = itemRepository.findByDelStatusAndIdInOrderByItemGrp1AscItemGrp2AscItemNameAsc(0,itemIds);
+		} catch (Exception e) {/* findByItemGrp1AndDelStatusOrderByItemGrp2AscItemSortIdAsc */
+			items = new ArrayList<>();
+			e.printStackTrace();
+
+		}
+		return items;
+
+	}
+	
+	
+	
 
 	// 12 April Sachin
 	// Get Items By Category order by sub cat and sort id

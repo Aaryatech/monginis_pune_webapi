@@ -33,6 +33,8 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	public int findMaxId();
 
 	public List<Item> findByItemGrp1AndDelStatusOrderByItemGrp1AscItemGrp2AscItemNameAsc(String itemGrp1, int i);
+	
+	public List<Item> findByDelStatusAndIdInOrderByItemGrp1AscItemGrp2AscItemNameAsc(int i,List<Integer> itemIds);
 
 //coalesce((select m_item_sup.short_name from m_item_sup where m_item_sup.item_id=i.id),0) as
 	// Sachin 25 FEB

@@ -43,7 +43,7 @@ public interface TrayMgtDetailInTrayRepo extends JpaRepository<TrayMgtDetailInTr
 	@Modifying
 	@Transactional
 	@Query("Update TrayMgtDetailInTray  SET intray_big=:intrayBig,intray_lead=:intrayLead,intray_small=:intraySmall"
-			+ " WHERE tranDetailId =:inTrayId")
+			+ " WHERE intray_id=:inTrayId")
 	int updateInTrayDetail(@Param("inTrayId") int inTrayId, @Param("intrayBig") int intrayBig,
 			@Param("intrayLead") int intrayLead, @Param("intraySmall") int intraySmall);
 

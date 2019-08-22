@@ -16,8 +16,8 @@ public interface HSNWiseReportRepo extends JpaRepository<HSNWiseReport, Integer>
 			+ "            SUM(t_bill_detail.bill_qty) as bill_qty,"
 			+ "            SUM(t_bill_detail.taxable_amt) as taxable_amt,"
 			+ "            SUM(t_bill_detail.cgst_rs) as cgst_rs," + "            SUM(t_bill_detail.sgst_rs) as sgst_rs"
-			+ "        FROM t_bill_header," + "            t_bill_detail" + "        WHERE      t_bill_detail.cat_id!=5"
-			+ "            AND t_bill_header.bill_no=t_bill_detail.bill_no"
+			+ "        FROM t_bill_header," + "            t_bill_detail" + "        WHERE     "
+			+ "             t_bill_header.bill_no=t_bill_detail.bill_no"
 			+ "            AND      t_bill_header.bill_date BETWEEN :fromDate AND :toDate" + "        GROUP BY"
 			+ "            item_hsncd", nativeQuery = true)
 
@@ -29,8 +29,8 @@ public interface HSNWiseReportRepo extends JpaRepository<HSNWiseReport, Integer>
 			+ "            SUM(t_bill_detail.bill_qty) as bill_qty,"
 			+ "            SUM(t_bill_detail.taxable_amt) as taxable_amt,"
 			+ "            SUM(t_bill_detail.cgst_rs) as cgst_rs," + "            SUM(t_bill_detail.sgst_rs) as sgst_rs"
-			+ "        FROM t_bill_header," + "            t_bill_detail" + "        WHERE      t_bill_detail.cat_id!=5"
-			+ "            AND t_bill_header.bill_no=t_bill_detail.bill_no"
+			+ "        FROM t_bill_header," + "            t_bill_detail" + "        WHERE    "
+			+ "             t_bill_header.bill_no=t_bill_detail.bill_no"
 			+ "            AND      t_bill_header.bill_date BETWEEN :fromDate AND :toDate AND t_bill_header.fr_id=:frId "
 			+ "        GROUP BY" + "            item_hsncd", nativeQuery = true)
 
@@ -45,8 +45,8 @@ public interface HSNWiseReportRepo extends JpaRepository<HSNWiseReport, Integer>
 			+ "            SUM(t_credit_note_details.taxable_amt) as taxable_amt,"
 			+ "            SUM(t_credit_note_details.cgst_rs) as cgst_rs,"
 			+ "            SUM(t_credit_note_details.sgst_rs) as sgst_rs" + "        FROM t_credit_note_details,"
-			+ "            t_credit_note_header" + "        WHERE" + "              t_credit_note_details.cat_id!=5"
-			+ "            and t_credit_note_header.crn_id=t_credit_note_details.crn_id"
+			+ "            t_credit_note_header" + "        WHERE" + "  "
+			+ "             t_credit_note_header.crn_id=t_credit_note_details.crn_id"
 			+ "            AND     t_credit_note_header.crn_date BETWEEN :fromDate AND :toDate" + "        GROUP BY"
 			+ "            item_hsncd", nativeQuery = true)
 
@@ -60,8 +60,8 @@ public interface HSNWiseReportRepo extends JpaRepository<HSNWiseReport, Integer>
 			+ "            SUM(t_credit_note_details.taxable_amt) as taxable_amt,"
 			+ "            SUM(t_credit_note_details.cgst_rs) as cgst_rs,"
 			+ "            SUM(t_credit_note_details.sgst_rs) as sgst_rs" + "        FROM t_credit_note_details,"
-			+ "            t_credit_note_header" + "        WHERE" + "              t_credit_note_details.cat_id!=5"
-			+ "            and t_credit_note_header.crn_id=t_credit_note_details.crn_id"
+			+ "            t_credit_note_header" + "        WHERE" + " "
+			+ "            t_credit_note_header.crn_id=t_credit_note_details.crn_id"
 			+ "            AND     t_credit_note_header.crn_date BETWEEN :fromDate AND :toDate AND t_credit_note_header.fr_id=:frId "
 			+ "        GROUP BY" + "            item_hsncd", nativeQuery = true)
 

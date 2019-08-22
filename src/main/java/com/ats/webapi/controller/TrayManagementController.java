@@ -111,30 +111,25 @@ public class TrayManagementController {
 			@RequestBody TrayMgtDetailInTray trayMgtDetailInTray) {
 
 		TrayMgtDetailBean trayMgtDetailRes = null;
-		TrayMgtDetailBean res = null;
+		TrayMgtDetailBean res = new TrayMgtDetailBean();
 
 		try {
 			int d = trayMgtDetailInTrayRepo.updateInTrayDetail(trayMgtDetailInTray.getIntrayId(),
-					trayMgtDetailInTray.getIntrayBig(), trayMgtDetailInTray.getIntrayLead(),
-					trayMgtDetailInTray.getIntraySmall());
+					trayMgtDetailInTray.getExInt2(), Integer.parseInt(trayMgtDetailInTray.getExVar1()),
+					trayMgtDetailInTray.getExInt1());
 
-			if (d > 0) {
+			trayMgtDetailRes = trayMgtService.getTrayDetailByDetailId(trayMgtDetailInTray.getTranDetailId());
 
-				trayMgtDetailRes = trayMgtService.getTrayDetailByDetailId(trayMgtDetailInTray.getTranDetailId());
+			int bigDiff = trayMgtDetailInTray.getIntrayBig() - trayMgtDetailInTray.getExInt2();
 
-				int bigDiff = trayMgtDetailInTray.getIntrayBig() - trayMgtDetailInTray.getExInt2();
+			int smallDiff = trayMgtDetailInTray.getIntraySmall() - trayMgtDetailInTray.getExInt1();
+			int leadDiff = trayMgtDetailInTray.getIntrayLead() - Integer.parseInt(trayMgtDetailInTray.getExVar1());
 
-				int smallDiff = trayMgtDetailInTray.getIntraySmall() - trayMgtDetailInTray.getExInt1();
-				int leadDiff = trayMgtDetailInTray.getIntrayLead() - Integer.parseInt(trayMgtDetailInTray.getExVar1());
+			trayMgtDetailRes.setBalanceBig(trayMgtDetailRes.getBalanceBig() + bigDiff);
+			trayMgtDetailRes.setBalanceLead(trayMgtDetailRes.getBalanceLead() + leadDiff);
+			trayMgtDetailRes.setBalanceSmall(trayMgtDetailRes.getBalanceSmall() + smallDiff);
 
-				trayMgtDetailRes.setBalanceBig(trayMgtDetailRes.getBalanceBig() + bigDiff);
-
-				trayMgtDetailRes.setBalanceLead(trayMgtDetailRes.getBalanceLead() + leadDiff);
-				trayMgtDetailRes.setBalanceSmall(trayMgtDetailRes.getBalanceSmall() + smallDiff);
-				trayMgtDetailRes.setTrayStatus(2);
-
-				res = trayMgtDetailBeanRepository.saveAndFlush(trayMgtDetailRes);
-			}
+			res = trayMgtDetailBeanRepository.saveAndFlush(trayMgtDetailRes);
 		} catch (Exception e) {
 
 			e.printStackTrace();

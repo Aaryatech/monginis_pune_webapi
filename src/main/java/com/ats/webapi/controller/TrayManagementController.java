@@ -21,7 +21,9 @@ import com.ats.webapi.model.Info;
 import com.ats.webapi.model.TrayMgtDetailList;
 import com.ats.webapi.model.route.RouteMgmt;
 import com.ats.webapi.model.route.RouteMgmtRepo;
+import com.ats.webapi.model.tray.FrHomeData;
 import com.ats.webapi.model.tray.FrOutTrays;
+import com.ats.webapi.model.tray.FrTrayData;
 import com.ats.webapi.model.tray.FranchiseInRoute;
 import com.ats.webapi.model.tray.GetInTrays;
 import com.ats.webapi.model.tray.GetTotalTray;
@@ -33,6 +35,7 @@ import com.ats.webapi.model.tray.TrayMgtDetail;
 import com.ats.webapi.model.tray.TrayMgtDetailBean;
 import com.ats.webapi.model.tray.TrayMgtDetailInTray;
 import com.ats.webapi.model.tray.TrayMgtHeader;
+import com.ats.webapi.repository.tray.FrTrayDataRepo;
 import com.ats.webapi.repository.tray.GetTrayMgtReportRepo;
 import com.ats.webapi.repository.tray.GetVehDriverMobNoRepo;
 import com.ats.webapi.repository.tray.GetVehicleAvgRepository;
@@ -67,6 +70,10 @@ public class TrayManagementController {
 
 	@Autowired
 	RouteMgmtRepo routeMgmtRepo;
+	
+	@Autowired
+	FrTrayDataRepo frTrayDataRepo;
+
 
 	@RequestMapping(value = { "/saveTrayMgmtDeatilInTray" }, method = RequestMethod.POST)
 	public @ResponseBody TrayMgtDetailInTray saveTrayMgmtDeatilInTray(
@@ -922,4 +929,39 @@ public class TrayManagementController {
 		}
 		return getTrayMgtReport;
 	}
+	
+	
+	// ----------Anmol 24-8-19------
+
+		@RequestMapping(value = { "/getFrHomeData" }, method = RequestMethod.POST)
+		public @ResponseBody FrHomeData getFrHomeData(@RequestParam("frId") int frId,@RequestParam("trayDate") String trayDate) {
+
+			FrHomeData res = new FrHomeData();
+
+			try {
+				
+				FrTrayData  openingCount=frTrayDataRepo.getOpeningCount(frId, trayDate);
+				
+				List<FrTrayData> recTrayList=new ArrayList<>();
+				recTrayList=frTrayDataRepo.getReceivedTrays(frId, trayDate);
+
+				List<FrTrayData> retTrayList=new ArrayList<>();
+				retTrayList=frTrayDataRepo.getReturnTrays(frId, trayDate);
+
+
+				res.setOpeningCount(openingCount);
+				res.setReceivedTrayList(recTrayList);
+				res.setReturnTrayList(retTrayList);
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+			return res;
+
+		}
+
+
+		
 }

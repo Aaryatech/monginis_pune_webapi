@@ -24,6 +24,7 @@ import com.ats.webapi.model.route.RouteMgmtRepo;
 import com.ats.webapi.model.tray.FrHomeData;
 import com.ats.webapi.model.tray.FrOutTrays;
 import com.ats.webapi.model.tray.FrTrayData;
+import com.ats.webapi.model.tray.FrTrayReportData;
 import com.ats.webapi.model.tray.FranchiseInRoute;
 import com.ats.webapi.model.tray.GetInTrays;
 import com.ats.webapi.model.tray.GetTotalTray;
@@ -961,7 +962,108 @@ public class TrayManagementController {
 			return res;
 
 		}
+		
+		
+		
+		// ----------Anmol 30-8-19------
 
+				@RequestMapping(value = { "/getFrTrayReportForLastEightDays" }, method = RequestMethod.POST)
+				public @ResponseBody List<FrTrayReportData> getFrTrayReportForLastEightDays(@RequestParam("frId") int frId,@RequestParam("todaysDate") String todaysDate) {
+
+					List<FrTrayReportData> reportList = new ArrayList<>();
+
+					try {
+						
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+
+						Calendar calFrom = Calendar.getInstance();
+						Calendar calTo = Calendar.getInstance();
+
+						Date d1 = sdf.parse(todaysDate);
+
+						calTo.setTime(d1);
+						calTo.add(Calendar.DATE, 1);
+						
+						calFrom.setTime(d1);
+						calFrom.add(Calendar.DATE, -8);
+						
+						System.err.println("FROM - "+sdf.format(calFrom.getTime())+"  ----------------------      TO - "+sdf.format(calTo.getTime()));
+						
+
+						while (calFrom.before(calTo)) {
+
+							String dispDate=sdf1.format(calFrom.getTime());
+							String dateStr=sdf.format(calFrom.getTime());
+							System.err.println("DATE - "+dateStr);
+							
+							FrTrayReportData data=new FrTrayReportData();
+							data.setDateStr(""+dispDate);
+							
+							int opSmall=0,opLead=0,opBig=0,recSmall=0,recLead=0,recBig=0,retSmall=0,retLead=0,retBig=0;
+							
+							FrTrayData  openingCount=frTrayDataRepo.getOpeningCount(frId, dateStr);
+							if(openingCount!=null) {
+								
+								data.setOpeningSmall(openingCount.getSmall());
+								data.setOpeningLead(openingCount.getLead());
+								data.setOpeningBig(openingCount.getBig());
+								
+								opSmall=openingCount.getSmall();
+								opLead=openingCount.getLead();
+								opBig=openingCount.getBig();
+								
+								
+							}
+							
+							FrTrayData  recCount=frTrayDataRepo.getSumReceivedTrays(frId, dateStr);
+							if(recCount!=null) {
+								
+								data.setReceivedSmall(recCount.getSmall());
+								data.setReceivedLead(recCount.getLead());
+								data.setReceivedBig(recCount.getBig());
+								
+								recSmall=recCount.getSmall();
+								recLead=recCount.getLead();
+								recBig=recCount.getBig();
+								
+							}
+							
+							FrTrayData  retCount=frTrayDataRepo.getSumReturnTrays(frId, dateStr);
+							if(retCount!=null) {
+								
+								data.setReturnSmall(retCount.getSmall());
+								data.setReturnLead(retCount.getLead());
+								data.setReturnBig(retCount.getBig());
+								
+								retSmall=retCount.getSmall();
+								retLead=retCount.getLead();
+								retBig=retCount.getBig();
+								
+							}
+							
+							
+							data.setBalSmall((opSmall+recSmall)-retSmall);
+							data.setBalLead((opLead+recLead)-retLead);
+							data.setBalBig((opBig+recBig)-retBig);
+							
+							
+							
+							reportList.add(data);
+							calFrom.add(Calendar.DATE, 1);
+						}
+						
+						
+										
+					} catch (Exception e) {
+
+						e.printStackTrace();
+
+					}
+					return reportList;
+
+				}
+				
 
 		
 }

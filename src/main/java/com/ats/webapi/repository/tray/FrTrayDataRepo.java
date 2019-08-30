@@ -78,6 +78,14 @@ public interface FrTrayDataRepo extends JpaRepository<FrTrayData, Integer>{
 			+ " from t_tray_mgt_detail d WHERE d.tray_status>1 AND "
 			+ "d.fr_id=:frId AND d.outtray_date=:trayDate AND d.del_status=0",nativeQuery=true)
 	List<FrTrayData> getReceivedTrays(@Param("frId") int frId,@Param("trayDate")  String trayDate);
+	
+	
+	@Query(value="SELECT UUID() AS id, SUM(d.`outtray_small`) AS small, SUM(d.`outtray_lead`) AS lead, SUM(d.`outtray_big`) AS big,"
+			+ " d.`outtray_date` AS tray_date, 0 AS header_id FROM t_tray_mgt_detail d WHERE d.tray_status > 1 "
+			+ "AND d.fr_id = :frId AND d.outtray_date = :trayDate AND d.del_status = 0 GROUP BY d.outtray_date ",nativeQuery=true)
+	FrTrayData getSumReceivedTrays(@Param("frId") int frId,@Param("trayDate")  String trayDate);
+	
+	
 
 /*	@Query(value="SELECT UUID() as id ,it.intray_small as small, it.intray_lead as lead, it.`intray_big` as big, "
 			+ "it.intray_date as tray_date, it.`tran_intray_id` as header_id FROM t_tray_mgmt_detail_intray it"
@@ -91,6 +99,13 @@ public interface FrTrayDataRepo extends JpaRepository<FrTrayData, Integer>{
 			+ "WHERE it.fr_id = :frId AND it.intray_date = :trayDate AND it.del_status = 0 GROUP BY it.tran_intray_id ",nativeQuery=true)
 	List<FrTrayData> getReturnTrays(@Param("frId") int frId,@Param("trayDate")  String trayDate);
 	
+	
+	@Query(value="SELECT UUID() AS id, SUM(it.intray_small) AS small, SUM(it.intray_lead) AS lead, SUM(it.`intray_big`) "
+			+ "AS big, it.intray_date AS tray_date, it.`tran_intray_id` AS header_id FROM t_tray_mgmt_detail_intray it "
+			+ "WHERE it.fr_id = :frId AND it.intray_date = :trayDate AND it.del_status = 0 GROUP BY it.tran_intray_id, it.intray_date ",nativeQuery=true)
+	FrTrayData getSumReturnTrays(@Param("frId") int frId,@Param("trayDate")  String trayDate);
+	
+
 
 
 }

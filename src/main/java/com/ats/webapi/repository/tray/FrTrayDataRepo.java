@@ -36,7 +36,7 @@ public interface FrTrayDataRepo extends JpaRepository<FrTrayData, Integer>{
 			"    FROM\r\n" + 
 			"        t_tray_mgt_detail\r\n" + 
 			"    WHERE\r\n" + 
-			"        fr_id = :frId AND outtray_date < :trayDate AND del_status = 0),0))+(COALESCE ((SELECT\r\n" + 
+			"        fr_id = :frId AND outtray_date < :trayDate AND del_status = 0),0))-(COALESCE ((SELECT\r\n" + 
 			"        SUM(intray_small)\r\n" + 
 			"    FROM\r\n" + 
 			"        t_tray_mgmt_detail_intray\r\n" + 
@@ -47,7 +47,7 @@ public interface FrTrayDataRepo extends JpaRepository<FrTrayData, Integer>{
 			"    FROM\r\n" + 
 			"        t_tray_mgt_detail\r\n" + 
 			"    WHERE\r\n" + 
-			"        fr_id = :frId AND outtray_date < :trayDate AND del_status = 0),0))+(COALESCE ((SELECT\r\n" + 
+			"        fr_id = :frId AND outtray_date < :trayDate AND del_status = 0),0))-(COALESCE ((SELECT\r\n" + 
 			"        SUM(intray_lead)\r\n" + 
 			"    FROM\r\n" + 
 			"        t_tray_mgmt_detail_intray\r\n" + 
@@ -59,7 +59,7 @@ public interface FrTrayDataRepo extends JpaRepository<FrTrayData, Integer>{
 			"    FROM\r\n" + 
 			"        t_tray_mgt_detail\r\n" + 
 			"    WHERE\r\n" + 
-			"        fr_id = :frId AND outtray_date < :trayDate AND del_status = 0),0))+(COALESCE ((SELECT\r\n" + 
+			"        fr_id = :frId AND outtray_date < :trayDate AND del_status = 0),0))-(COALESCE ((SELECT\r\n" + 
 			"        SUM(intray_big)\r\n" + 
 			"    FROM\r\n" + 
 			"        t_tray_mgmt_detail_intray\r\n" + 

@@ -16,11 +16,11 @@ public interface ItemForMOrderRepository extends JpaRepository<ItemForMOrder, In
 			"\n" + 
 			"coalesce((SELECT order_qty FROM t_order WHERE t_order.fr_id=:frId AND t_order.is_edit=0 AND t_order.ref_id=0 and t_order.item_id=m_item.id AND t_order.production_date=:prodDate AND t_order.menu_id=:menuId\n" + 
 			"),0) as order_qty\n" + 
-			"from m_item where m_item.item_grp1=:itemGrp1 and m_item.del_status=0", nativeQuery = true)
+			"from m_item where m_item.item_grp1=:itemGrp1 and m_item.del_status=0 and m_item.id IN (:itemList)", nativeQuery = true)
 
-	List<ItemForMOrder> getItemListForMOrder(@Param("itemGrp1") int itemGrp1,@Param("frId") int frId,@Param("menuId")int menuId,@Param("prodDate") String prodDate);
+	List<ItemForMOrder> getItemListForMOrder(@Param("itemGrp1") int itemGrp1,@Param("frId") int frId,@Param("menuId")int menuId,@Param("prodDate") String prodDate,@Param("itemList") List<Integer> itemsList);
 
-	@Query(value="select m_item.*,0 as order_qty,coalesce((select disc_per from m_fr_discount where is_active=1 and category_id=:itemGrp1 and FIND_IN_SET(m_item.id,item_id) and FIND_IN_SET(:frId,franch_id) order by disc_id desc limit 1),0) as disc_per from m_item where m_item.item_grp1=:itemGrp1 and m_item.del_status=0",nativeQuery=true)
-	List<ItemForMOrder> getItemListForMOrderPrev(@Param("itemGrp1") int itemGrp1,@Param("frId") int frId);
+	@Query(value="select m_item.*,0 as order_qty,coalesce((select disc_per from m_fr_discount where is_active=1 and category_id=:itemGrp1 and FIND_IN_SET(m_item.id,item_id) and FIND_IN_SET(:frId,franch_id) order by disc_id desc limit 1),0) as disc_per from m_item where m_item.item_grp1=:itemGrp1 and m_item.del_status=0 and m_item.id IN (:itemList)",nativeQuery=true)
+	List<ItemForMOrder> getItemListForMOrderPrev(@Param("itemGrp1") int itemGrp1,@Param("frId") int frId,@Param("itemList") List<Integer> itemsList);
 
 }

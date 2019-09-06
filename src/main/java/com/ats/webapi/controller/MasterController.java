@@ -1194,18 +1194,18 @@ public class MasterController {
 
 				}
 				@RequestMapping(value = "/getItemListForMOrder", method = RequestMethod.POST)
-				public @ResponseBody List<ItemForMOrder> getItemListForMOrder(@RequestParam("itemGrp1")int itemGrp1,@RequestParam("frId")int frId,@RequestParam("menuId")int menuId,@RequestParam("ordertype")int ordertype,@RequestParam("prodDate")String prodDate) {
+				public @ResponseBody List<ItemForMOrder> getItemListForMOrder(@RequestParam("itemGrp1")int itemGrp1,@RequestParam("frId")int frId,@RequestParam("menuId")int menuId,@RequestParam("ordertype")int ordertype,@RequestParam("prodDate")String prodDate,@RequestParam("itemList")List<Integer> itemsList) {
 
 					List<ItemForMOrder> itemList;
 					try {
 						if(ordertype==0)
 						{
 							System.err.println("itemGrp1"+itemGrp1+"frId"+menuId+"ordertype"+ordertype+"prodDate"+prodDate);
-					    	itemList = itemRepositoryForMOrderRepository.getItemListForMOrder(itemGrp1,frId,menuId,prodDate);
+					    	itemList = itemRepositoryForMOrderRepository.getItemListForMOrder(itemGrp1,frId,menuId,prodDate,itemsList);
 						}
 						else
 						{
-							itemList = itemRepositoryForMOrderRepository.getItemListForMOrderPrev(itemGrp1,frId);
+							itemList = itemRepositoryForMOrderRepository.getItemListForMOrderPrev(itemGrp1,frId,itemsList);
 
 						}
 					}

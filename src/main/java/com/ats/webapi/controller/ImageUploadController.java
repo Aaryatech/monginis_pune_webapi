@@ -36,20 +36,7 @@ public class ImageUploadController {
 	private static final String SP_CAKE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/SPCAKE/";
 	private static final String CUST_CHOICE_PHOTO_CAKE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/CUSTCHOICEPHOTOCAKE/";
 
-/*  private static String SUGGESTION_URL = "/opt/apache-tomcat-8.5.37/webapps/uploads/SUGGESTION/";
-	private static String COMPLAINT_URL = "/opt/apache-tomcat-8.5.37/webapps/uploads/COMPLAINT/";
-	private static String NOTIFICATION_URL = "/opt/apache-tomcat-8.5.37/webapps/uploads/NOTIFICATION/";
-	private static String FEEDBACK_URL = "/opt/apache-tomcat-8.5.37/webapps/uploads/FEEDBACK/";
-	
-	public static final String M_SP_CAKE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploads/MSPCAKE/";
-	public static final String MSG_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploads/MSG/";
-	public static final String FR_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploads/FR/";
-	public static final String ITEM_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploads/ITEM/";
-	public static final String RAW_MAT_IMAGE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploads/RAWMAT/";
-	public static final String GATE_ENTRY_IMAGE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploads/GATEENTRY/";
-	private static final String SP_CAKE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploads/SPCAKE/";
-	private static final String CUST_CHOICE_PHOTO_CAKE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploads/CUSTCHOICEPHOTOCAKE/";
-*/
+
 	//private static String BILL_FOLDER ="/home/maxadmin/Desktop/photos/";
 	
 	

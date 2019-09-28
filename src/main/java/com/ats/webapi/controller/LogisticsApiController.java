@@ -17,6 +17,7 @@ import com.ats.webapi.model.ErrorMessage;
 import com.ats.webapi.model.Info;
 import com.ats.webapi.model.LoginDriverResponse;
 import com.ats.webapi.model.LoginResponse;
+import com.ats.webapi.model.LogisSetting;
 import com.ats.webapi.model.User;
 import com.ats.webapi.model.logistics.AlertAmcRecord;
 import com.ats.webapi.model.logistics.AlertMachineServicingRecord;
@@ -38,6 +39,7 @@ import com.ats.webapi.model.logistics.Variant;
 import com.ats.webapi.model.logistics.VehicalMaster;
 import com.ats.webapi.model.logistics.VehicalType;
 import com.ats.webapi.model.logistics.VehicleDcoument;
+import com.ats.webapi.repository.LogisSettingRepo;
 import com.ats.webapi.repository.UserRepository;
 import com.ats.webapi.repository.logistics.AlertAmcRecordRepository;
 import com.ats.webapi.repository.logistics.AlertMachineServicingRepository;
@@ -1551,5 +1553,24 @@ public class LogisticsApiController {
 		}
 
 		return getTrayManagementReport;
+	}
+
+	@Autowired
+	LogisSettingRepo logisSettingRepo;
+
+	@RequestMapping(value = { "/getLogisOtherPartIds" }, method = RequestMethod.POST)
+	public @ResponseBody LogisSetting getLogisOtherPartIds(@RequestParam("key") String key) {
+
+		LogisSetting logisSetting = new LogisSetting();
+		try {
+
+			logisSetting = logisSettingRepo.findByKey(key);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return logisSetting;
 	}
 }

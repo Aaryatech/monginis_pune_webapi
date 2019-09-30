@@ -61,6 +61,9 @@ public class ServDetail {
 	
 	@Column(name = "varchar1")
 	private String varchar1;
+	
+	@Column(name = "varchar2")
+	private String varchar2;
 
 
 	public int getServDetailId() {
@@ -183,13 +186,21 @@ public class ServDetail {
 		this.varchar1 = varchar1;
 	}
 
+	public String getVarchar2() {
+		return varchar2;
+	}
+
+	public void setVarchar2(String varchar2) {
+		this.varchar2 = varchar2;
+	}
+
 	@Override
 	public String toString() {
 		return "ServDetail [servDetailId=" + servDetailId + ", servId=" + servId + ", servDate=" + servDate
 				+ ", servType=" + servType + ", groupId=" + groupId + ", sprId=" + sprId + ", sprQty=" + sprQty
 				+ ", sprRate=" + sprRate + ", sprTaxableAmt=" + sprTaxableAmt + ", sprTaxAmt=" + sprTaxAmt + ", total="
 				+ total + ", disc=" + disc + ", extraCharges=" + extraCharges + ", delStatus=" + delStatus
-				+ ", varchar1=" + varchar1 + "]";
+				+ ", varchar1=" + varchar1 + ", varchar2=" + varchar2 + "]";
 	}
 	
 	

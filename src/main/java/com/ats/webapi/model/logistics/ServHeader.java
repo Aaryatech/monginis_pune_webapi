@@ -101,6 +101,12 @@ public class ServHeader {
 	@Column(name = "bill_file")
 	private String billFile;
 	
+	@Column(name = "varchar1")
+	private String varchar1;
+	
+	@Column(name = "varchar2")
+	private String varchar2;
+	
 	@Transient
 	List<ServDetail> servDetail;
 
@@ -331,6 +337,22 @@ public class ServHeader {
 
 	 
 
+	public String getVarchar1() {
+		return varchar1;
+	}
+
+	public void setVarchar1(String varchar1) {
+		this.varchar1 = varchar1;
+	}
+
+	public String getVarchar2() {
+		return varchar2;
+	}
+
+	public void setVarchar2(String varchar2) {
+		this.varchar2 = varchar2;
+	}
+
 	@Override
 	public String toString() {
 		return "ServHeader [servId=" + servId + ", servDate=" + servDate + ", typeId=" + typeId + ", dealerId="
@@ -340,8 +362,8 @@ public class ServHeader {
 				+ ", totalDisc=" + totalDisc + ", totalExtra=" + totalExtra + ", discOnBill=" + discOnBill
 				+ ", extraOnBill=" + extraOnBill + ", taxAmt=" + taxAmt + ", taxableAmt=" + taxableAmt + ", roundOff="
 				+ roundOff + ", total=" + total + ", servDoneKm=" + servDoneKm + ", nextDueKm=" + nextDueKm
-				+ ", isApproved=" + isApproved + ", delStatus=" + delStatus + ", billFile=" + billFile + ", servDetail="
-				+ servDetail + "]";
+				+ ", isApproved=" + isApproved + ", delStatus=" + delStatus + ", billFile=" + billFile + ", varchar1="
+				+ varchar1 + ", varchar2=" + varchar2 + ", servDetail=" + servDetail + "]";
 	}
 	
 	

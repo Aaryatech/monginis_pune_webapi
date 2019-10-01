@@ -18,6 +18,8 @@ import com.ats.webapi.model.Info;
 import com.ats.webapi.model.LoginDriverResponse;
 import com.ats.webapi.model.LoginResponse;
 import com.ats.webapi.model.LogisSetting;
+import com.ats.webapi.model.ServDetailForPdf;
+import com.ats.webapi.model.ServHeaderForPdf;
 import com.ats.webapi.model.User;
 import com.ats.webapi.model.logistics.AlertAmcRecord;
 import com.ats.webapi.model.logistics.AlertMachineServicingRecord;
@@ -39,7 +41,9 @@ import com.ats.webapi.model.logistics.Variant;
 import com.ats.webapi.model.logistics.VehicalMaster;
 import com.ats.webapi.model.logistics.VehicalType;
 import com.ats.webapi.model.logistics.VehicleDcoument;
+import com.ats.webapi.repositories.ServHeaderForPdfRepo;
 import com.ats.webapi.repository.LogisSettingRepo;
+import com.ats.webapi.repository.ServDetailForPdfRepo;
 import com.ats.webapi.repository.UserRepository;
 import com.ats.webapi.repository.logistics.AlertAmcRecordRepository;
 import com.ats.webapi.repository.logistics.AlertMachineServicingRepository;
@@ -1558,6 +1562,12 @@ public class LogisticsApiController {
 	@Autowired
 	LogisSettingRepo logisSettingRepo;
 
+	@Autowired
+	ServDetailForPdfRepo servDetailForPdfRepo;
+	
+	@Autowired
+	ServHeaderForPdfRepo servHeaderForPdfRepo;
+	
 	@RequestMapping(value = { "/getLogisOtherPartIds" }, method = RequestMethod.POST)
 	public @ResponseBody LogisSetting getLogisOtherPartIds(@RequestParam("key") String key) {
 
@@ -1572,5 +1582,50 @@ public class LogisticsApiController {
 		}
 
 		return logisSetting;
+	}
+	
+	@RequestMapping(value = { "/updateKeyValue" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateKeyValue(@RequestParam("key") String key) {
+
+		Info info = new Info();
+		try {
+
+			LogisSetting logisSetting = logisSettingRepo.findByKey(key);
+			
+			String value =String.valueOf(Integer.parseInt(logisSetting.getKeyValue())+1);
+			
+			int update = logisSettingRepo.updateKeyValue(logisSetting.getSettingId(),value);
+			if(update>0) {
+				info.setError(false);
+				info.setMessage("update");
+			}else {
+				info.setError(true);
+				info.setMessage("failed update");
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return info;
+	}
+	
+	@RequestMapping(value = { "/getServiceDetailByServIdForPdf" }, method = RequestMethod.POST)
+	public @ResponseBody ServHeaderForPdf getServiceDetailByServIdForPdf(@RequestParam("servId") int servId) {
+
+		ServHeaderForPdf servHeaderForPdf = new ServHeaderForPdf();
+		try {
+			
+			servHeaderForPdf = servHeaderForPdfRepo.getServiceByServIdForPdf(servId);
+
+			List<ServDetailForPdf> servDetailForPdfList = servDetailForPdfRepo.getServiceDetailByServIdForPdf(servId);
+			servHeaderForPdf.setList(servDetailForPdfList);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return servHeaderForPdf;
 	}
 }

@@ -24,6 +24,7 @@ import com.ats.webapi.model.ItemReportDetail;
 import com.ats.webapi.model.ItemWiseDetailList;
 import com.ats.webapi.model.ItemWiseReportList;
 import com.ats.webapi.model.MonthWiseReportList;
+import com.ats.webapi.model.OrderDeliveryDate;
 import com.ats.webapi.model.Orders;
 import com.ats.webapi.model.POrder;
 import com.ats.webapi.model.report.DispatchReport;
@@ -39,6 +40,7 @@ import com.ats.webapi.model.report.SpKgSummaryDao;
 import com.ats.webapi.repository.DispatchOrderRepository;
 import com.ats.webapi.repository.ItemReportDetailRepo;
 import com.ats.webapi.repository.ItemReportRepo;
+import com.ats.webapi.repository.OrderDeliveryDateRepo;
 import com.ats.webapi.repository.PDispatchReportRepository;
 import com.ats.webapi.repository.SpKgSummaryRepository;
 import com.ats.webapi.service.RepFrSellServise;
@@ -557,4 +559,15 @@ public class ReportsController {
 	}
 	// ------------------------------------------------------------------------------------------------
 
+	@Autowired OrderDeliveryDateRepo orderDelvrRepo;
+	@RequestMapping(value = "/getOrderDelvrDateReport", method = RequestMethod.POST)
+	public @ResponseBody List<OrderDeliveryDate> getOrderDelvrDateReport(
+			@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate) {
+
+		List<OrderDeliveryDate> orderDelList = orderDelvrRepo.getOrderByDeliveyDate(fromDate, toDate);
+	
+		return orderDelList;
+
+	}
+	
 }

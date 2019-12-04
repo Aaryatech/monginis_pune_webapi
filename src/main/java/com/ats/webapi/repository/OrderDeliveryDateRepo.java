@@ -13,10 +13,8 @@ public interface OrderDeliveryDateRepo extends JpaRepository<OrderDeliveryDate, 
 	@Query(value = "SELECT\n" + 
 			"    o.fr_id,\n" + 
 			"    m.fr_name,\n" + 
-			"    SUM(\n" + 
-			"        (o.order_mrp * `order_qty`) *((100 - is_positive) / 100)\n" + 
-			"    ) AS ttl_amt\n" + 
-			"FROM\n" + 
+			"    SUM(o.order_rate * order_qty) AS ttl_amt " + 
+			"FROM  " + 
 			"    t_order o,\n" + 
 			"    m_franchisee m\n" + 
 			"WHERE\n" + 

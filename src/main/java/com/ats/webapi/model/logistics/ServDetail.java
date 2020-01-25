@@ -36,10 +36,10 @@ public class ServDetail {
 	private int sprId;
 
 	@Column(name = "spr_qty")
-	private int sprQty;
+	private float sprQty;
 
 	@Column(name = "spr_rate")
-	private int sprRate;
+	private float sprRate;
 	
 	@Column(name = "spr_taxable_amt")
 	private float sprTaxableAmt;
@@ -114,19 +114,19 @@ public class ServDetail {
 		this.sprId = sprId;
 	}
 
-	public int getSprQty() {
+	public float getSprQty() {
 		return sprQty;
 	}
 
-	public void setSprQty(int sprQty) {
+	public void setSprQty(float sprQty) {
 		this.sprQty = sprQty;
 	}
 
-	public int getSprRate() {
+	public float getSprRate() {
 		return sprRate;
 	}
 
-	public void setSprRate(int sprRate) {
+	public void setSprRate(float sprRate) {
 		this.sprRate = sprRate;
 	}
 

@@ -58,4 +58,101 @@ public interface GetCurProdAndBillQtyRepo extends JpaRepository<GetCurProdAndBil
 			@Param("delStatus") int delStatus, @Param("timestamp") String timestamp,
 			@Param("curTimeStamp") String curTimeStamp);
 
+	@Query(value = " SELECT\n" + 
+			"        m_item.id,\n" + 
+			"        m_item.item_name,\n" + 
+			"        coalesce((Select\n" + 
+			"            SUM(t_production_plan_detail.production_qty) \n" + 
+			"        FROM\n" + 
+			"            t_production_plan_detail,\n" + 
+			"            t_production_plan_header \n" + 
+			"        where\n" + 
+			"            t_production_plan_header.production_date=:prodDate \n" + 
+			"            AND t_production_plan_header.production_header_id=t_production_plan_detail.production_header_id \n" + 
+			"            AND m_item.id=t_production_plan_detail.item_id),\n" + 
+			"        0) AS prod_qty,\n" + 
+			"        coalesce((Select\n" + 
+			"            SUM(t_production_plan_detail.rejected_qty) \n" + 
+			"        FROM\n" + 
+			"            t_production_plan_detail,\n" + 
+			"            t_production_plan_header \n" + 
+			"        where\n" + 
+			"            t_production_plan_header.production_date=:prodDate \n" + 
+			"            AND t_production_plan_header.production_header_id=t_production_plan_detail.production_header_id \n" + 
+			"            AND m_item.id=t_production_plan_detail.item_id),\n" + 
+			"        0) AS rejected_qty,\n" + 
+			"        coalesce((Select\n" + 
+			"            SUM( t_order.order_qty) \n" + 
+			"        FROM\n" + 
+			"            t_order\n" + 
+			"        WHERE\n" + 
+			"            t_order.production_date=:prodDate \n" + 
+			"            AND m_item.id=t_order.item_id and t_order.menu_id IN (:menuId)),\n" + 
+			"        0) AS bill_qty,\n" + 
+			"        coalesce((Select\n" + 
+			"            SUM(t_production_plan_detail.int5) \n" + 
+			"        FROM\n" + 
+			"            t_production_plan_detail,\n" + 
+			"            t_production_plan_header \n" + 
+			"        where\n" + 
+			"            t_production_plan_header.production_date=:prodDate  \n" + 
+			"            AND t_production_plan_header.production_header_id=t_production_plan_detail.production_header_id \n" + 
+			"            AND m_item.id=t_production_plan_detail.item_id),\n" + 
+			"        0) AS damaged_qty   \n" + 
+			"    FROM\n" + 
+			"        m_item \n" + 
+			"    where\n" + 
+			"        m_item.item_grp1=:catId\n" + 
+			"        AND m_item.del_status=:delStatus ", nativeQuery = true)
+	List<GetCurProdAndBillQty> getCurProdAndOrderQty(@Param("prodDate") String prodDate, @Param("catId") int catId,
+			@Param("delStatus") int delStatus, @Param("menuId") List<String> menuId);
+
+	@Query(value = " SELECT\n" + 
+			"        m_item.id,\n" + 
+			"        m_item.item_name,\n" + 
+			"        coalesce((Select\n" + 
+			"            SUM(t_production_plan_detail.production_qty) \n" + 
+			"        FROM\n" + 
+			"            t_production_plan_detail,\n" + 
+			"            t_production_plan_header \n" + 
+			"        where\n" + 
+			"            t_production_plan_header.production_date=:prodDate \n" + 
+			"            AND t_production_plan_header.production_header_id=t_production_plan_detail.production_header_id \n" + 
+			"            AND m_item.id=t_production_plan_detail.item_id),\n" + 
+			"        0) AS prod_qty,\n" + 
+			"        coalesce((Select\n" + 
+			"            SUM(t_production_plan_detail.rejected_qty) \n" + 
+			"        FROM\n" + 
+			"            t_production_plan_detail,\n" + 
+			"            t_production_plan_header \n" + 
+			"        where\n" + 
+			"            t_production_plan_header.production_date=:prodDate \n" + 
+			"            AND t_production_plan_header.production_header_id=t_production_plan_detail.production_header_id \n" + 
+			"            AND m_item.id=t_production_plan_detail.item_id),\n" + 
+			"        0) AS rejected_qty,\n" + 
+			"        coalesce((Select\n" + 
+			"            SUM( t_order.order_qty) \n" + 
+			"        FROM\n" + 
+			"            t_order\n" + 
+			"        WHERE\n" + 
+			"            t_order.production_date=:prodDate \n" + 
+			"            AND m_item.id=t_order.item_id and t_order.menu_id IN (:menuId)),\n" + 
+			"        0) AS bill_qty,\n" + 
+			"        coalesce((Select\n" + 
+			"            SUM(t_production_plan_detail.int5) \n" + 
+			"        FROM\n" + 
+			"            t_production_plan_detail,\n" + 
+			"            t_production_plan_header \n" + 
+			"        where\n" + 
+			"            t_production_plan_header.production_date=:prodDate  \n" + 
+			"            AND t_production_plan_header.production_header_id=t_production_plan_detail.production_header_id \n" + 
+			"            AND m_item.id=t_production_plan_detail.item_id),\n" + 
+			"        0) AS damaged_qty   \n" + 
+			"    FROM\n" + 
+			"        m_item \n" + 
+			"    where " + 
+		"m_item.del_status=:delStatus ", nativeQuery = true)
+	List<GetCurProdAndBillQty> getCurProdAndOrderQtyAllCat(@Param("prodDate") String prodDate,
+			@Param("delStatus") int delStatus, @Param("menuId") List<String> menuId);
+
 }

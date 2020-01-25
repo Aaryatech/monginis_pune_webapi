@@ -461,6 +461,80 @@ h1.bms_status=1
 		System.out.println("Stock List BMS curProdAndBillList" + curProdAndBillList.toString());
 		return curProdAndBillList;
 	}
+	@RequestMapping(value = { "/getCurrentProdAndOrderQty" }, method = RequestMethod.POST)
+	public @ResponseBody GetCurProdAndBillQtyList getCurrentProdAndOrderQty(@RequestParam("prodDate") String prodDate,
+			@RequestParam("catId") int catId, @RequestParam("delStatus") int delStatus, @RequestParam("timestamp") String timestamp,
+			@RequestParam("curTimeStamp") String curTimeStamp,@RequestParam List<String> menuId) {
+
+		Info info = new Info();
+				
+		GetCurProdAndBillQtyList curProdAndBillList = new GetCurProdAndBillQtyList();
+
+		try {
+
+			List<GetCurProdAndBillQty> getCurProdAndBillQty = getCurProdAndBillQtyRepo.getCurProdAndOrderQty(prodDate,
+					catId, delStatus,menuId);
+			if (!getCurProdAndBillQty.isEmpty()) {
+
+				info.setError(false);
+				info.setMessage("success stock list ");
+
+				curProdAndBillList.setGetCurProdAndBillQty(getCurProdAndBillQty);
+			} else {
+
+				info.setError(true);
+				info.setMessage("Error in Getting cur Prod And Bill Qty list- size = " + getCurProdAndBillQty.size());
+
+			}
+
+			curProdAndBillList.setInfo(info);
+
+		} catch (Exception e) {
+
+			System.out.println("Exc in Getting cur Prod And Bill Qty list " + e.getMessage());
+			e.printStackTrace();
+		}
+		System.out.println("Stock List BMS curProdAndBillList " + curProdAndBillList.toString());
+		return curProdAndBillList;
+	}
+
+	
+	//All Category
+	@RequestMapping(value = { "/getCurrentProdAndOrderQtyAllCat" }, method = RequestMethod.POST)
+	public @ResponseBody GetCurProdAndBillQtyList getCurrentProdAndOrderQtyAllCat(@RequestParam("prodDate") String prodDate,
+			 @RequestParam("delStatus") int delStatus,@RequestParam("timestamp") String timestamp,
+			 @RequestParam("curTimeStamp") String curTimeStamp,@RequestParam List<String> menuId) {
+
+		Info info = new Info();
+		GetCurProdAndBillQtyList curProdAndBillList = new GetCurProdAndBillQtyList();
+
+		try {
+
+			List<GetCurProdAndBillQty> getCurProdAndBillQty = getCurProdAndBillQtyRepo.getCurProdAndOrderQtyAllCat(prodDate,
+					 delStatus,menuId);
+			if (!getCurProdAndBillQty.isEmpty()) {
+
+				info.setError(false);
+				info.setMessage("success stock list ");
+
+				curProdAndBillList.setGetCurProdAndBillQty(getCurProdAndBillQty);
+			} else {
+
+				info.setError(true);
+				info.setMessage("Error in Getting cur Prod And Bill Qty lis All Cat - size = " + getCurProdAndBillQty.size());
+
+			}
+
+			curProdAndBillList.setInfo(info);
+
+		} catch (Exception e) {
+
+			System.out.println("Exc in Getting cur Prod And Bill Qty list  All Cate" + e.getMessage());
+			e.printStackTrace();
+		}
+		System.out.println("Stock List BMS curProdAndBillList" + curProdAndBillList.toString());
+		return curProdAndBillList;
+	}
 	@RequestMapping(value = { "/getFinGoodStockHeader" }, method = RequestMethod.POST)
 	public @ResponseBody FinishedGoodStock getFinGoodStockHeader(@RequestParam("stockStatus") int stockStatus) {
 

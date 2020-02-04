@@ -37,5 +37,10 @@ public interface FranchiseeRepository extends JpaRepository<Franchisee, Integer>
 
 		public List<Franchisee> findByDelStatusAndFrIdIn(int i, List<Integer> frids);
 
+		public Franchisee findByfrCodeAndDelStatus(String frCode, int del);
 		
+		@Modifying
+		@Transactional
+		@Query("Update Franchisee  SET fr_password=:newPass WHERE fr_id=:frId")
+		public int changeOPSPassword(@Param("frId")int frId,@Param("newPass")String newPass);
 	}

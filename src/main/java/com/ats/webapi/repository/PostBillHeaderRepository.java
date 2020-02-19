@@ -2,7 +2,10 @@ package com.ats.webapi.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -20,6 +23,11 @@ public interface PostBillHeaderRepository extends JpaRepository<PostBillHeader, 
 	@Query(value = " SELECT * FROM t_bill_header WHERE del_status=0 AND bill_date BETWEEN :fromDate AND :toDate \n"
 			+ "", nativeQuery = true)
 	List<PostBillHeader> getBillDetail(@Param("fromDate") String fromDate, @Param("toDate") String toDate);
+
+	@Transactional
+	@Modifying
+	@Query("UPDATE PostBillHeader i SET i.frId=:frId,i.frCode=:frCode,i.partyName=:frName,i.partyGstin=:frGstNo,i.partyAddress=:frAddress  WHERE i.billNo=:billNo ")
+	int updatefrinfo(@Param("billNo")int billNo,@Param("frId") int frId, @Param("frCode") String frCode,@Param("frName") String frName,@Param("frGstNo") String frGstNo,@Param("frAddress") String frAddress);
 
 	// sum(CASE WHEN payment_mode = 1 THEN payable_amt ELSE 0 END) as cash,
 

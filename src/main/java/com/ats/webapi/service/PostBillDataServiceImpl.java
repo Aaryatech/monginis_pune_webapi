@@ -165,7 +165,7 @@ public class PostBillDataServiceImpl implements PostBillDataService {
 				int res=0;
 				if (billDetail.getCatId() != 5) { 
 					
-					if(billDetail.getMenuId()!= 42) {//item
+					if(billDetail.getMenuId()!= 42 && billDetail.getMenuId()!= 80 &&  billDetail.getMenuId()!= 30) {
 						
 					 res = orderRepository.updateBillStatus(billDetail.getOrderId(), 2);
 					
@@ -216,9 +216,17 @@ public class PostBillDataServiceImpl implements PostBillDataService {
 
 				postBillDetailRepository.save(billDetail);
 				
-				
-				
-				
+	             if (billDetail.getCatId() != 5) { 
+					
+					if(billDetail.getMenuId()!= 42 && billDetail.getMenuId()!= 80 &&  billDetail.getMenuId()!= 30) {//item
+						
+					    orderRepository.updateBillStatus(billDetail.getOrderId(), 2);
+					
+					}else { // regular sp cake
+						regularSpCkOrderRepository.updateRegSpCakeBillStatus(billDetail.getOrderId(), 2);
+					}
+					
+				} 
 				
 			}
 			// postBillDetail.get(i).setBillNo(billNo);

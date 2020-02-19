@@ -47,6 +47,7 @@ import com.ats.webapi.repository.FranchiseSupRepository;
 import com.ats.webapi.repository.FranchiseeRepository;
 import com.ats.webapi.repository.GenerateBillRepository;
 import com.ats.webapi.repository.GetBillDetailsRepository;
+import com.ats.webapi.repository.GetBillHeaderRepository;
 import com.ats.webapi.repository.GetRegSpCakeOrdersRepository;
 import com.ats.webapi.repository.GetReorderByStockTypeRepository;
 import com.ats.webapi.repository.ItemDiscConfiguredRepository;
@@ -162,7 +163,8 @@ public class RestApiController {
 		return date;
 
 	}
-
+	@Autowired
+	GetBillHeaderRepository getBillHeaderRepository;
 	@Autowired
 	OrderRepository orderRepository;
 	@Autowired
@@ -5167,5 +5169,41 @@ public class RestApiController {
 	
 		return res;
 	}
-	 
+	@RequestMapping(value = "/getBillHeaderByBillNo", method = RequestMethod.POST)
+	public @ResponseBody GetBillHeader getBillHeaderByBillNo(@RequestParam("billNo") int billNo) {
+		GetBillHeader getBillHeader = null;
+		try {
+			 
+			getBillHeader = getBillHeaderRepository.getBillHeaderByBillNo(billNo);
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+
+		return getBillHeader;
+
+	}
+	
+	@RequestMapping(value = { "/updateFrInformationinbillheader" }, method = RequestMethod.POST)
+	@ResponseBody
+	public Info updateFrInformationinbillheader(@RequestParam("frId") int frId,@RequestParam("billNo") int billNo) {
+
+		Info info = new Info();
+		
+		try {
+			Franchisee franchisee=franchiseeRepository.findOne(frId);
+			System.out.println(franchisee);
+			int update = postBillHeaderRepository.updatefrinfo(billNo,franchisee.getFrId(),franchisee.getFrCode(),franchisee.getFrName(),franchisee.getFrGstNo(),franchisee.getFrAddress());
+			System.out.println(update);
+			info.setError(false);
+			info.setMessage("success");
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			info.setError(true);
+			info.setMessage("failed");
+		}
+
+		return info;
+	}
 }

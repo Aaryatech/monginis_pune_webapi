@@ -1217,7 +1217,23 @@ public class MasterController {
 					return itemList;
 
 				}
-				
+				@RequestMapping(value = "/getItemListForBillEdit", method = RequestMethod.POST)
+				public @ResponseBody List<ItemForMOrder> getItemListForBillEdit(@RequestParam("itemGrp1")int itemGrp1,@RequestParam("frId")int frId,@RequestParam("menuId")int menuId,@RequestParam("ordertype")int ordertype,@RequestParam("prodDate")String prodDate) {
+
+					List<ItemForMOrder> itemList;
+					try {
+						
+							itemList = itemRepositoryForMOrderRepository.getItemListForBillEdit(itemGrp1,frId);
+
+					}
+					catch (Exception e) {
+						itemList=new ArrayList<>();
+						e.printStackTrace();
+
+					}
+					return itemList;
+
+				}
 				@RequestMapping(value = { "/getItemsByMenuId" }, method = RequestMethod.POST)
 				public @ResponseBody  List<ItemIdOnly> finditmsByMenuIdIn(@RequestParam("menuId") int menuId) {
 					 

@@ -37,6 +37,7 @@ import com.ats.webapi.model.RegularSpecialStockCal;
 import com.ats.webapi.model.StockForAutoGrnGvn;
 import com.ats.webapi.model.StockRegSpPurchase;
 import com.ats.webapi.model.StockRegSpSell;
+import com.ats.webapi.repository.FrStockBetweenMonthRepository;
 import com.ats.webapi.repository.GetFrItemStockConfigurationRepository;
 import com.ats.webapi.repository.PostFrOpStockDetailRepository;
 import com.ats.webapi.repository.PostFrOpStockHeaderRepository;
@@ -559,8 +560,8 @@ public class FrStockApiController {
 		return new ResponseEntity<byte[]>(output, responseHeaders, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getCurrentStock", method = RequestMethod.POST)
-	public @ResponseBody List<GetCurrentStockDetails> getCurrentStock(@RequestParam("frId") int frId,
+	@RequestMapping(value = "/getPrevCurrentStock", method = RequestMethod.POST)
+	public @ResponseBody List<GetCurrentStockDetails> getPrevCurrentStock(@RequestParam("frId") int frId,
 			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate,
 			@RequestParam("currentMonth") int currentMonth, @RequestParam("year") int year,
 			@RequestParam("itemIdList") List<Integer> itemIdList, @RequestParam("catId") int catId,
@@ -685,7 +686,38 @@ public class FrStockApiController {
 		return stockDetailsList;
 
 	}
+	@Autowired
+	FrStockBetweenMonthRepository stockDetailRepository;
+	@RequestMapping(value = "/getCurrentStock", method = RequestMethod.POST)
+	public @ResponseBody List<GetCurrentStockDetails> getCurrentStock(@RequestParam("frId") int frId,
+			@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate,
+			@RequestParam("currentMonth") int currentMonth, @RequestParam("year") int year,
+			@RequestParam("itemIdList") List<Integer> itemList, @RequestParam("catId") int catId,
+			@RequestParam("frStockType") int type) {
+		List<GetCurrentStockDetails> stockDetailsList = new ArrayList<GetCurrentStockDetails>();
 
+		System.out.println("inside rest getCurrentStock : I/p : frId: " + frId);
+		System.out.println("inside rest getCurrentStock : I/p : frStockType: " + type);
+		System.out.println("inside rest getCurrentStock : I/p : fromDate: " + fromDate);
+		System.out.println("inside rest getCurrentStock : I/p : toDate: " + toDate);
+		System.out.println("inside rest getCurrentStock : I/p : currentMonth: " + currentMonth);
+		System.out.println("inside rest getCurrentStock : I/p : year: " + year);
+		System.out.println("inside rest getCurrentStock : I/p : itemIdList: " + itemList.toString());
+		try {
+		if(itemList.isEmpty()) {
+			stockDetailsList = stockDetailRepository.getMinOpeningStock1(currentMonth,year,frId,catId,fromDate,toDate,type);
+
+		}else
+		{
+			stockDetailsList = stockDetailRepository.getMinOpeningStock2(currentMonth,year,frId,catId,fromDate,toDate,type,itemList);
+		}
+     	} catch (Exception e) {
+				e.printStackTrace();
+		}
+		System.out.println("getCurrentStock Result: " + stockDetailsList.toString());
+
+		return stockDetailsList;
+	}
 	// 31-10-2017
 	@RequestMapping(value = { "/updateEndMonth" }, method = RequestMethod.POST)
 	public @ResponseBody Info updateEndMonth(@RequestBody PostFrItemStockHeader postFrItemStockHeader) {

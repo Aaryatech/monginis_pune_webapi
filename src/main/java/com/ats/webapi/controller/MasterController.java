@@ -884,6 +884,23 @@ public class MasterController {
 					return subCategoryList;
 
 				}
+				//Sachin for Prod Pdf order by 03-03-2020
+				@RequestMapping(value = "/getAllSubCatListOrderByPrefix", method = RequestMethod.GET)
+				public @ResponseBody List<SubCategory> getAllSubCatListOrderByPrefix() {
+
+					List<SubCategory> subCategoryList;
+					try {
+					 subCategoryList = subCategoryRepository.findAllSubCategoriesorderByPrefix();
+					}
+					catch (Exception e) {
+						subCategoryList=new ArrayList<>();
+						e.printStackTrace();
+
+					}
+					return subCategoryList;
+
+				}
+				
 				@RequestMapping(value = { "/getRegSpCakeOrderHistory" }, method = RequestMethod.POST)
 				@ResponseBody
 				public List<GetRegSpCakeOrders> getRegSpCakeOrderHistory(

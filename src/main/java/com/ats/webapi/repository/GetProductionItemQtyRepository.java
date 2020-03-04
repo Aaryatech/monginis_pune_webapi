@@ -14,7 +14,11 @@ import com.ats.webapi.model.GetProductionItemQty;
 public interface GetProductionItemQtyRepository extends JpaRepository<GetProductionItemQty, Integer>{
 
 	
-	@Query(value = "SELECT t_production_plan_header.production_header_id, t_production_plan_detail.production_detail_id ,t_production_plan_header.production_date, SUM(t_production_plan_detail.production_qty) as qty, t_production_plan_detail.item_id, m_item.item_name FROM t_production_plan_header,t_production_plan_detail, m_item WHERE t_production_plan_header.production_date =:productionDate AND  t_production_plan_header.cat_id=:catId AND t_production_plan_header.production_header_id=t_production_plan_detail.production_header_id AND m_item.id=t_production_plan_detail.item_id GROUP BY t_production_plan_detail.item_id", nativeQuery = true)
+	@Query(value = "SELECT t_production_plan_header.production_header_id, "
+			+ "t_production_plan_detail.production_detail_id ,t_production_plan_header.production_date, "
+			+ "SUM(t_production_plan_detail.production_qty) as qty, "
+			+ "t_production_plan_detail.item_id, m_item.item_name FROM t_production_plan_header,"
+			+ "t_production_plan_detail, m_item,m_cat_sub WHERE m_cat_sub.sub.sub_cat_id=m_item.item_grp2 and t_production_plan_header.production_date =:productionDate AND  t_production_plan_header.cat_id=:catId AND t_production_plan_header.production_header_id=t_production_plan_detail.production_header_id AND m_item.id=t_production_plan_detail.item_id GROUP BY t_production_plan_detail.item_id ORDER BY m_cat_sub.prefix,m_item.item_name ", nativeQuery = true)
 	List<GetProductionItemQty> findProdItemQty(@Param("productionDate") String productionDate, @Param("catId") int catId);
 
 	@Query(value = " SELECT\n" + 
@@ -26,13 +30,14 @@ public interface GetProductionItemQtyRepository extends JpaRepository<GetProduct
 			"        m_item.item_name \n" + 
 			"    FROM\n" + 
 			"        t_order,\n" + 
-			"        m_item \n" + 
+			"        m_item,m_cat_sub \n" + 
 			"    WHERE\n" + 
 			"        t_order.order_date =:productionDate \n" + 
 			"        AND  t_order.order_type=:catId \n" + 
-			"        AND m_item.id=t_order.item_id \n" + 
+			"        AND m_item.id=t_order.item_id"
+			+ "and m_cat_sub.sub.sub_cat_id=m_item.item_grp2 \n" + 
 			"    GROUP BY\n" + 
-			"        t_order.item_id\n" + 
+			"        t_order.item_id ORDER BY m_cat_sub.prefix,m_item.item_name " + 
 			" ", nativeQuery = true)
 	List<GetProductionItemQty> getOrderuItemQty(@Param("productionDate") String productionDate, @Param("catId") int catId);
 

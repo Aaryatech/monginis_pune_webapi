@@ -25,4 +25,7 @@ public interface GetProdHeaderRepo extends JpaRepository<GetProdPlanHeader, Inte
 	
 	List<GetProdPlanHeader> getProdPlanHeader(@Param("fromDate") String fromDate,@Param("toDate") String toDate);
 	
+@Query(value=" SELECT count(t_production_plan_header.production_header_id) from t_production_plan_header WHERE t_production_plan_header.cat_id=:catId \n" + 
+		"AND  t_production_plan_header.del_status=0 and t_production_plan_header.production_status<:status and t_production_plan_header.production_date=:date and t_production_plan_header.is_planned=:isPlanned",nativeQuery=true)
+int getCountOfProdPlanForCatId(@Param("catId") int catId,@Param("status") int status,@Param("date") String date,@Param("isPlanned") int isPlanned);
 }

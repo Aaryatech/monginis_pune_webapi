@@ -11,5 +11,6 @@ public interface PrevItemOrderService {
 
 	   public List<Orders> findFrItemOrders( List<Integer>items , String frId, String date, String menuId );
 
-	
+	   public List<Orders> findFrItemOrders1030Menu( List<Integer>items , String frId, String date, String menuId );
+
 }

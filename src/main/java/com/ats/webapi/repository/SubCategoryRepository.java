@@ -21,6 +21,9 @@ public interface SubCategoryRepository extends JpaRepository<SubCategory, Intege
 
 	@Query(value="Select * from m_cat_sub where del_status=0 order by cat_id,sub_cat_id",nativeQuery=true)
 	public List<SubCategory> findAllSubCategories();
+	
+	@Query(value="Select * from m_cat_sub where del_status=0 order by m_cat_sub.prefix asc ",nativeQuery=true)
+	public List<SubCategory> findAllSubCategoriesorderByPrefix();
 /*
 	@Query(value="Select * from m_cat_sub where del_status=:delStatus and cat_id=:catId order by cat_id,sub_cat_id",nativeQuery=true)
 	public List<SubCategory> findByCatIdAndDelStatusOrderByCatIdAndSubCatId(@Param("catId")int catId,@Param("delStatus") int delStatus);

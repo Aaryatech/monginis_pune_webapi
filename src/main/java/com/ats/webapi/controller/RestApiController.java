@@ -3298,7 +3298,7 @@ public class RestApiController {
 
 	@RequestMapping(value = "/getFrItems", method = RequestMethod.POST)
 	public @ResponseBody List<GetFrItems> getFrItems(@RequestParam List<Integer> items, @RequestParam String frId,
-			@RequestParam String date, @RequestParam String menuId) {
+			@RequestParam String date, @RequestParam String menuId,@RequestParam Integer  isSameDayApplicable) {
 
 		List<ItemWithSubCat> itemList = new ArrayList<>();
 		List<GetFrItems> frItemList = new ArrayList<>();
@@ -3310,10 +3310,18 @@ public class RestApiController {
 		System.out.println("date param = " + date.toString());
 
 		try {
+			
+				
 			itemList = getFrItemsService.findFrItems(items);
+		
 			try {
-				orderList = prevItemOrderService.findFrItemOrders(items, frId, date, menuId);
-
+				if(isSameDayApplicable.equals(4)) {
+					System.err.println("iS SAME DAY aPP 4");
+				orderList = prevItemOrderService.findFrItemOrders1030Menu(items, frId, date, menuId);
+						}
+				else {
+					orderList = prevItemOrderService.findFrItemOrders(items, frId, date, menuId);
+				}
 				for (int i = 0; i < itemList.size(); i++) {
 
 					ItemWithSubCat item = itemList.get(i);
@@ -3400,6 +3408,14 @@ public class RestApiController {
 		return itemsList;
 	}
 
+	
+	@RequestMapping(value = { "/getAllItemsForProdLine" }, method = RequestMethod.GET)
+	public @ResponseBody ItemsList getAllItemsForProdLine() {
+		ItemsList itemsList = itemService.getAllItemsSortByPrefix();
+		return itemsList;
+	}
+
+	
 	// Get All Items order By Sub category, Sort Id
 	@RequestMapping(value = { "/getAllItemsBySorting" }, method = RequestMethod.GET)
 	public @ResponseBody ItemsList getAllItemsBySorting() {

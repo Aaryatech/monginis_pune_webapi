@@ -295,6 +295,16 @@ public class ItemServiceImpl implements ItemService{
 			return items;
 	}
 
+	@Override
+	public ItemsList getAllItemsSortByPrefix() {
+		
+		 ItemsList itemsList=new ItemsList();
+			ErrorMessage errorMessage=new ErrorMessage();
+		 List<Item> items=itemRepository.getItemForProdSortBySubcatPrefix();
+		 itemsList.setItems(items);
+		return itemsList;
+	}
+
 	
 
 }

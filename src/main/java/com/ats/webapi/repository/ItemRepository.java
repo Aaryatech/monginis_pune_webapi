@@ -105,4 +105,10 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 			+ "select i.id,i.item_id,i.item_name,i.item_grp1,i.item_grp2,i.item_grp3,i.item_rate1,i.item_rate2,i.item_rate3,i.item_mrp1,i.item_mrp2,i.item_mrp3,i.item_image,i.item_tax1,i.item_tax2,i.item_tax3,i.item_is_used,i.item_sort_id,i.grn_two,i.del_status,i.min_qty,i.item_shelf_life from m_item i where  i.id IN (:itemList) AND i.del_status=0", nativeQuery = true)
 	public List<Item> findItemsNameByItemId(@Param("itemList") List<Integer> itemList);
 
+	//03-03-2020 Sachin
+	@Query(value="select * from m_item,m_cat_sub where  m_item.del_status=0 and m_item.item_is_used!=4 "
+			+ "and m_cat_sub.sub_cat_id=m_item.item_grp2  ORDER BY  m_cat_sub.prefix,m_item.item_name ASC",nativeQuery=true)
+	public List<Item> getItemForProdSortBySubcatPrefix();
+
+	
 }

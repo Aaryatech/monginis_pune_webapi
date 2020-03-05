@@ -573,4 +573,38 @@ public class TempProdApi {
 			return prodDetailBySubcatList;
 	  }
 	
+	//Sachin 04-03-2020 for Prod Line PDF
+	@RequestMapping(value = { "/getProdDetailByProdLine" }, method = RequestMethod.POST)
+	public @ResponseBody GetProdDetailBySubCatList getProdDetailByProdLine(@RequestParam("prodHeaderId")int prodHeaderId) {
+
+		GetProdDetailBySubCatList prodDetailBySubcatList = new GetProdDetailBySubCatList();
+		
+		Info info=new Info();
+
+		try {
+		
+			//List<GetSFPlanDetailForMixing> sfPlanDetailForMixing=getSFPlanDetailForMixingRepo.getSFAndPlanDetailForMixing(headerId);
+			
+			List<GetProdDetailBySubCat> prodDetailBySubCat=getProdDetailBySubCatRepo.getProdDetailForProdLineByProdHeade(prodHeaderId);
+			if(!prodDetailBySubCat.isEmpty()) {
+				
+				info.setError(false);
+				info.setMessage("success");
+				prodDetailBySubcatList.setProdDetailBySubCat(prodDetailBySubCat);
+			}
+		else {
+			
+			info.setError(true);
+			info.setMessage("failed");
+		}
+		prodDetailBySubcatList.setInfo(info);
+		System.out.println("getProdDetailBySubCat o/p "+ prodDetailBySubcatList.toString() );			
+		}catch (Exception e) {
+			System.out.println("Error getting sf and Plan Detail For Mixing  Phase 1");
+			e.printStackTrace();
+			
+		}
+			return prodDetailBySubcatList;
+	  }
+	
 }

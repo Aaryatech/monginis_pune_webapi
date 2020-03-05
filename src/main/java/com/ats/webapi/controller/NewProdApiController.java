@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.commons.Common;
+import com.ats.webapi.model.Info;
 import com.ats.webapi.model.LineMaster;
 import com.ats.webapi.model.prod.GetProdVariation;
+import com.ats.webapi.repository.ItemRepository;
 import com.ats.webapi.repository.LineMasterRepo;
 import com.ats.webapi.repository.prod.GetProdHeaderRepo;
 import com.ats.webapi.repository.prod.GetProdVariationRepo;
@@ -66,5 +68,33 @@ System.err.println("selectedMenu Rec "+selectedMenu);
 			e.printStackTrace();
 		}
 		return result;
+	}
+	@Autowired
+	ItemRepository itemRepository;
+	
+	@RequestMapping(value = { "/updateItemLineId" }, method = RequestMethod.POST)
+	public @ResponseBody Info updateItemLineId(@RequestParam("items") List<Integer> items,@RequestParam("lineId") String lineId) {
+		Info info=null;
+		try {
+		if(!items.isEmpty()) {				
+		     int isUpdate=itemRepository.updateItemLineId(items,lineId);
+		     info=new Info();
+		     if(isUpdate>0) {
+		    	 info.setError(false);
+		    	 info.setMessage("success");
+		     }else {
+		    	 info.setError(true);
+		    	 info.setMessage("failed");
+		     }
+		}
+		}
+		catch (Exception e) {
+			info=new Info();
+			info.setError(true);
+			info.setMessage("exception");
+			e.printStackTrace();
+		}
+		
+		return info;
 	}
 }

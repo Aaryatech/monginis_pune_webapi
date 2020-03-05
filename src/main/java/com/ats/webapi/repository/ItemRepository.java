@@ -111,4 +111,10 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	public List<Item> getItemForProdSortBySubcatPrefix();
 
 	
+	@Transactional
+	@Modifying
+	@Query("UPDATE Item i SET i.itemGrp3=:lineId  WHERE i.id IN (:idList)")
+	public int updateItemLineId(@Param("idList") List<Integer> id,@Param("lineId") String lineId);
+
+	
 }

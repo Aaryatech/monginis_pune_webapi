@@ -15,4 +15,27 @@ public interface GetProdDetailBySubCatRepo extends JpaRepository<GetProdDetailBy
 			" and ph.production_header_id=pd.production_header_id and item.id=pd.item_id group by item.item_grp2",nativeQuery=true)
 	List<GetProdDetailBySubCat> getProdDetailBySubCat(@Param("prodHeaderId")int prodHeaderId);
 
+	
+	@Query(value=" SELECT m_line_master.line_name as sub_cat_name , " + 
+			"        m_line_master.line_id as sub_cat_id ,item.item_grp2, " + 
+			"         CASE  " + 
+			"            WHEN ph.is_planned=1 THEN SUM(pd.plan_qty)  " + 
+			"            ELSE SUM(pd.order_qty) \n" + 
+			"        END as total_qty  " + 
+			"        FROM m_line_master, " + 
+			"        m_item item, " + 
+			"         t_production_plan_header ph, " + 
+			"        t_production_plan_detail pd   " + 
+			"    WHERE " + 
+			"        ph.production_header_id=:prodHeaderId  " + 
+			"        and item.item_grp3=m_line_master.line_id " + 
+			"        AND ph.production_header_id=pd.production_header_id  " + 
+			"        and item.id=pd.item_id  " + 
+			"    group by " + 
+			"        item.item_grp3",nativeQuery=true)
+	List<GetProdDetailBySubCat> getProdDetailForProdLineByProdHeade(@Param("prodHeaderId")int prodHeaderId);
+
+	
+	
+
 }

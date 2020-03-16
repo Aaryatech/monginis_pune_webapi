@@ -167,7 +167,7 @@ public class RouteMgmtApiController {
 
 		List<RouteMgmt> list = new ArrayList<RouteMgmt>();
 
-		try {
+		try { 
 
 			list = routeMgmtRepo.findByRouteTrayIdInAndDelStatus(routeIdList, 0);
 

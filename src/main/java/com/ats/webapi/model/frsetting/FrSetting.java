@@ -34,7 +34,19 @@ public class FrSetting implements Serializable{
 	@Column(name="ex_int")
 	private int spNo;
 
+	private String exVarchar;
 	
+	
+
+	public String getExVarchar() {
+		return exVarchar;
+	}
+
+
+	public void setExVarchar(String exVarchar) {
+		this.exVarchar = exVarchar;
+	}
+
 
 	public int getSpNo() {
 		return spNo;
@@ -99,7 +111,7 @@ public class FrSetting implements Serializable{
 	@Override
 	public String toString() {
 		return "FrSetting [frSettingId=" + frSettingId + ", frId=" + frId + ", frCode=" + frCode + ", sellBillNo="
-				+ sellBillNo + ", grnGvnNo=" + grnGvnNo + "]";
+				+ sellBillNo + ", grnGvnNo=" + grnGvnNo + ", spNo=" + spNo + ", exVarchar=" + exVarchar + "]";
 	}
 
 

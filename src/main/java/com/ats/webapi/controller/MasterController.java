@@ -58,6 +58,7 @@ import com.ats.webapi.model.SpCake;
 import com.ats.webapi.model.SpCakeSupplement;
 import com.ats.webapi.model.SubCategory;
 import com.ats.webapi.model.SubCategoryRes;
+import com.ats.webapi.model.frsetting.FrSetting;
 import com.ats.webapi.model.newsetting.NewSetting;
 import com.ats.webapi.model.tally.FranchiseeList;
 import com.ats.webapi.model.tray.TrayType;
@@ -84,6 +85,7 @@ import com.ats.webapi.repository.SpCkDeleteOrderRepository;
 import com.ats.webapi.repository.SubCategoryRepository;
 import com.ats.webapi.repository.SubCategoryResRepository;
 import com.ats.webapi.repository.UpdateSeetingForPBRepo;
+import com.ats.webapi.repository.frsetting.FrSettingRepo;
 import com.ats.webapi.service.ConfigureFranchiseeService;
 import com.ats.webapi.service.FrItemStockConfigureService;
 import com.ats.webapi.service.FranchiseeService;
@@ -185,6 +187,9 @@ public class MasterController {
 	
 	@Autowired
 	NewSettingRepository newSettingRepository;
+	
+	@Autowired
+	FrSettingRepo frSettingRepo;
 	
 	
 	 @RequestMapping(value = { "/updateBillStatusToProduction" }, method = RequestMethod.POST)
@@ -1279,12 +1284,24 @@ public class MasterController {
 							  System.out.println("itemList" +catlist.toString());
 					return catlist;
 				}
+				
+				
 				@RequestMapping(value = "/generateSpBillOps", method = RequestMethod.POST)
-				public @ResponseBody Boolean generateSpBillOps(@RequestParam int spOrderNo,@RequestParam String invoiceNo)
+				public @ResponseBody Boolean generateSpBillOps(@RequestParam int spOrderNo,@RequestParam String invoiceNo,@RequestParam int frId)
 				{
-					Boolean msg=false;
+					/*Boolean msg=false;
 					int isUpdated=spCakeOrdersRepository.generateSpBillOps(spOrderNo,invoiceNo);
 						if(isUpdated>0)
+						{
+							msg=true;
+						}
+					return msg;*/
+					
+					Boolean msg=false;
+					int isUpdated=spCakeOrdersRepository.generateSpBillOps(spOrderNo,invoiceNo);
+					FrSetting frSetting=frSettingRepo.findByFrId(frId);
+				    int	updateResponse = frSettingRepo.updateFrSettingBillNo((frSetting.getSellBillNo()+1), frId);
+						if(updateResponse>0)
 						{
 							msg=true;
 						}

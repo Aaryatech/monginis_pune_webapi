@@ -41,6 +41,7 @@ import com.ats.webapi.model.phpwebservice.SpecialCakeBeanList;
 import com.ats.webapi.model.remarks.GetAllRemarksList;
 import com.ats.webapi.model.reportv2.CreditNoteBillReport;
 import com.ats.webapi.repository.ConfigureFrListRepository;
+import com.ats.webapi.repository.CustListFromBillRepo;
 import com.ats.webapi.repository.FlavourRepository;
 import com.ats.webapi.repository.FranchiseForDispatchRepository;
 import com.ats.webapi.repository.FranchiseSupRepository;
@@ -56,7 +57,6 @@ import com.ats.webapi.repository.ItemResponseRepository;
 import com.ats.webapi.repository.ItemStockRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.MessageRepository;
-import com.ats.webapi.repository.MiniSubCategoryRepository;
 import com.ats.webapi.repository.OrderLogRespository;
 import com.ats.webapi.repository.OrderRepository;
 import com.ats.webapi.repository.PostBillHeaderRepository;
@@ -164,14 +164,6 @@ public class RestApiController {
 		return date;
 
 	}
-	
-	// Get All Items ForItemDetail"
-		@RequestMapping(value = { "/getAllItemsForForItemDetail" }, method = RequestMethod.POST)
-		public @ResponseBody ItemsList findAllItems(@RequestParam int rmId, @RequestParam int rmType) {
-			ItemsList itemsList = itemService.getItemsForItemDetail(rmId, rmType);
-			return itemsList;
-		}
-		
 	@Autowired
 	GetBillHeaderRepository getBillHeaderRepository;
 	@Autowired
@@ -427,18 +419,9 @@ public class RestApiController {
 	RouteMasterRepository routeMasterRepository;
 	@Autowired
 	SellBillDetailRepository sellBillDetailRepository;
+	
 	@Autowired
-	MiniSubCategoryRepository miniSubCategoryRepository;
-	
-	@RequestMapping(value = { "/showMiniSubCatList" }, method = RequestMethod.GET)
-	@ResponseBody
-	public List<MiniSubCategory> showMiniSubCatList() {
-
-		List<MiniSubCategory> miniSubCategorylist = miniSubCategoryRepository.showMiniSubCatList();
-
-		return miniSubCategorylist;
-	}
-	
+	CustListFromBillRepo custListFromBillRepo;
 
 	@RequestMapping(value = { "/changeAdminUserPass" }, method = RequestMethod.POST)
 	public @ResponseBody Info changeAdminUserPass(@RequestBody User user) {
@@ -5243,4 +5226,23 @@ public class RestApiController {
 
 		return info;
 	}
+	
+	
+
+	//Anmol
+	@RequestMapping(value = "/getCustomerListForBill", method = RequestMethod.POST)
+	public @ResponseBody List<CustListFromBill> getCustomerListForBill(@RequestParam("frId") int frId) {
+		List<CustListFromBill> custList = null;
+		try {
+			 
+			custList = custListFromBillRepo.getCustomer(frId);
+		} catch (Exception e) {
+			 
+			e.printStackTrace();
+		}
+
+		return custList;
+
+	}
+	
 }

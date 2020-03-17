@@ -12,9 +12,21 @@ import com.ats.webapi.model.StockItem;
 @Repository
 public interface ItemStockRepository extends JpaRepository<StockItem, Integer>{
 	
-    @Query(value="select m_item.* ,coalesce((select s.fr_stock_id from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as fr_stock_id,coalesce((select s.min_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as min_qty_stock,coalesce((select s.max_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as max_qty,coalesce((select s.reorder_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as reorder_qty,(:type) as type  from m_item where   m_item.del_status=0 and m_item.item_grp2=:subCatId",nativeQuery=true)
-	List<StockItem> findBySubCatIdAndType(@Param("subCatId")int subCatId,@Param("type") int type);
+	/*
+	 * @Query(
+	 * value="select m_item.* ,coalesce((select s.fr_stock_id from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as fr_stock_id,coalesce((select s.min_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as min_qty_stock,coalesce((select s.max_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as max_qty,coalesce((select s.reorder_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as reorder_qty,(:type) as type  from m_item where   m_item.del_status=0 and m_item.item_grp2=:subCatId"
+	 * ,nativeQuery=true) List<StockItem>
+	 * findBySubCatIdAndType(@Param("subCatId")int subCatId,@Param("type") int
+	 * type);
+	 * 
+	 */
 	
-	
+	 @Query(value="select m_item.* ,coalesce((select s.fr_stock_id from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as fr_stock_id,coalesce((select s.min_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as min_qty_stock,coalesce((select s.max_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as max_qty,coalesce((select s.reorder_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as reorder_qty,(:type) as type  from m_item where   m_item.del_status=0 and m_item.item_grp2=:subCatId",nativeQuery=true)
+		List<StockItem> findBySubCatIdAndType(@Param("subCatId")int subCatId,@Param("type") int type);
+
+	    @Query(value="select m_item.* ,coalesce((select s.fr_stock_id from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as fr_stock_id,coalesce((select s.min_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as min_qty_stock,coalesce((select s.max_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as max_qty,coalesce((select s.reorder_qty from m_fr_item_stock s where s.item_id=m_item.id and s.type=:type),0)as reorder_qty,(:type) as type  from m_item where   m_item.del_status=0 and m_item.item_grp2=:subCatId and m_item.id IN(select rm_id from m_rm_rate_verif where supp_id=:suppId and grp_id=:grpId)",nativeQuery=true)
+		List<StockItem> getStockItemsBySubCatIdAndSupp(@Param("subCatId")int subCatId,@Param("type") int type,@Param("suppId") int suppId,@Param("grpId") int grpId);
+		
+		
 
 }

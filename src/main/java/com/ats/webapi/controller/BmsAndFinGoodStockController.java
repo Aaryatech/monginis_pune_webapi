@@ -151,9 +151,60 @@ h1.bms_status=1
 	 
 	 */
 //changed on 5 Feb 
+	/*
+	 * @RequestMapping(value = { "/getCurentBmsStockRM" }, method =
+	 * RequestMethod.POST) public @ResponseBody GetBmsCurrentStockList
+	 * getCurrentBmsStockListRM(@RequestParam("prodDeptId") int prodDeptId,
+	 * 
+	 * @RequestParam("mixDeptId") int mixDeptId, @RequestParam("bmsDeptId") int
+	 * bmsDeptId, @RequestParam("stockDate") String stockDate) {
+	 * 
+	 * System.out.println("Inside Get bms current stock get web Service");
+	 * 
+	 * Info info = new Info();
+	 * 
+	 * //java.sql.Date cDate = new
+	 * java.sql.Date(Calendar.getInstance().getTime().getTime());
+	 * 
+	 * 
+	 * java.sql.Date cDate=Common.convertToSqlDate(stockDate);
+	 * System.out.println("Input received for BMS Current Stock for RM ");
+	 * System.out.println("Current Date"+cDate +
+	 * "prod Dept Id"+prodDeptId+"mixDept Id"+mixDeptId+ "bmsDeptId Id "+bmsDeptId);
+	 * 
+	 * GetBmsCurrentStockList bmsStockList = new GetBmsCurrentStockList(); try {
+	 * 
+	 * List<GetBmsCurrentStock> bmsCurrentStock =
+	 * currentBmsStockRepo.getBmsCurStockForRM(cDate, prodDeptId, mixDeptId,
+	 * bmsDeptId);
+	 * 
+	 * if (!bmsCurrentStock.isEmpty()) {
+	 * 
+	 * info.setError(false);
+	 * info.setMessage("success getting bms current stock list RM ");
+	 * 
+	 * bmsStockList.setBmsCurrentStock(bmsCurrentStock); } else {
+	 * 
+	 * info.setError(true);
+	 * info.setMessage("Error getting bms current  stock list for rm ");
+	 * 
+	 * }
+	 * 
+	 * bmsStockList.setInfo(info);
+	 * System.out.println("Stock List BMS Current Stock for RM   " +
+	 * bmsStockList.toString());
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * System.out.println("Exc in Getting Current BMS stock List for RM  " +
+	 * e.getMessage()); e.printStackTrace(); }
+	 * 
+	 * 
+	 * return bmsStockList; }
+	 */
+	//gfpl copy 
 	@RequestMapping(value = { "/getCurentBmsStockRM" }, method = RequestMethod.POST)
-	public @ResponseBody GetBmsCurrentStockList getCurrentBmsStockListRM(@RequestParam("prodDeptId") int prodDeptId,
-			@RequestParam("mixDeptId") int mixDeptId, @RequestParam("bmsDeptId") int bmsDeptId, @RequestParam("stockDate") String stockDate) {
+	public @ResponseBody GetBmsCurrentStockList getCurrentBmsStockListRM(@RequestParam("deptId") int deptId, @RequestParam("stockDate") String stockDate) {
 		
 		System.out.println("Inside Get bms current stock get web Service");
 	
@@ -163,14 +214,13 @@ h1.bms_status=1
 		
 		
 		java.sql.Date cDate=Common.convertToSqlDate(stockDate);
-		System.out.println("Input received for BMS Current Stock for RM ");
-		System.out.println("Current Date"+cDate + "prod Dept Id"+prodDeptId+"mixDept Id"+mixDeptId+ "bmsDeptId Id "+bmsDeptId);
+		 
 
 		GetBmsCurrentStockList bmsStockList = new GetBmsCurrentStockList();
 		try {
 
-			List<GetBmsCurrentStock> bmsCurrentStock = currentBmsStockRepo.getBmsCurStockForRM(cDate, prodDeptId, mixDeptId,
-					bmsDeptId);
+			List<GetBmsCurrentStock> bmsCurrentStock = currentBmsStockRepo.getBmsCurStockForRM(cDate,
+					deptId);
 
 			if (!bmsCurrentStock.isEmpty()) {
 
@@ -247,7 +297,7 @@ h1.bms_status=1
 	
 	
 	@RequestMapping(value = { "/getCurentBmsStockSF" }, method = RequestMethod.POST)
-	public @ResponseBody GetCurrentBmsSFStockList getCurrentBmsStockListSF(@RequestParam("prodDeptId") int prodDeptId,@RequestParam("stockDate") String stockDate) {
+	public @ResponseBody GetCurrentBmsSFStockList getCurrentBmsStockListSF(@RequestParam("deptId") int deptId,@RequestParam("stockDate") String stockDate) {
 		
 		System.out.println("Inside Get bms current stock SF  get web Service");
 	
@@ -255,12 +305,12 @@ h1.bms_status=1
 
 		java.sql.Date cDate = Common.convertToSqlDate(stockDate);
 		System.out.println("Input received for BMS Current Stock for SF ");
-		System.out.println("Current Date"+cDate + "prod Dept Id"+prodDeptId);
+		System.out.println("Current Date"+cDate + " Dept Id"+deptId);
 
 		GetCurrentBmsSFStockList bmsStockList = new GetCurrentBmsSFStockList();
 		try {
 
-			List<GetCurrentBmsSFStock> bmsCurrentStock = currentBmsSFStockRepo.getBmsCurStockForSF(cDate, prodDeptId);
+			List<GetCurrentBmsSFStock> bmsCurrentStock = currentBmsSFStockRepo.getBmsCurStockForSF(cDate, deptId);
 		
 			if (!bmsCurrentStock.isEmpty()) {
 

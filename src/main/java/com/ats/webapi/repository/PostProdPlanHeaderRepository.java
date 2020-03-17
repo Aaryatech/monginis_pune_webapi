@@ -19,7 +19,6 @@ public interface PostProdPlanHeaderRepository extends JpaRepository<PostProdPlan
 			+ "WHERE production_date=:strDate And cat_id=:catId ",nativeQuery=true)
 	PostProdPlanHeader findTopTimeSlotByProductionDateAndCatId(@Param("strDate")String strDate,@Param("catId") int catId);
 	
-	
 	@Transactional
 	@Modifying
 	@Query(" UPDATE PostProdPlanHeader SET is_mixing=1 WHERE production_header_id=:productionId")
@@ -27,7 +26,7 @@ public interface PostProdPlanHeaderRepository extends JpaRepository<PostProdPlan
 	
 	@Transactional
 	@Modifying
-	@Query(" UPDATE PostProdPlanHeader SET is_bom=1, production_status=3 WHERE production_header_id=:productionId")
+	@Query(" UPDATE PostProdPlanHeader SET int_2=1 WHERE production_header_id=:productionId")
 	int updateisBom(@Param("productionId")int productionId);
 
 	

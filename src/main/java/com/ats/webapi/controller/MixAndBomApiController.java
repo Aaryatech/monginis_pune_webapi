@@ -21,6 +21,7 @@ import com.ats.webapi.model.GetMixingList;
 import com.ats.webapi.model.MixingHeader;
 import com.ats.webapi.model.bom.BillOfMaterialHeader;
 import com.ats.webapi.model.bom.GetBillOfMaterialList;
+import com.ats.webapi.repository.MixingHeaderRepository;
 import com.ats.webapi.service.BillOfMaterialService;
 import com.ats.webapi.service.productionplan.MixingService;
 
@@ -34,7 +35,8 @@ public class MixAndBomApiController {
 	@Autowired
 	BillOfMaterialService billOfMaterialService;
 
-	
+	@Autowired
+	MixingHeaderRepository mixingRepository;
 	
 	@RequestMapping(value = { "/insertMixingHeaderndDetailed" }, method = RequestMethod.POST)
 	@ResponseBody
@@ -76,6 +78,24 @@ public class MixAndBomApiController {
 	}
 	
 	
+	@RequestMapping(value = { "/getMixingHeaderListByDept" }, method = RequestMethod.POST)
+	@ResponseBody
+	public GetMixingList getMixingHeaderListByDept(@RequestParam("frmdate")String frmdate, @RequestParam("todate")String todate,@RequestParam("deptId")int deptId) {
+		
+		GetMixingList getMixingList=new GetMixingList();
+		try {
+			
+			List<MixingHeader>	getMixingListRes = mixingRepository.gettMixingHeaderByDeptId(frmdate,todate,deptId);
+			getMixingList.setMixingHeaderList(getMixingListRes);
+
+		} catch (Exception e) {
+				e.printStackTrace();
+			System.out.println("exception in order list rest controller" + e.getMessage());
+		}
+		return getMixingList;
+
+	}
+	
 	@RequestMapping(value = { "/gettodaysMixingRequest" }, method = RequestMethod.GET)
 	@ResponseBody
 	public GetMixingList gettodaysMixingRequest() {
@@ -100,6 +120,24 @@ public class MixAndBomApiController {
 
 	}
 	
+	@RequestMapping(value = { "/getMixingReqList" }, method = RequestMethod.POST)
+	@ResponseBody
+	public GetMixingList getMixingReqList(@RequestParam("deptId")int deptId) {
+		
+		GetMixingList getMixingList=new GetMixingList();
+		try {
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = new Date();
+			String reportDate = dateFormat.format(date);
+			String today=Common.convertToYMD(reportDate);
+			
+			List<MixingHeader> getMixingListRes = mixingRepository.getMixingReqList(today,deptId);
+			getMixingList.setMixingHeaderList(getMixingListRes);
+		} catch (Exception e) {
+				e.printStackTrace();
+		}
+		return getMixingList;
+	}
 	@RequestMapping(value = { "/getDetailedwithMixId" }, method = RequestMethod.POST)
 	@ResponseBody
 	public MixingHeader getDetailedwithMixId(@RequestParam("mixId")int mixId) {
@@ -163,7 +201,7 @@ public class MixAndBomApiController {
 	
 	@RequestMapping(value = { "/getBOMHeaderBmsAndStore" }, method = RequestMethod.POST)
 	@ResponseBody
-	public GetBillOfMaterialList getBOMHeaderBmsAndStore(@RequestParam("fromDept")int fromDept, @RequestParam("toDept")int toDept,@RequestParam("status")List<String> status ) {
+	public GetBillOfMaterialList getBOMHeaderBmsAndStore(@RequestParam("fromDept")int fromDept, @RequestParam("toDept") List<Integer> toDept,@RequestParam("status")List<String> status ) {
 		
 		GetBillOfMaterialList getBillOfMaterialList=new GetBillOfMaterialList();
 		try {

@@ -69,6 +69,25 @@ public class ItemSfController {
 	return info;
 		
 	  }
+	
+	@RequestMapping(value = { "/getItemSfHeaderListForOpeningStock" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetItemSfHeader> getItemSfHeaderListForOpeningStock(@RequestParam("delStatus")int delStatus,@RequestParam("deptId")int deptId) {
+		
+		List<GetItemSfHeader> sfHeader=new ArrayList<GetItemSfHeader>();
+		
+		try {
+			
+			sfHeader=getItemSfHeaderRepo.getItemSfHeaderListForOpeningStock(delStatus,deptId);
+		}catch (Exception e) {
+			
+			System.out.println("Exe getting Sf Item Header  "+e.getMessage());
+			e.printStackTrace();
+		}
+		
+	return sfHeader;
+	
+	}
+	
 	@RequestMapping(value = { "/deleteSfItem" }, method = RequestMethod.POST)
 	public @ResponseBody Info deleteSfItem(@RequestParam("sfId") int sfId) {
 		
@@ -138,7 +157,7 @@ public class ItemSfController {
 		
 		try {
 			
-			sfTypeList=sfTypeRepository.findByDelStatus(delStatus);
+			sfTypeList=sfTypeRepository.findAll();
 		
 		}catch (Exception e) {
 			
@@ -191,4 +210,40 @@ public class ItemSfController {
 	
 	}
 	
+	@RequestMapping(value = { "/getItemSfHeadersBySfType" }, method = RequestMethod.POST)
+	public @ResponseBody List<GetItemSfHeader> getItemSfHeadersBySfType(@RequestParam("sfType")int sfType) {
+		
+		List<GetItemSfHeader> sfHeader=new ArrayList<GetItemSfHeader>();
+		
+		try {
+			
+			sfHeader=getItemSfHeaderRepo.getItemSfHeadersBySfType(sfType);
+		}catch (Exception e) {
+			
+			System.out.println("Exe getting Sf Item Header  "+e.getMessage());
+			e.printStackTrace();
+		}
+		
+	return sfHeader;
+	
+	}
+	
+	@RequestMapping(value = { "/getSfItemDetailsForCreamPrep" }, method = RequestMethod.POST)
+	public @ResponseBody SfItemDetailList getSfItemDetailsForCreamPrep(@RequestParam("sfId")List<Integer> sfId) {
+		
+		SfItemDetailList itemDetails=new SfItemDetailList();
+		List<ItemSfDetail> itemList=null;	
+		try {
+			itemList=itemSfDetailRepo.getSfItemDetailsForCreamPrep(sfId);
+		
+	        itemDetails.setSfItemDetail(itemList);
+		}catch (Exception e) {
+			
+			System.out.println("Exe getting Sf Item Details  "+e.getMessage());
+			e.printStackTrace();
+		}
+		
+	return itemDetails;
+	
+	}
 }

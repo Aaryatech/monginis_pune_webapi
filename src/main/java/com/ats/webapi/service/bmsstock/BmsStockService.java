@@ -13,9 +13,10 @@ public interface BmsStockService {
 
 	List<GetBmsStock> getBmsStock(String fromDate, String toDate, int rmType);
 
-	BmsStockHeader getBmsStockHeader(int status, int rmType);
 
-	BmsStockHeader getBmsStockForEdit(int type);
+	BmsStockHeader getBmsStockForEdit(int type, int deptId);
+	BmsStockHeader getBmsStockHeader(int status, int rmType, int deptId);
+
 
 	 
 

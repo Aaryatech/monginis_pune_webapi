@@ -271,8 +271,23 @@ public class RawMaterialServiceImpl implements RawMaterialService{
 
 	}
 
+	/*
+	 * @Override public RawMaterialDetails addRawMaterial(RawMaterialDetails
+	 * rawMaterialMasterDetails) {
+	 * 
+	 * RawMaterialDetails
+	 * rawMaterialMaster=rawMaterialDetailsRepository.save(rawMaterialMasterDetails)
+	 * ;
+	 * 
+	 * Info info=new Info(); if(rawMaterialMaster!=null) { info.setError(false);
+	 * info.setMessage("Add new Raw material "); } else { info.setError(true);
+	 * info.setMessage("Failed add new Raw material "); } return rawMaterialMaster;
+	 * }
+	 */
+
+	
 	@Override
-	public RawMaterialDetails addRawMaterial(RawMaterialDetails rawMaterialMasterDetails) {
+	public Info addRawMaterial(RawMaterialDetails rawMaterialMasterDetails) {
 		
 		RawMaterialDetails rawMaterialMaster=rawMaterialDetailsRepository.save(rawMaterialMasterDetails);
 		
@@ -284,12 +299,15 @@ public class RawMaterialServiceImpl implements RawMaterialService{
 		}
 		else
 		{
+			
 				info.setError(true);
 				info.setMessage("Failed add new Raw material ");
+			
 		}
-		return rawMaterialMaster;
+		return info;
 	}
 
+	
 	@Override
 	public RawMaterialDetails getRawMaterialDetails(int rmId) {
 		

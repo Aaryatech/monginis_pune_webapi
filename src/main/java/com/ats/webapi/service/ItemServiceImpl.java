@@ -306,5 +306,29 @@ public class ItemServiceImpl implements ItemService{
 	}
 
 	
+	@Override
+	public ItemsList getItemsForItemDetail(int rmId,int rmType) {
+		 List<Item> items=new ArrayList<Item>();
+		 ItemsList itemsList=new ItemsList();
+		ErrorMessage errorMessage=new ErrorMessage();
+		items=itemRepository.getItemsByRmIdAndRmType(rmId,rmType);
+		if(items!=null)
+		{
+			
+			errorMessage.setError(false);
+			errorMessage.setMessage("All items displayed successfully");
+			itemsList.setErrorMessage(errorMessage);
+			itemsList.setItems(items);
+		}
+		else
+		{
+			errorMessage.setError(true);
+			errorMessage.setMessage("Items Not Found");
+			itemsList.setErrorMessage(errorMessage);
+		}
+		
+		return itemsList;
+	}
+	
 
 }

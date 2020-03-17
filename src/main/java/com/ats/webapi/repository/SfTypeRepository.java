@@ -8,6 +8,6 @@ import com.ats.webapi.model.rawmaterial.GetSfType;
 
 public interface SfTypeRepository extends JpaRepository<GetSfType, Integer> {
 	
-	List<GetSfType> findByDelStatus(int delStatus);
+	List<GetSfType> findAll();
 
 }

@@ -56,6 +56,7 @@ import com.ats.webapi.repository.ItemResponseRepository;
 import com.ats.webapi.repository.ItemStockRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.MessageRepository;
+import com.ats.webapi.repository.MiniSubCategoryRepository;
 import com.ats.webapi.repository.OrderLogRespository;
 import com.ats.webapi.repository.OrderRepository;
 import com.ats.webapi.repository.PostBillHeaderRepository;
@@ -163,6 +164,14 @@ public class RestApiController {
 		return date;
 
 	}
+	
+	// Get All Items ForItemDetail"
+		@RequestMapping(value = { "/getAllItemsForForItemDetail" }, method = RequestMethod.POST)
+		public @ResponseBody ItemsList findAllItems(@RequestParam int rmId, @RequestParam int rmType) {
+			ItemsList itemsList = itemService.getItemsForItemDetail(rmId, rmType);
+			return itemsList;
+		}
+		
 	@Autowired
 	GetBillHeaderRepository getBillHeaderRepository;
 	@Autowired
@@ -418,6 +427,18 @@ public class RestApiController {
 	RouteMasterRepository routeMasterRepository;
 	@Autowired
 	SellBillDetailRepository sellBillDetailRepository;
+	@Autowired
+	MiniSubCategoryRepository miniSubCategoryRepository;
+	
+	@RequestMapping(value = { "/showMiniSubCatList" }, method = RequestMethod.GET)
+	@ResponseBody
+	public List<MiniSubCategory> showMiniSubCatList() {
+
+		List<MiniSubCategory> miniSubCategorylist = miniSubCategoryRepository.showMiniSubCatList();
+
+		return miniSubCategorylist;
+	}
+	
 
 	@RequestMapping(value = { "/changeAdminUserPass" }, method = RequestMethod.POST)
 	public @ResponseBody Info changeAdminUserPass(@RequestBody User user) {

@@ -146,10 +146,12 @@ public class RawMaterialApiCotroller {
 	//---------------------------addNew RM Master----------------------------------
 	
 	@RequestMapping(value = { "/addRawMaterial" }, method = RequestMethod.POST)
-	public @ResponseBody RawMaterialDetails addRawMaterial(@RequestBody RawMaterialDetails rawMaterialDetails)
+	public @ResponseBody Info addRawMaterial(@RequestBody RawMaterialDetails rawMaterialDetails)
 	{
 		System.out.println("Data  : "+rawMaterialDetails.toString());
-		RawMaterialDetails info=rawMaterialService.addRawMaterial(rawMaterialDetails);
+		//RawMaterialDetails info=rawMaterialService.addRawMaterial(rawMaterialDetails);
+		
+		Info info=rawMaterialService.addRawMaterial(rawMaterialDetails);
 		return info;
 		
 	}

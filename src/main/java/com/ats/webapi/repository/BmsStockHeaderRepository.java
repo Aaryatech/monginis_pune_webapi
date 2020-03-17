@@ -11,7 +11,7 @@ import com.ats.webapi.model.BmsStockHeader;
 
 public interface BmsStockHeaderRepository extends JpaRepository<BmsStockHeader,Long>{
 	
-	BmsStockHeader save(BmsStockHeader bmsStockHeader);
+BmsStockHeader save(BmsStockHeader bmsStockHeader);
 
 	
 	
@@ -24,7 +24,10 @@ public interface BmsStockHeaderRepository extends JpaRepository<BmsStockHeader,L
 	BmsStockHeader getStockDetails(@Param("status")int status, @Param("rmType")int rmType);
 
 
+	@Query(value=" SELECT * FROM t_bms_stock WHERE  bms_status =:status AND rm_type=:rmType and ex_int=:deptId",nativeQuery=true)
+	BmsStockHeader getStockDetails(@Param("status")int status, @Param("rmType")int rmType,@Param("deptId") int deptId);
+
+
 
 	 
-
 }

@@ -42,7 +42,7 @@ public class RawMaterialDetails {
 	private String rmIcon;
 	
 	@Column(name="rm_weight")
-	private int rmWeight;
+	private float rmWeight;
 	
 	@Column(name="rm_pack_qty")
 	private int rmPackQty;
@@ -134,11 +134,11 @@ public class RawMaterialDetails {
 		this.rmIcon = rmIcon;
 	}
 
-	public int getRmWeight() {
+	public float getRmWeight() {
 		return rmWeight;
 	}
 
-	public void setRmWeight(int rmWeight) {
+	public void setRmWeight(float rmWeight) {
 		this.rmWeight = rmWeight;
 	}
 

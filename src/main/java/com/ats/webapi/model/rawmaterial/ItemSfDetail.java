@@ -43,6 +43,20 @@ public class ItemSfDetail implements Serializable{
 	
 	@Column(name="del_status")
 	private int delStatus;
+	
+	@Column(name="seq_no")
+	private int seqNo;
+	
+
+	
+	
+	public int getSeqNo() {
+		return seqNo;
+	}
+
+	public void setSeqNo(int seqNo) {
+		this.seqNo = seqNo;
+	}
 
 	public int getSfDid() {
 		return sfDid;

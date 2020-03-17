@@ -48,6 +48,15 @@ public class GetSFPlanDetailForMixing implements Serializable {
 	@Column(name="plan_qty")
 	private float planQty;
 	
+	//Sac Mah 06-03-2020
+	@Column(name="single_cut")
+	private float singleCut;
+	
+	@Column(name="double_cut")
+	private float doubleCut;
+	
+	
+	
 	//@Column(name="mul_factor") //Removed on 30 Jan Sachin
 	//private float mulFactor;
 	
@@ -60,6 +69,18 @@ public class GetSFPlanDetailForMixing implements Serializable {
 	float total;
 	
 	
+	public float getSingleCut() {
+		return singleCut;
+	}
+	public void setSingleCut(float singleCut) {
+		this.singleCut = singleCut;
+	}
+	public float getDoubleCut() {
+		return doubleCut;
+	}
+	public void setDoubleCut(float doubleCut) {
+		this.doubleCut = doubleCut;
+	}
 	public int getItemDetailId() {
 		return itemDetailId;
 	}
@@ -134,7 +155,8 @@ public class GetSFPlanDetailForMixing implements Serializable {
 	public String toString() {
 		return "GetSFPlanDetailForMixing [itemDetailId=" + itemDetailId + ", itemId=" + itemId + ", rmType=" + rmType
 				+ ", rmId=" + rmId + ", uom=" + uom + ", rmQty=" + rmQty + ", noPiecesPerItem=" + noPiecesPerItem
-				+ ", rmName=" + rmName + ", planQty=" + planQty + ", total=" + total + "]";
+				+ ", rmName=" + rmName + ", planQty=" + planQty + ", singleCut=" + singleCut + ", doubleCut="
+				+ doubleCut + ", total=" + total + "]";
 	}
 	
 	

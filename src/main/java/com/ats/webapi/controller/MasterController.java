@@ -1322,4 +1322,16 @@ public class MasterController {
 					return newSetting;
 				}
 				
+				
+				//Anmol
+				@RequestMapping(value = { "/getFrConfgByFrAndCat" }, method = RequestMethod.POST)
+				public @ResponseBody  List<ConfigureFranchisee> getFrConfgByFrAndCat(@RequestParam("frId") int frId,@RequestParam("catId") int catId) {
+					List<ConfigureFranchisee> confgList;
+					confgList = configureFrRepository.getFrConfgByFrAndCat(frId,catId);
+							  
+							  System.out.println("FR CONFIG LIST - " +confgList.toString());
+					return confgList;
+				}
+				
+				
 }

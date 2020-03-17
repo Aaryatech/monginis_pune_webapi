@@ -5245,4 +5245,25 @@ public class RestApiController {
 
 	}
 	
+	
+	//Anmol
+	@RequestMapping(value = "/getItemsNameByIdWithOtherItem", method = RequestMethod.POST)
+	public @ResponseBody ItemResponse getItemsNameByIdWithOtherItem(@RequestParam List<Integer> itemList,
+			@RequestParam int frId) {
+
+		ItemResponse itemResponse = new ItemResponse();
+		ErrorMessage errorMessage = new ErrorMessage();
+		List<Item> items = itemRepository.getItemsNameByIdWithOtherItem(itemList, 7, frId);
+		if (items != null) {
+			itemResponse.setItemList(items);
+			errorMessage.setError(false);
+			errorMessage.setMessage("Success");
+		} else {
+			errorMessage.setError(true);
+			errorMessage.setMessage("No Items Found");
+		}
+		return itemResponse;
+
+	}
+	
 }

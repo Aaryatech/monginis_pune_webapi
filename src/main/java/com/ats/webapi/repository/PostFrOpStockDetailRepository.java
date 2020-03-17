@@ -18,12 +18,28 @@ public interface PostFrOpStockDetailRepository extends JpaRepository<PostFrItemS
 			+ " WHERE m_fr_opening_stock_detail.opening_stock_header_id =:headerId",nativeQuery=true)
 	List<PostFrItemStockDetail> getFrDetail(@Param("headerId")int headerId);
 	 
+	/*
+	 * @Query(value = "SELECT  m_fr_opening_stock_detail.* " +
+	 * "FROM m_fr_opening_stock_detail " +
+	 * " WHERE m_fr_opening_stock_detail.item_id=:itemId AND m_fr_opening_stock_detail.opening_stock_header_id "
+	 * +
+	 * " IN(SELECT m_fr_opening_stock_header.opening_stock_header_id FROM m_fr_opening_stock_header WHERE m_fr_opening_stock_header.fr_id=:frId "
+	 * +
+	 * " AND m_fr_opening_stock_header.month=:currentMonth AND m_fr_opening_stock_header.year=:year AND m_fr_opening_stock_header.cat_id=:catId )"
+	 * , nativeQuery = true) PostFrItemStockDetail getOpeningStock(@Param("frId")
+	 * int frId,@Param("currentMonth") int currentMonth, @Param("year") int
+	 * year,@Param("itemId") int itemId ,@Param("catId") int catId);
+	 */
+	
+	
 	@Query(value = "SELECT  m_fr_opening_stock_detail.* "
 			+ "FROM m_fr_opening_stock_detail "
 			+ " WHERE m_fr_opening_stock_detail.item_id=:itemId AND m_fr_opening_stock_detail.opening_stock_header_id " + 
 			" IN(SELECT m_fr_opening_stock_header.opening_stock_header_id FROM m_fr_opening_stock_header WHERE m_fr_opening_stock_header.fr_id=:frId "
 			+ " AND m_fr_opening_stock_header.month=:currentMonth AND m_fr_opening_stock_header.year=:year AND m_fr_opening_stock_header.cat_id=:catId )", nativeQuery = true)
 	PostFrItemStockDetail getOpeningStock(@Param("frId") int frId,@Param("currentMonth") int currentMonth, @Param("year") int year,@Param("itemId") int itemId ,@Param("catId") int catId);
+	
+	
 	
 	@Query(value = "SELECT  m_fr_opening_stock_detail.* FROM m_fr_opening_stock_detail  WHERE m_fr_opening_stock_detail.item_id=:itemId AND m_fr_opening_stock_detail.opening_stock_header_id " + 
 					" IN(SELECT m_fr_opening_stock_header.opening_stock_header_id FROM m_fr_opening_stock_header WHERE m_fr_opening_stock_header.fr_id=:frId AND " + 

@@ -5266,4 +5266,16 @@ public class RestApiController {
 
 	}
 	
+	@RequestMapping(value = "/getMenuIdsForSp", method = RequestMethod.POST)
+	public @ResponseBody String getMenuIdsForSp() {
+
+		String res="";
+		
+		res=spCakeOrderHisRepository.getMenuIdForSp();
+		
+		return res;
+
+	}
+	
+	
 }

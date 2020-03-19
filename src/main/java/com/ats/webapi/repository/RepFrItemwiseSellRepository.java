@@ -36,7 +36,7 @@ public interface RepFrItemwiseSellRepository extends JpaRepository<GetRepItemwis
                  		"    t_sp_cake.sp_id=m_sp_cake.sp_id AND" + 
                  		"     t_sp_cake.sp_delivery_date BETWEEN :fromDate AND :toDate" + 
                  		"			        AND t_sp_cake.fr_id IN(:frId)" + 
-                 		"			        AND m_franchisee.fr_id=t_sp_cake.fr_id" + 
+                 		"			        AND m_franchisee.fr_id=t_sp_cake.fr_id AND t_sp_cake.sp_book_for_mob_no != '0'" + 
                  		"                 GROUP by t_sp_cake.sp_id,m_franchisee.fr_id"
              ,nativeQuery=true)
              	List<GetRepItemwiseSell> getRepFrItemwiseSellCatId5(@Param("fromDate") String fromDate,@Param("toDate") String toDate, @Param("frId") List<String> frId);

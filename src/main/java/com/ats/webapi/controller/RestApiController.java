@@ -57,6 +57,7 @@ import com.ats.webapi.repository.ItemResponseRepository;
 import com.ats.webapi.repository.ItemStockRepository;
 import com.ats.webapi.repository.MainMenuConfigurationRepository;
 import com.ats.webapi.repository.MessageRepository;
+import com.ats.webapi.repository.OPSViewSellBillsModelRepo;
 import com.ats.webapi.repository.OrderLogRespository;
 import com.ats.webapi.repository.OrderRepository;
 import com.ats.webapi.repository.PostBillHeaderRepository;
@@ -5274,6 +5275,25 @@ public class RestApiController {
 		res=spCakeOrderHisRepository.getMenuIdForSp();
 		
 		return res;
+
+	}
+	
+	
+	@Autowired OPSViewSellBillsModelRepo oPSViewSellBillsModelRepo; 
+	
+	//Anmol
+	@RequestMapping(value = "/getSellBillForOPS", method = RequestMethod.POST)
+	public @ResponseBody List<OPSViewSellBillsModel> getSellBillForOPS(@RequestParam("fromDate") String fromDate,
+			@RequestParam("toDate") String toDate, @RequestParam("frId") List<String> frId) {
+
+		fromDate = Common.convertToYMD(fromDate);
+		toDate = Common.convertToYMD(toDate);
+
+		List<OPSViewSellBillsModel> getSellBillHeaderList = oPSViewSellBillsModelRepo.getFrSellBillHeader(fromDate, toDate,
+				frId);
+
+		System.out.println("List Sell Bill -  " + getSellBillHeaderList.toString());
+		return getSellBillHeaderList;
 
 	}
 	

@@ -311,4 +311,70 @@ public interface DailySalesRegularReportRepository extends JpaRepository<DailySa
 			" from m_category where m_category.del_status=0 and  m_category.cat_id=7",nativeQuery=true)
 	DailySalesRegular getDailySalesOtherData(@Param("frId")int frId,@Param("date") String date,@Param("currentMonth") int currentMonth,@Param("year") int year);
 
+	
+	
+	
+	//Anmol
+	
+	@Query(value=" SELECT t1.opening+t2.purchase-t3.grn_gvn-t4.sale as opening_amt FROM\n" + 
+			"(\n" + 
+			"    SELECT 1 as flag,\n" + 
+			"    SUM(a.tot) as opening\n" + 
+			"FROM( SELECT\n" + 
+			"        h.*, d.opening_stock_detail_id, d.item_id, d.reg_opening_stock,\n" + 
+			"        CASE WHEN f.fr_rate_cat = 1 THEN i.item_mrp1 ELSE i.item_mrp3\n" + 
+			"END AS mrp,\n" + 
+			"CASE WHEN f.fr_rate_cat = 1 THEN(\n" + 
+			"    d.reg_opening_stock * i.item_mrp1\n" + 
+			") ELSE(\n" + 
+			"    d.reg_opening_stock * i.item_mrp3\n" + 
+			")\n" + 
+			"END AS tot\n" + 
+			"FROM\n" + 
+			"    m_fr_opening_stock_header h,\n" + 
+			"    m_fr_opening_stock_detail d,\n" + 
+			"    m_item i,\n" + 
+			"    m_franchisee f\n" + 
+			"WHERE\n" + 
+			"    h.opening_stock_header_id = d.opening_stock_header_id AND h.is_month_closed = 0 AND h.fr_id =:frId AND h.fr_id = f.fr_id AND d.item_id = i.id\n" + 
+			") a\n" + 
+			"\n" + 
+			") t1 \n" + 
+			"LEFT JOIN\n" + 
+			"(\n" + 
+			"    SELECT 1 as flag, CASE WHEN (SELECT h.month FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id)=(SELECT DATE_FORMAT(:date,'%m')) THEN\n" + 
+			"SUM(grand_total) ELSE 0\n" + 
+			"END as purchase FROM t_bill_header h WHERE h.del_status=0 AND h.fr_id=:frId AND h.bill_date BETWEEN (SELECT CONCAT(h.year,'-',LPAD(h.month, 2, 0),'-01') FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id) AND DATE_FORMAT(subdate(:date,interval 1 day),\"%Y-%m-%d\")\n" + 
+			"\n" + 
+			")t2 ON t1.flag=t2.flag\n" + 
+			"\n" + 
+			"LEFT JOIN\n" + 
+			"(\n" + 
+			"SELECT 1 as flag, CASE WHEN (SELECT h.month FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id)=(SELECT DATE_FORMAT(:date,'%m')) THEN\n" + 
+			"SUM(total_amt) ELSE 0\n" + 
+			"END as grn_gvn FROM t_grn_gvn_header h WHERE h.fr_id=:frId AND h.grngvn_date BETWEEN (SELECT CONCAT(h.year,'-',LPAD(h.month, 2, 0),'-01') FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id) AND DATE_FORMAT(subdate(:date,interval 1 day),\"%Y-%m-%d\")\n" + 
+			"\n" + 
+			") t3 ON t1.flag=t3.flag\n" + 
+			"\n" + 
+			"LEFT JOIN\n" + 
+			"\n" + 
+			"(\n" + 
+			"    SELECT 1 as flag, CASE WHEN (SELECT h.month FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id)=(SELECT DATE_FORMAT(:date,'%m')) THEN\n" + 
+			"SUM(grand_total) ELSE 0\n" + 
+			"END as sale FROM t_sell_bill_header h WHERE h.del_status=0 AND h.fr_id=:frId AND h.bill_date BETWEEN (SELECT CONCAT(h.year,'-',LPAD(h.month, 2, 0),'-01') FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id) AND DATE_FORMAT(subdate(:date,interval 1 day),\"%Y-%m-%d\")\n" + 
+			"    \n" + 
+			") t4 ON t1.flag=t4.flag",nativeQuery=true)
+	float getOpeningAmtForDSR(@Param("frId")int frId,@Param("date") String date);
+
+	
+	@Query(value=" SELECT COALESCE(SUM(d.grand_total),0) as purchase FROM t_bill_header h, t_bill_detail d WHERE h.bill_no=d.bill_no AND h.del_status=0 AND h.bill_date=:date AND h.fr_id=:frId AND d.cat_id!=5",nativeQuery=true)
+	float getPurchaseAmtForDSR(@Param("frId")int frId,@Param("date") String date);
+
+	@Query(value=" SELECT COALESCE(SUM(d.grn_gvn_amt),0) as grn_gvn FROM t_grn_gvn_header h,t_grn_gvn d WHERE h.grngvn_date=:date AND h.fr_id=:frId AND h.grn_gvn_header_id=d.grn_gvn_header_id AND d.cat_id!=5 ",nativeQuery=true)
+	float getGrnGvnAmtForDSR(@Param("frId")int frId,@Param("date") String date);
+
+	@Query(value=" SELECT COALESCE(SUM(d.grand_total),0) as sale FROM t_sell_bill_header h, t_sell_bill_detail d WHERE h.sell_bill_no=d.sell_bill_no AND h.del_status=0 AND h.bill_date=:date AND h.fr_id=:frId AND d.cat_id!=5",nativeQuery=true)
+	float getSaleAmtForDSR(@Param("frId")int frId,@Param("date") String date);
+
+	
 }

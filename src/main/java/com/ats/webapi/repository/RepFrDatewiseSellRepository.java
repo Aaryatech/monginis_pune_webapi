@@ -11,34 +11,66 @@ import com.ats.webapi.model.report.GetRepFrDatewiseSell;
 
 public interface RepFrDatewiseSellRepository extends JpaRepository<GetRepFrDatewiseSell, Integer>{
 	
-@Query(value="SELECT DAYNAME(t_sell_bill_header.bill_date) as day,t_sell_bill_header.bill_date ,t_sell_bill_header.sell_bill_no ,t_sell_bill_header.fr_id,"
-+" sum(CASE WHEN t_sell_bill_header.payment_mode = 1 THEN t_sell_bill_header.payable_amt ELSE 0 END) as cash,"
-		+" sum(CASE WHEN t_sell_bill_header.payment_mode = 2 THEN t_sell_bill_header.payable_amt ELSE 0 END) as card ,"
-+ " sum(CASE WHEN t_sell_bill_header.payment_mode = 3 THEN t_sell_bill_header.payable_amt ELSE 0 END) as other,"
-		+" m_franchisee.fr_name FROM t_sell_bill_header, m_franchisee WHERE t_sell_bill_header.bill_date BETWEEN :fromDate "
-+" AND :toDate AND t_sell_bill_header.fr_id IN(:frId) AND m_franchisee.fr_id=t_sell_bill_header.fr_id GROUP BY"
-		+" t_sell_bill_header.bill_date,t_sell_bill_header.fr_id "
-		+ ""
-		+ ""
-		+ " UNION ALL" + 
-		"       SELECT DAYNAME(t_sp_cake.sp_delivery_date) as day," + 
-		"       t_sp_cake.sp_delivery_date as bill_date," + 
-		"       t_sp_cake.sp_order_no as bill_no," + 
-		"       t_sp_cake.fr_id," + 
-		"       sum(t_sp_cake.sp_grand_total) as cash," + 
-		"       0 as card," + 
-		"       0 as other," + 
-		"       m_franchisee.fr_name" + 
-		"       from t_sp_cake,m_franchisee" + 
-		"        WHERE" + 
-		"        t_sp_cake.sp_delivery_date BETWEEN :fromDate AND  :toDate "  + 
-		"        AND t_sp_cake.fr_id IN(" + 
-		"           :frId " + 
-		"        ) " + 
-		"        AND m_franchisee.fr_id=t_sp_cake.fr_id " + 
-		"    GROUP BY" + 
-		"        t_sp_cake.sp_delivery_date," + 
-		"        t_sp_cake.fr_id",nativeQuery=true)
+@Query(value="SELECT\r\n" + 
+		"    t1.DAY,\r\n" + 
+		"    t1.bill_date,\r\n" + 
+		"    t1.sell_bill_no,\r\n" + 
+		"    t1.fr_id,\r\n" + 
+		"    SUM(t1.cash) AS cash,\r\n" + 
+		"    SUM(t1.card) AS card,\r\n" + 
+		"    SUM(t1.other) AS other,\r\n" + 
+		"    t1.fr_name\r\n" + 
+		"FROM\r\n" + 
+		"    (\r\n" + 
+		"    SELECT\r\n" + 
+		"        DAYNAME(t_sell_bill_header.bill_date) AS DAY,\r\n" + 
+		"        t_sell_bill_header.bill_date,\r\n" + 
+		"        t_sell_bill_header.sell_bill_no,\r\n" + 
+		"        t_sell_bill_header.fr_id,\r\n" + 
+		"        SUM(\r\n" + 
+		"            CASE WHEN t_sell_bill_header.payment_mode = 1 THEN t_sell_bill_header.payable_amt ELSE 0\r\n" + 
+		"        END\r\n" + 
+		") AS cash,\r\n" + 
+		"SUM(\r\n" + 
+		"    CASE WHEN t_sell_bill_header.payment_mode = 2 THEN t_sell_bill_header.payable_amt ELSE 0\r\n" + 
+		"END\r\n" + 
+		") AS card,\r\n" + 
+		"SUM(\r\n" + 
+		"    CASE WHEN t_sell_bill_header.payment_mode = 3 THEN t_sell_bill_header.payable_amt ELSE 0\r\n" + 
+		"END\r\n" + 
+		") AS other,\r\n" + 
+		"m_franchisee.fr_name\r\n" + 
+		"FROM\r\n" + 
+		"    t_sell_bill_header,\r\n" + 
+		"    m_franchisee\r\n" + 
+		"WHERE\r\n" + 
+		"    t_sell_bill_header.bill_date BETWEEN :fromDate AND :toDate AND t_sell_bill_header.fr_id IN(:frId) AND m_franchisee.fr_id = t_sell_bill_header.fr_id\r\n" + 
+		"GROUP BY\r\n" + 
+		"    t_sell_bill_header.bill_date,\r\n" + 
+		"    t_sell_bill_header.fr_id\r\n" + 
+		"UNION ALL\r\n" + 
+		"SELECT\r\n" + 
+		"    DAYNAME(t_sp_cake.sp_delivery_date) AS DAY,\r\n" + 
+		"    t_sp_cake.sp_delivery_date AS bill_date,\r\n" + 
+		"    t_sp_cake.sp_order_no AS bill_no,\r\n" + 
+		"    t_sp_cake.fr_id,\r\n" + 
+		"    SUM(t_sp_cake.sp_grand_total) AS cash,\r\n" + 
+		"    0 AS card,\r\n" + 
+		"    0 AS other,\r\n" + 
+		"    m_franchisee.fr_name\r\n" + 
+		"FROM\r\n" + 
+		"    t_sp_cake,\r\n" + 
+		"    m_franchisee\r\n" + 
+		"WHERE\r\n" + 
+		"    t_sp_cake.sp_delivery_date BETWEEN :fromDate AND :toDate AND t_sp_cake.fr_id IN(:frId) AND m_franchisee.fr_id = t_sp_cake.fr_id AND t_sp_cake.sp_book_for_mob_no != \"0\"\r\n" + 
+		"GROUP BY\r\n" + 
+		"    t_sp_cake.sp_delivery_date,\r\n" + 
+		"    t_sp_cake.fr_id\r\n" + 
+		") t1\r\n" + 
+		"GROUP BY\r\n" + 
+		"    t1.bill_date\r\n" + 
+		"ORDER BY\r\n" + 
+		"    t1.bill_date",nativeQuery=true)
 List<GetRepFrDatewiseSell> getRepFrDatewiseSell(@Param("fromDate") String fromDate,@Param("toDate") String toDate, @Param("frId") List<String> frId);
 
 

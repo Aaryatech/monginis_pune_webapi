@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.model.GetCurrentStockDetails;
+import com.ats.webapi.model.OpsDSRModel;
 import com.ats.webapi.model.dailysales.DailySalesRegular;
 import com.ats.webapi.model.dailysales.DailySalesReportDao;
 import com.ats.webapi.model.dailysales.SpDailySales;
@@ -45,6 +46,37 @@ public class DailySalesReportController {
 		dailySalesReportDaoList.setSpDailySalesList(spDailySList);
 		dailySalesReportDaoList.setDailySalesRegularList(dailySalesReport);
 		return dailySalesReportDaoList;
+
+	}
+	
+	
+	@RequestMapping(value = "/getDailySalesDataPrint", method = RequestMethod.POST)
+	public @ResponseBody OpsDSRModel getDailySalesDataPrint(@RequestParam("frId") int frId,@RequestParam("date") String date) {
+
+		System.err.println("frId" + frId );
+		OpsDSRModel res = new OpsDSRModel();
+
+		float amt=dailySalesRegularReportRepo.getOpeningAmtForDSR(frId,date);
+		System.err.println("OPENING AMT - "+amt);
+		
+		res.setOpeningAmt(amt);
+		
+		float purchase=dailySalesRegularReportRepo.getPurchaseAmtForDSR(frId,date);
+		System.err.println("PURCHASE AMT - "+purchase);
+		
+		res.setPurchase(purchase);
+		
+		float grngvn=dailySalesRegularReportRepo.getGrnGvnAmtForDSR(frId,date);
+		System.err.println("GRNGVN AMT - "+grngvn);
+		
+		res.setGrnGvn(grngvn);
+		
+		float sale=dailySalesRegularReportRepo.getSaleAmtForDSR(frId,date);
+		System.err.println("SALE AMT - "+sale);
+		
+		res.setSale(sale);
+		
+		return res;
 
 	}
 

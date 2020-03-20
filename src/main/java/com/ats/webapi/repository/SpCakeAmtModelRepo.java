@@ -11,7 +11,7 @@ import com.ats.webapi.model.pettycash.SpCakeAmtModel;
 public interface SpCakeAmtModelRepo extends JpaRepository<SpCakeAmtModel, Integer>{
 	
 	@Query(value="SELECT\r\n" + 
-			"    UUID() AS id, t1.amt AS rem_amt, t2.amt AS adv_amt\r\n" + 
+			"    UUID() AS id, COALESCE(t1.amt,0) AS rem_amt, COALESCE(t2.amt,0) AS adv_amt \r\n" + 
 			"FROM\r\n" + 
 			"    (\r\n" + 
 			"    SELECT\r\n" + 

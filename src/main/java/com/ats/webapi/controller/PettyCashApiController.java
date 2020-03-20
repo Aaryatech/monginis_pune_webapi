@@ -140,18 +140,18 @@ public class PettyCashApiController {
 		return amtList;
 	}
 
-	/*
-	 * // Anmol
-	 * 
-	 * @RequestMapping(value = { "/getSpCakeAmtForPettyCash" }, method =
-	 * RequestMethod.POST) public SpCakeAmtModel
-	 * getSpCakeAmtForPettyCash(@RequestParam("frId") int frId,
-	 * 
-	 * @RequestParam("date") String date) { SpCakeAmtModel amt = new
-	 * SpCakeAmtModel(); try { amt =
-	 * spCakeAmtModelRepo.getSpCakeAmtForPettyCash(frId, date); } catch (Exception
-	 * e) { System.err.println("Exception in getSpCakeAmtForPettyCash : " +
-	 * e.getMessage()); e.printStackTrace(); } return amt; }
-	 */
+	// Anmol
+
+	@RequestMapping(value = { "/getSpCakeAmtForPettyCash" }, method = RequestMethod.POST)
+	public SpCakeAmtModel getSpCakeAmtForPettyCash(@RequestParam("frId") int frId, @RequestParam("date") String date) {
+		SpCakeAmtModel amt = new SpCakeAmtModel();
+		try {
+			amt = spCakeAmtModelRepo.getSpCakeAmtForPettyCash(frId, date);
+		} catch (Exception e) {
+			System.err.println("Exception in getSpCakeAmtForPettyCash : " + e.getMessage());
+			e.printStackTrace();
+		}
+		return amt;
+	}
 
 }

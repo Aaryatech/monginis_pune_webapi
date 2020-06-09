@@ -19,6 +19,7 @@ import com.ats.webapi.model.report.frpurchase.SalesReportBillwiseAllFr;
 import com.ats.webapi.model.report.frpurchase.SalesReportItemwise;
 import com.ats.webapi.model.report.frpurchase.SalesReportRoyalty;
 import com.ats.webapi.model.report.frpurchase.SalesReportRoyaltyFr;
+import com.ats.webapi.model.report.frpurchase.SalesRoyaltyConsByCat;
 import com.ats.webapi.model.salesvaluereport.SalesReturnItemDaoList;
 import com.ats.webapi.model.salesvaluereport.SalesReturnQtyDao;
 import com.ats.webapi.model.salesvaluereport.SalesReturnQtyReportList;
@@ -32,6 +33,7 @@ import com.ats.webapi.repository.frpurchasereport.SaleReportBillwiseRepo;
 import com.ats.webapi.repository.frpurchasereport.SaleReportItemwiseRepo;
 import com.ats.webapi.repository.frpurchasereport.SalesReportRoyaltyFrRepo;
 import com.ats.webapi.repository.frpurchasereport.SalesReportRoyaltyRepo;
+import com.ats.webapi.repository.frpurchasereport.SalesRoyaltyConsByCatRepo;
 import com.ats.webapi.repository.salesreturnreport.SalesReturnQtyDaoRepository;
 import com.ats.webapi.repository.salesreturnreport.SalesReturnValueDaoRepository;
 import com.ats.webapi.repository.salesreturnreport.SalesReturnValueItemDaoRepo;
@@ -576,26 +578,27 @@ public class SalesReportController {
 
 				System.err.println("Cat ID List contains zero ");
 				catIdList.clear();
-
-				// String s="1"+","+"2"+","+"3"+","+ "4";
-				for (int i = 1; i <= 4; i++) {
-					String s = new String();
-
-					s = i + ",";
-
-					catIdList.add(s);
-
-				}
-
+				catIdList.add("1");
+				catIdList.add("2");
+				catIdList.add("3");
+				catIdList.add("4");
+				catIdList.add("5");
+				catIdList.add("6");
 				System.err.println("New cat ID List" + catIdList);
 
 			}
+
 			if (getBy == 1) {
 				if (type == 1) {
 					if (catIdList.contains("5")) {
-						salesReportRoyaltyList = salesReportRoyaltyRepo
-								.getSaleReportRoyConsoByCatAllFrForSpCake(catIdList, fromDate, toDate);
-						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyList.toString());
+						System.err.println("New 1");
+						salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCatAllFr(catIdList,
+								fromDate, toDate);
+						List<String> spcats = new ArrayList<>(Arrays.asList("5"));
+						List<SalesReportRoyalty> salesReportRoyaltyListRes = salesReportRoyaltyRepo
+								.getSaleReportRoyConsoByCatAllFrForSpCake(spcats, fromDate, toDate);
+						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyListRes.toString());
+						salesReportRoyaltyList.addAll(salesReportRoyaltyListRes);
 
 					} else {
 
@@ -605,9 +608,16 @@ public class SalesReportController {
 					}
 				} else if (type == 2) {
 					if (catIdList.contains("5")) {
+						System.err.println("New 2");
+
 						salesReportRoyaltyList = salesReportRoyaltyRepo
-								.getSaleReportRoyConsoByCatAllFrForSpCakeAndType2(catIdList, fromDate, toDate);
-						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyList.toString());
+								.getSaleReportRoyConsoByCatAllFrAndType2(catIdList, fromDate, toDate);
+
+						List<String> spcats = new ArrayList<>(Arrays.asList("5"));
+						List<SalesReportRoyalty> salesReportRoyaltyListRes = salesReportRoyaltyRepo
+								.getSaleReportRoyConsoByCatAllFrForSpCakeAndType2(spcats, fromDate, toDate);
+						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyListRes.toString());
+						salesReportRoyaltyList.addAll(salesReportRoyaltyListRes);
 
 					} else {
 
@@ -619,9 +629,15 @@ public class SalesReportController {
 			} else {
 				if (type == 1) {
 					if (catIdList.contains("5")) {
+						System.err.println("New 3");
+
 						salesReportRoyaltyList = salesReportRoyaltyRepo
-								.getSaleReportRoyConsoByCatAllFrForSpCakeByGrandTotal(catIdList, fromDate, toDate);
-						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyList.toString());
+								.getSaleReportRoyConsoByCatAllFrByGrandTotal(catIdList, fromDate, toDate);
+						List<String> spcats = new ArrayList<>(Arrays.asList("5"));
+						List<SalesReportRoyalty> salesReportRoyaltyListRes = salesReportRoyaltyRepo
+								.getSaleReportRoyConsoByCatAllFrForSpCakeByGrandTotal(spcats, fromDate, toDate);
+						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyListRes.toString());
+						salesReportRoyaltyList.addAll(salesReportRoyaltyListRes);
 
 					} else {
 
@@ -632,10 +648,15 @@ public class SalesReportController {
 				} else if (type == 2) {
 
 					if (catIdList.contains("5")) {
+						System.err.println("New 4");
+
 						salesReportRoyaltyList = salesReportRoyaltyRepo
-								.getSaleReportRoyConsoByCatAllFrForSpCakeByGrandTotalAndType2(catIdList, fromDate,
-										toDate);
-						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyList.toString());
+								.getSaleReportRoyConsoByCatAllFrByGrandTotalAndType2(catIdList, fromDate, toDate);
+						List<String> spcats = new ArrayList<>(Arrays.asList("5"));
+						List<SalesReportRoyalty> salesReportRoyaltyListRes = salesReportRoyaltyRepo
+								.getSaleReportRoyConsoByCatAllFrForSpCakeByGrandTotalAndType2(spcats, fromDate, toDate);
+						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyListRes.toString());
+						salesReportRoyaltyList.addAll(salesReportRoyaltyListRes);
 
 					} else {
 
@@ -645,6 +666,80 @@ public class SalesReportController {
 					}
 				}
 			}
+
+//			if (catIdList.contains("0")) {
+//
+//				System.err.println("Cat ID List contains zero ");
+//				catIdList.clear();
+//
+//				// String s="1"+","+"2"+","+"3"+","+ "4";
+//				for (int i = 1; i <= 4; i++) {
+//					String s = new String();
+//
+//					s = i + ",";
+//
+//					catIdList.add(s);
+//
+//				}
+//
+//				System.err.println("New cat ID List" + catIdList);
+//
+//			}
+//			if (getBy == 1) {
+//				if (type == 1) {
+//					if (catIdList.contains("5")) {
+//						salesReportRoyaltyList = salesReportRoyaltyRepo
+//								.getSaleReportRoyConsoByCatAllFrForSpCake(catIdList, fromDate, toDate);
+//						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyList.toString());
+//
+//					} else {
+//
+//						salesReportRoyaltyList = salesReportRoyaltyRepo.getSaleReportRoyConsoByCatAllFr(catIdList,
+//								fromDate, toDate);
+//						System.out.println("getSaleReportBillwise" + salesReportRoyaltyList.toString());
+//					}
+//				} else if (type == 2) {
+//					if (catIdList.contains("5")) {
+//						salesReportRoyaltyList = salesReportRoyaltyRepo
+//								.getSaleReportRoyConsoByCatAllFrForSpCakeAndType2(catIdList, fromDate, toDate);
+//						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyList.toString());
+//
+//					} else {
+//
+//						salesReportRoyaltyList = salesReportRoyaltyRepo
+//								.getSaleReportRoyConsoByCatAllFrAndType2(catIdList, fromDate, toDate);
+//						System.out.println("getSaleReportBillwise" + salesReportRoyaltyList.toString());
+//					}
+//				}
+//			} else {
+//				if (type == 1) {
+//					if (catIdList.contains("5")) {
+//						salesReportRoyaltyList = salesReportRoyaltyRepo
+//								.getSaleReportRoyConsoByCatAllFrForSpCakeByGrandTotal(catIdList, fromDate, toDate);
+//						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyList.toString());
+//
+//					} else {
+//
+//						salesReportRoyaltyList = salesReportRoyaltyRepo
+//								.getSaleReportRoyConsoByCatAllFrByGrandTotal(catIdList, fromDate, toDate);
+//						System.out.println("getSaleReportBillwise" + salesReportRoyaltyList.toString());
+//					}
+//				} else if (type == 2) {
+//
+//					if (catIdList.contains("5")) {
+//						salesReportRoyaltyList = salesReportRoyaltyRepo
+//								.getSaleReportRoyConsoByCatAllFrForSpCakeByGrandTotalAndType2(catIdList, fromDate,
+//										toDate);
+//						System.out.println("getSaleReportBillwisespppppp" + salesReportRoyaltyList.toString());
+//
+//					} else {
+//
+//						salesReportRoyaltyList = salesReportRoyaltyRepo
+//								.getSaleReportRoyConsoByCatAllFrByGrandTotalAndType2(catIdList, fromDate, toDate);
+//						System.out.println("getSaleReportBillwise" + salesReportRoyaltyList.toString());
+//					}
+//				}
+//			}
 
 		} catch (Exception e) {
 			System.out.println(" Exce in sales Report Royalty  By Category " + e.getMessage());
@@ -790,4 +885,38 @@ public class SalesReportController {
 	}
 	// ------------------------------------------------------------------------------------------------------------------------
 
+	@Autowired
+	SalesRoyaltyConsByCatRepo salesRoyaltyConsByCatRepo;
+	
+	// Anmol------14-5-2020
+		@RequestMapping(value = { "/getSaleRoyConsoByCatReportData" }, method = RequestMethod.POST)
+		public @ResponseBody List<SalesRoyaltyConsByCat> getSaleRoyConsoByCatReportData(
+				@RequestParam("frIdList") List<String> frIdList, @RequestParam("catIdList") List<String> catIdList,
+				@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
+
+			List<SalesRoyaltyConsByCat> salesReportRoyaltyList = null;
+			try {
+				fromDate = Common.convertToYMD(fromDate);
+				toDate = Common.convertToYMD(toDate);
+
+				System.out.println("Input received for report 10 roy by category few fr Selected " + fromDate + "" + toDate
+						+ "" + frIdList + "cat=" + catIdList);
+
+				if (catIdList.contains("5")) {
+					salesReportRoyaltyList = salesRoyaltyConsByCatRepo.getSaleRoyConsoByCatUnion(catIdList, frIdList,
+							fromDate, toDate);
+					System.out.println("getSaleReportRoyConsoByCatForSp" + salesReportRoyaltyList.toString());
+				} else {
+					salesReportRoyaltyList = salesRoyaltyConsByCatRepo.getSaleRoyConsoByCat(catIdList, frIdList, fromDate,
+							toDate);
+					System.out.println("getSaleReportBillwise" + salesReportRoyaltyList.toString());
+
+				}
+			} catch (Exception e) {
+				System.out.println(" Exce in sales Report Royalty  By Category " + e.getMessage());
+				e.printStackTrace();
+			}
+			return salesReportRoyaltyList;
+		}
+	
 }

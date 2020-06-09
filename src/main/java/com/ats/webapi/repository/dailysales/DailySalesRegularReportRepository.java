@@ -316,19 +316,27 @@ public interface DailySalesRegularReportRepository extends JpaRepository<DailySa
 	
 	//Anmol
 	
-	@Query(value=" SELECT t1.opening+t2.purchase-t3.grn_gvn-t4.sale as opening_amt FROM\n" + 
-			"(\n" + 
-			"    SELECT 1 as flag,\n" + 
-			"    SUM(a.tot) as opening\n" + 
-			"FROM( SELECT\n" + 
-			"        h.*, d.opening_stock_detail_id, d.item_id, d.reg_opening_stock,\n" + 
-			"        CASE WHEN f.fr_rate_cat = 1 THEN i.item_mrp1 ELSE i.item_mrp3\n" + 
-			"END AS mrp,\n" + 
-			"CASE WHEN f.fr_rate_cat = 1 THEN(\n" + 
-			"    d.reg_opening_stock * i.item_mrp1\n" + 
-			") ELSE(\n" + 
-			"    d.reg_opening_stock * i.item_mrp3\n" + 
-			")\n" + 
+	@Query(value=" SELECT\n" + 
+			"    t1.opening + t2.purchase - t3.grn_gvn - t4.sale AS opening_amt\n" + 
+			"FROM\n" + 
+			"    (\n" + 
+			"    SELECT\n" + 
+			"        1 AS flag,\n" + 
+			"        SUM(a.tot) AS opening\n" + 
+			"    FROM\n" + 
+			"        (\n" + 
+			"        SELECT\n" + 
+			"            h.*,\n" + 
+			"            d.opening_stock_detail_id,\n" + 
+			"            d.item_id,\n" + 
+			"            d.reg_opening_stock,\n" + 
+			"            CASE WHEN f.fr_rate_cat = 1 THEN i.item_mrp1 ELSE i.item_mrp3\n" + 
+			"    END AS mrp,\n" + 
+			"    CASE WHEN f.fr_rate_cat = 1 THEN(\n" + 
+			"        d.reg_opening_stock * i.item_mrp1\n" + 
+			"    ) ELSE(\n" + 
+			"        d.reg_opening_stock * i.item_mrp3\n" + 
+			"    )\n" + 
 			"END AS tot\n" + 
 			"FROM\n" + 
 			"    m_fr_opening_stock_header h,\n" + 
@@ -338,43 +346,155 @@ public interface DailySalesRegularReportRepository extends JpaRepository<DailySa
 			"WHERE\n" + 
 			"    h.opening_stock_header_id = d.opening_stock_header_id AND h.is_month_closed = 0 AND h.fr_id =:frId AND h.fr_id = f.fr_id AND d.item_id = i.id\n" + 
 			") a\n" + 
-			"\n" + 
-			") t1 \n" + 
-			"LEFT JOIN\n" + 
-			"(\n" + 
-			"    SELECT 1 as flag, CASE WHEN (SELECT h.month FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id)=(SELECT DATE_FORMAT(:date,'%m')) THEN\n" + 
-			"SUM(grand_total) ELSE 0\n" + 
-			"END as purchase FROM t_bill_header h WHERE h.del_status=0 AND h.fr_id=:frId AND h.bill_date BETWEEN (SELECT CONCAT(h.year,'-',LPAD(h.month, 2, 0),'-01') FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id) AND DATE_FORMAT(subdate(:date,interval 1 day),\"%Y-%m-%d\")\n" + 
-			"\n" + 
-			")t2 ON t1.flag=t2.flag\n" + 
-			"\n" + 
-			"LEFT JOIN\n" + 
-			"(\n" + 
-			"SELECT 1 as flag, CASE WHEN (SELECT h.month FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id)=(SELECT DATE_FORMAT(:date,'%m')) THEN\n" + 
-			"SUM(total_amt) ELSE 0\n" + 
-			"END as grn_gvn FROM t_grn_gvn_header h WHERE h.fr_id=:frId AND h.grngvn_date BETWEEN (SELECT CONCAT(h.year,'-',LPAD(h.month, 2, 0),'-01') FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id) AND DATE_FORMAT(subdate(:date,interval 1 day),\"%Y-%m-%d\")\n" + 
-			"\n" + 
-			") t3 ON t1.flag=t3.flag\n" + 
-			"\n" + 
-			"LEFT JOIN\n" + 
-			"\n" + 
-			"(\n" + 
-			"    SELECT 1 as flag, CASE WHEN (SELECT h.month FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id)=(SELECT DATE_FORMAT(:date,'%m')) THEN\n" + 
-			"SUM(grand_total) ELSE 0\n" + 
-			"END as sale FROM t_sell_bill_header h WHERE h.del_status=0 AND h.fr_id=:frId AND h.bill_date BETWEEN (SELECT CONCAT(h.year,'-',LPAD(h.month, 2, 0),'-01') FROM m_fr_opening_stock_header h WHERE h.fr_id=:frId AND h.is_month_closed=0 GROUP BY h.fr_id) AND DATE_FORMAT(subdate(:date,interval 1 day),\"%Y-%m-%d\")\n" + 
-			"    \n" + 
-			") t4 ON t1.flag=t4.flag",nativeQuery=true)
+			") t1\n" + 
+			"LEFT JOIN(\n" + 
+			"    SELECT\n" + 
+			"        1 AS flag,\n" + 
+			"        CASE WHEN(\n" + 
+			"        SELECT\n" + 
+			"            h.month\n" + 
+			"        FROM\n" + 
+			"            m_fr_opening_stock_header h\n" + 
+			"        WHERE\n" + 
+			"            h.fr_id =:frId AND h.is_month_closed = 0\n" + 
+			"        GROUP BY\n" + 
+			"            h.fr_id\n" + 
+			"    ) =(\n" + 
+			"    SELECT\n" + 
+			"        DATE_FORMAT(:date, '%m')\n" + 
+			") THEN COALESCE(SUM(d.bill_qty*d.mrp),0) ELSE 0\n" + 
+			"END AS purchase\n" + 
+			"FROM\n" + 
+			"    t_bill_header h,\n" + 
+			"    t_bill_detail d\n" + 
+			"WHERE\n" + 
+			"    h.del_status = 0 AND h.bill_no=d.bill_no AND h.fr_id =:frId AND h.bill_date BETWEEN(\n" + 
+			"    SELECT\n" + 
+			"        CONCAT(\n" + 
+			"            h.year,\n" + 
+			"            '-',\n" + 
+			"            LPAD(h.month, 2, 0),\n" + 
+			"            '-01'\n" + 
+			"        )\n" + 
+			"    FROM\n" + 
+			"        m_fr_opening_stock_header h\n" + 
+			"    WHERE\n" + 
+			"        h.fr_id =:frId AND h.is_month_closed = 0\n" + 
+			"    GROUP BY\n" + 
+			"        h.fr_id\n" + 
+			") AND DATE_FORMAT(\n" + 
+			"    SUBDATE(:date, INTERVAL 1 DAY),\n" + 
+			"    '%Y-%m-%d'\n" + 
+			")\n" + 
+			") t2\n" + 
+			"ON\n" + 
+			"    t1.flag = t2.flag\n" + 
+			"LEFT JOIN(\n" + 
+			"    SELECT\n" + 
+			"        1 AS flag,\n" + 
+			"        CASE WHEN(\n" + 
+			"        SELECT\n" + 
+			"            h.month\n" + 
+			"        FROM\n" + 
+			"            m_fr_opening_stock_header h\n" + 
+			"        WHERE\n" + 
+			"            h.fr_id =:frId AND h.is_month_closed = 0\n" + 
+			"        GROUP BY\n" + 
+			"            h.fr_id\n" + 
+			"    ) =(\n" + 
+			"    SELECT\n" + 
+			"        DATE_FORMAT(:date, '%m')\n" + 
+			") THEN CASE WHEN\n" + 
+			"    f.fr_rate_cat = 1 THEN COALESCE(SUM(d.grn_gvn_qty * i.item_mrp1),0) ELSE COALESCE(SUM(d.grn_gvn_qty * i.item_mrp3),0)\n" + 
+			"END ELSE 0\n" + 
+			"END AS grn_gvn\n" + 
+			"FROM\n" + 
+			"    t_grn_gvn_header h,\n" + 
+			"    t_grn_gvn d,\n" + 
+			"    m_item i,\n" + 
+			"    m_franchisee f\n" + 
+			"WHERE\n" + 
+			"    h.grn_gvn_header_id = d.grn_gvn_header_id AND d.item_id = i.id AND h.fr_id = f.fr_id AND h.fr_id =:frId AND h.grngvn_date BETWEEN(\n" + 
+			"    SELECT\n" + 
+			"        CONCAT(\n" + 
+			"            h.year,\n" + 
+			"            '-',\n" + 
+			"            LPAD(h.month, 2, 0),\n" + 
+			"            '-01'\n" + 
+			"        )\n" + 
+			"    FROM\n" + 
+			"        m_fr_opening_stock_header h\n" + 
+			"    WHERE\n" + 
+			"        h.fr_id =:frId AND h.is_month_closed = 0\n" + 
+			"    GROUP BY\n" + 
+			"        h.fr_id\n" + 
+			") AND DATE_FORMAT(\n" + 
+			"    SUBDATE(:date, INTERVAL 1 DAY),\n" + 
+			"    '%Y-%m-%d'\n" + 
+			")\n" + 
+			") t3\n" + 
+			"ON\n" + 
+			"    t1.flag = t3.flag\n" + 
+			"LEFT JOIN(\n" + 
+			"    SELECT\n" + 
+			"        1 AS flag,\n" + 
+			"        CASE WHEN(\n" + 
+			"        SELECT\n" + 
+			"            h.month\n" + 
+			"        FROM\n" + 
+			"            m_fr_opening_stock_header h\n" + 
+			"        WHERE\n" + 
+			"            h.fr_id =:frId AND h.is_month_closed = 0\n" + 
+			"        GROUP BY\n" + 
+			"            h.fr_id\n" + 
+			"    ) =(\n" + 
+			"    SELECT\n" + 
+			"        DATE_FORMAT(:date, '%m')\n" + 
+			") THEN COALESCE(SUM(grand_total),0) ELSE 0\n" + 
+			"END AS sale\n" + 
+			"FROM\n" + 
+			"    t_sell_bill_header h\n" + 
+			"WHERE\n" + 
+			"    h.del_status = 0 AND h.fr_id =:frId AND h.bill_date BETWEEN(\n" + 
+			"    SELECT\n" + 
+			"        CONCAT(\n" + 
+			"            h.year,\n" + 
+			"            '-',\n" + 
+			"            LPAD(h.month, 2, 0),\n" + 
+			"            '-01'\n" + 
+			"        )\n" + 
+			"    FROM\n" + 
+			"        m_fr_opening_stock_header h\n" + 
+			"    WHERE\n" + 
+			"        h.fr_id =:frId AND h.is_month_closed = 0\n" + 
+			"    GROUP BY\n" + 
+			"        h.fr_id\n" + 
+			") AND DATE_FORMAT(\n" + 
+			"    SUBDATE(:date, INTERVAL 1 DAY),\n" + 
+			"    '%Y-%m-%d'\n" + 
+			")\n" + 
+			") t4\n" + 
+			"ON\n" + 
+			"    t1.flag = t4.flag",nativeQuery=true)
 	float getOpeningAmtForDSR(@Param("frId")int frId,@Param("date") String date);
 
 	
-	@Query(value=" SELECT COALESCE(SUM(d.grand_total),0) as purchase FROM t_bill_header h, t_bill_detail d WHERE h.bill_no=d.bill_no AND h.del_status=0 AND h.bill_date=:date AND h.fr_id=:frId AND d.cat_id!=5",nativeQuery=true)
+	@Query(value=" SELECT COALESCE(SUM(d.bill_qty*d.mrp),0) as purchase FROM t_bill_header h, t_bill_detail d WHERE h.bill_no=d.bill_no AND h.del_status=0 AND h.bill_date=:date AND h.fr_id=:frId AND d.cat_id!=5",nativeQuery=true)
 	float getPurchaseAmtForDSR(@Param("frId")int frId,@Param("date") String date);
 
-	@Query(value=" SELECT COALESCE(SUM(d.grn_gvn_amt),0) as grn_gvn FROM t_grn_gvn_header h,t_grn_gvn d WHERE h.grngvn_date=:date AND h.fr_id=:frId AND h.grn_gvn_header_id=d.grn_gvn_header_id AND d.cat_id!=5 ",nativeQuery=true)
+	@Query(value=" SELECT CASE WHEN f.fr_rate_cat=1 THEN COALESCE(SUM(d.grn_gvn_qty*i.item_mrp1), 0) ELSE COALESCE(SUM(d.grn_gvn_qty*i.item_mrp3), 0) END AS grn_gvn FROM t_grn_gvn_header h, t_grn_gvn d, m_item i, m_franchisee f WHERE h.grngvn_date =:date AND h.fr_id =:frId AND h.grn_gvn_header_id = d.grn_gvn_header_id AND h.fr_id=f.fr_id AND d.item_id=i.id AND d.cat_id != 5  ",nativeQuery=true)
 	float getGrnGvnAmtForDSR(@Param("frId")int frId,@Param("date") String date);
 
 	@Query(value=" SELECT COALESCE(SUM(d.grand_total),0) as sale FROM t_sell_bill_header h, t_sell_bill_detail d WHERE h.sell_bill_no=d.sell_bill_no AND h.del_status=0 AND h.bill_date=:date AND h.fr_id=:frId AND d.cat_id!=5",nativeQuery=true)
 	float getSaleAmtForDSR(@Param("frId")int frId,@Param("date") String date);
+	
+	
+	@Query(value=" SELECT COALESCE(GROUP_CONCAT(h.bill_no),'') FROM t_bill_header h WHERE h.del_status=0 AND h.fr_id=:frId AND h.bill_date=:date",nativeQuery=true)
+	String getPurchaseBillIds(@Param("frId")int frId,@Param("date") String date);
+
+	@Query(value=" SELECT COALESCE(GROUP_CONCAT(exp_id),'') FROM m_expense WHERE fr_id=:frId AND exp_date=:date AND del_status=0",nativeQuery=true)
+	String getExpenseIds(@Param("frId")int frId,@Param("date") String date);
+
 
 	
 }

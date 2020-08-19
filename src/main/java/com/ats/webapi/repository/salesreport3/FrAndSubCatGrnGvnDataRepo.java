@@ -56,7 +56,9 @@ public interface FrAndSubCatGrnGvnDataRepo extends JpaRepository<FrAndSubCatGrnG
 			"    ch.crn_id = cd.crn_id AND cd.del_status=0 AND ch.crn_date BETWEEN :fromDate AND :toDate AND f.fr_id = ch.fr_id AND sp.sp_id = cd.item_id AND cd.cat_id = sc.cat_id AND cd.cat_id = 5 AND ch.fr_id IN(:frIdList) AND sc.sub_cat_id IN(:subCatIdList) AND cd.is_grn = 0\r\n" + 
 			"GROUP BY\r\n" + 
 			"    ch.fr_id,\r\n" + 
-			"    sp.sp_id", nativeQuery = true)
+		//	"    sp.sp_id",
+			"sc.sub_cat_id",
+			nativeQuery = true)
 	List<FrAndSubCatGrnGvnData> getVariationData(@Param("fromDate") String fromDate, @Param("toDate") String toDate,
 			@Param("frIdList") List<Integer> frIdList, @Param("subCatIdList") List<Integer> subCatIdList);
 
@@ -107,7 +109,10 @@ public interface FrAndSubCatGrnGvnDataRepo extends JpaRepository<FrAndSubCatGrnG
 			"    ch.crn_id = cd.crn_id AND cd.del_status=0 AND ch.crn_date BETWEEN :fromDate AND :toDate AND f.fr_id = ch.fr_id AND sp.sp_id = cd.item_id AND cd.cat_id = sc.cat_id AND cd.cat_id = 5 AND ch.fr_id IN(:frIdList) AND sc.sub_cat_id IN(:subCatIdList) AND cd.is_grn = 1\r\n" + 
 			"GROUP BY\r\n" + 
 			"    ch.fr_id,\r\n" + 
-			"    sp.sp_id", nativeQuery = true)
+			//"    sp.sp_id",
+			"	sc.sub_cat_id",
+			
+			nativeQuery = true)
 	List<FrAndSubCatGrnGvnData> getReturnData(@Param("fromDate") String fromDate, @Param("toDate") String toDate,
 			@Param("frIdList") List<Integer> frIdList, @Param("subCatIdList") List<Integer> subCatIdList);
 

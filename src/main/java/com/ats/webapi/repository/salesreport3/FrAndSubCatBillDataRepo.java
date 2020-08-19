@@ -58,7 +58,8 @@ public interface FrAndSubCatBillDataRepo extends JpaRepository<FrAndSubCatBillDa
 			"    bh.bill_no = bd.bill_no AND bd.item_id = sp.sp_id AND bd.cat_id = sc.cat_id AND bh.fr_id = f.fr_id AND bh.del_status = 0 AND bd.del_status = 0 AND sc.sub_cat_id IN(:subCatIdList) AND bh.fr_id IN(:frIdList) AND bh.bill_date BETWEEN :fromDate AND :toDate AND bd.cat_id = 5\r\n" + 
 			"GROUP BY\r\n" + 
 			"    bh.fr_id,\r\n" + 
-			"    sp.sp_id,\r\n" + 
+			//"    sp.sp_id,\r\n" + 
+			"sc.sub_cat_id,"+
 			"    MONTH(bh.bill_date),\r\n" + 
 			"    YEAR(bh.bill_date) ", nativeQuery = true)
 	List<FrAndSubCatBillData> getBillData(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("frIdList") List<Integer> frIds, @Param("subCatIdList") List<Integer> subCatIds);

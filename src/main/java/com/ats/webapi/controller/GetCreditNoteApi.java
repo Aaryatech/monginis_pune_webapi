@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ats.webapi.commons.Common;
 import com.ats.webapi.model.CrnDetailsSummary;
+import com.ats.webapi.model.CrnDetailsSummaryNew;
 import com.ats.webapi.model.CrnHsnwiseExcelReport;
 import com.ats.webapi.model.crncumulative.GetCrnCumulative;
 import com.ats.webapi.model.grngvn.GetCreditNoteHeaders;
@@ -23,6 +24,7 @@ import com.ats.webapi.model.grngvn.GetCrnDetails;
 import com.ats.webapi.model.grngvn.GetCrnDetailsList;
 import com.ats.webapi.model.grngvn.PostCreditNoteDetails;
 import com.ats.webapi.repository.CrnDetailSummaryRepository;
+import com.ats.webapi.repository.CrnDetailsSummaryNewRepo;
 import com.ats.webapi.repository.CrnHsnwiseExcelReportRepository;
 import com.ats.webapi.repository.crncumulative.GetCrnCumulativeRepository;
 import com.ats.webapi.repository.getcreditnote.GetCreditNoteDetailRepo;
@@ -43,6 +45,10 @@ public class GetCreditNoteApi {
 	
 	@Autowired
 	CrnDetailSummaryRepository crnDetailSummaryRepository;
+	
+	@Autowired
+	CrnDetailsSummaryNewRepo crnDetailsSummaryNewRepo;
+	
 	//27/04
 	@Autowired
 	CrnHsnwiseExcelReportRepository crnHsnwiseExcelReportRepository;
@@ -245,6 +251,24 @@ public class GetCreditNoteApi {
 
 		return details;
 	}
+	
+	@RequestMapping(value = { "/getCrnDetailsSummaryNewByCrnIds" }, method = RequestMethod.POST)
+	public @ResponseBody List<CrnDetailsSummaryNew>  getCrnDetailsSummaryNewByCrnIds(@RequestParam("crnId") List<String> crnId) {
+
+		List<CrnDetailsSummaryNew> details = new ArrayList<CrnDetailsSummaryNew>();
+
+		try {
+
+			details = crnDetailsSummaryNewRepo.getCrnDetailsSummaryById(crnId);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return details;
+	}
+	
+	
 	//-------------------------------For Crn Note Frontend--------------------------------
 	@RequestMapping(value = { "/getCrnHeadersByGrnGvnHeaderId" }, method = RequestMethod.POST)
 	public @ResponseBody GetCreditNoteHeadersList getCrnHeadersByGrnGvnHeaderId(

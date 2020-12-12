@@ -36,5 +36,7 @@ public interface CrnDetailSummaryRepository extends JpaRepository<CrnDetailsSumm
 			"    WHERE\n" + 
 			"        detail.crn_id IN (:crnId)  group by item_hsncd",nativeQuery=true)
 	List<CrnDetailsSummary> getCrnDetailsSummaryById(@Param("crnId")List<String> crnId);
+	
+
 
 }

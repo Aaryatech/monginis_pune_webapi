@@ -10,7 +10,7 @@ import com.ats.webapi.model.grngvn.GetGrnGvnForCreditNote;
 
 public interface GrnGvnForCreditNoteRepositoty extends JpaRepository<GetGrnGvnForCreditNote, Integer>{
 	
-	@Query(value = " " + 
+	/*@Query(value = " " + 
 			" SELECT" + 
 			"        t_grn_gvn.grn_gvn_id," + 
 			"        t_grn_gvn.grn_gvn_header_id," + 
@@ -69,6 +69,90 @@ public interface GrnGvnForCreditNoteRepositoty extends JpaRepository<GetGrnGvnFo
 			"        AND t_grn_gvn.grn_gvn_status=6  AND  t_grn_gvn.grn_gvn_date between :fromDate and :toDate AND  t_grn_gvn.fr_id IN(:frId)" + 
 			"    group by" + 
 			"        t_grn_gvn.grn_gvn_id "
+			, nativeQuery = true)
+	
+	List<GetGrnGvnForCreditNote> getGrnGvnDetailForCreditNote(@Param("isGrn") int isGrn,@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("frId") List<Integer> frId);
+	*/
+	
+	
+	
+	
+	@Query(value = " " + 
+			" SELECT\n" + 
+			"    t1.*,\n" + 
+			"     CASE WHEN t1.cat_id = 5 THEN t3.sp_name ELSE t2.item_name\n" + 
+			"END AS item_name\n" + 
+			"FROM\n" + 
+			"    (\n" + 
+			"    SELECT\n" + 
+			"        g.grn_gvn_id,\n" + 
+			"        g.grn_gvn_header_id,\n" + 
+			"        h.grngvn_srno,\n" + 
+			"        g.grn_gvn_entry_datetime,\n" + 
+			"        g.grn_gvn_date,\n" + 
+			"        g.bill_no,\n" + 
+			"        g.fr_id,\n" + 
+			"        g.item_id,\n" + 
+			"        g.item_rate,\n" + 
+			"        g.item_mrp,\n" + 
+			"        g.apr_qty_acc,\n" + 
+			"        g.apr_grand_total,\n" + 
+			"        g.grn_type,\n" + 
+			"        g.is_grn,\n" + 
+			"        g.is_grn_edit,\n" + 
+			"        g.fr_grn_gvn_remark,\n" + 
+			"        g.grn_gvn_status,\n" + 
+			"        g.del_status,\n" + 
+			"        g.grn_gvn_qty_auto,\n" + 
+			"        g.is_tally_sync,\n" + 
+			"        g.base_rate,\n" + 
+			"        g.sgst_per,\n" + 
+			"        g.cgst_per,\n" + 
+			"        g.igst_per,\n" + 
+			"        g.apr_taxable_amt,\n" + 
+			"        g.apr_total_tax,\n" + 
+			"        g.apr_r_off,\n" + 
+			"        g.is_credit_note,\n" + 
+			"        g.menu_id,\n" + 
+			"        g.cat_id,\n" + 
+			"        g.invoice_no,\n" + 
+			"        g.hsn_code,\n" + 
+			"        g.ref_invoice_date,\n" + 
+			"        CAST(\n" + 
+			"            g.approved_datetime_acc AS CHAR\n" + 
+			"        ) AS approved_datetime_acc,\n" + 
+			"        f.fr_name\n" + 
+			"    FROM\n" + 
+			"        t_grn_gvn g,\n" + 
+			"        t_grn_gvn_header h,m_franchisee f\n" + 
+			"    WHERE\n" + 
+			"        g.is_grn = :isGrn AND g.grn_gvn_header_id = h.grn_gvn_header_id AND g.is_credit_note = 0 AND g.grn_gvn_status = 6 AND g.grn_gvn_date BETWEEN :fromDate AND :toDate AND g.fr_id=f.fr_id AND f.fr_id IN(:frId)\n" + 
+			"    GROUP BY\n" + 
+			"        g.grn_gvn_id\n" + 
+			") t1\n" + 
+			"LEFT JOIN(\n" + 
+			"    SELECT\n" + 
+			"        id,\n" + 
+			"        item_name\n" + 
+			"    FROM\n" + 
+			"        m_item\n" + 
+			"    WHERE\n" + 
+			"        del_status = 0\n" + 
+			") t2\n" + 
+			"ON\n" + 
+			"    t1.item_id = t2.id\n" + 
+			"\n" + 
+			"LEFT JOIN(\n" + 
+			"    SELECT\n" + 
+			"        sp_id,\n" + 
+			"        sp_name\n" + 
+			"    FROM\n" + 
+			"        m_sp_cake\n" + 
+			"    WHERE\n" + 
+			"        del_status = 0\n" + 
+			") t3\n" + 
+			"ON\n" + 
+			"    t1.item_id = t3.sp_id"
 			, nativeQuery = true)
 	
 	List<GetGrnGvnForCreditNote> getGrnGvnDetailForCreditNote(@Param("isGrn") int isGrn,@Param("fromDate") String fromDate,@Param("toDate") String toDate,@Param("frId") List<Integer> frId);

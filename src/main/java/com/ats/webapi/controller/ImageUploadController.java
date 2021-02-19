@@ -22,7 +22,25 @@ import javassist.bytecode.stackmap.BasicBlock.Catch;
 @RestController
 public class ImageUploadController {
 
-	private static String SUGGESTION_URL = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/SUGGESTION/";
+	public static final String UPLOADBASEPATH = "/opt/cpanel/ea-tomcat85/webapps/uploadspune/";
+
+	
+	private static String SUGGESTION_URL = UPLOADBASEPATH+"SUGGESTION/";
+	private static String COMPLAINT_URL = UPLOADBASEPATH+"COMPLAINT/";
+	private static String NOTIFICATION_URL = UPLOADBASEPATH+"NOTIFICATION/";
+	private static String FEEDBACK_URL = UPLOADBASEPATH+"FEEDBACK/";
+	
+	public static final String M_SP_CAKE_FOLDER = UPLOADBASEPATH+"MSPCAKE/";
+	public static final String MSG_FOLDER = UPLOADBASEPATH+"MSG/";
+	public static final String FR_FOLDER = UPLOADBASEPATH+"FR/";
+	public static final String ITEM_FOLDER = UPLOADBASEPATH+"ITEM/";
+	public static final String RAW_MAT_IMAGE_FOLDER = UPLOADBASEPATH+"RAWMAT/";
+	public static final String GATE_ENTRY_IMAGE_FOLDER = UPLOADBASEPATH+"GATEENTRY/";
+	private static final String SP_CAKE_FOLDER = UPLOADBASEPATH+"SPCAKE/";
+	private static final String CUST_CHOICE_PHOTO_CAKE_FOLDER = UPLOADBASEPATH+"CUSTCHOICEPHOTOCAKE/";
+
+	
+	/*private static String SUGGESTION_URL = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/SUGGESTION/";
 	private static String COMPLAINT_URL = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/COMPLAINT/";
 	private static String NOTIFICATION_URL = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/NOTIFICATION/";
 	private static String FEEDBACK_URL = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/FEEDBACK/";
@@ -36,7 +54,7 @@ public class ImageUploadController {
 	private static final String SP_CAKE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/SPCAKE/";
 	private static final String CUST_CHOICE_PHOTO_CAKE_FOLDER = "/opt/apache-tomcat-8.5.37/webapps/uploadspune/CUSTCHOICEPHOTOCAKE/";
 
-
+*/
 	//private static String BILL_FOLDER ="/home/maxadmin/Desktop/photos/";
 	
 	

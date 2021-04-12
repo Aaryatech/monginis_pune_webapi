@@ -115,4 +115,40 @@ public class EInvoiceApiController {
 	}
 	
 	
+	/********* E Invoice of Credit note*////
+	
+	@RequestMapping(value = { "/getCredNoteListForEInvoice" }, method = RequestMethod.POST)
+	public @ResponseBody List<EInvBillHeader> getCredNoteListForEInvoice(
+			@RequestParam("crnIdList") List<String> crnIdList) {
+		System.err.println("In getCredNoteListForEInvoice");
+		List<EInvBillHeader> crnHeadList = new ArrayList<>();
+		try {
+
+			crnHeadList = eInvBillHeader.getCredNoteHeaderforEInv(crnIdList);
+
+			for (int i = 0; i < crnHeadList.size(); i++) {
+				try {
+
+					List<EInvBillDetail> billDetail = eInvBillDetailRepo
+							.getCredNoteDetailForEInvOfCN(crnHeadList.get(i).getBillNo());
+
+
+					crnHeadList.get(i).seteInvBillDetail(billDetail);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return crnHeadList;
+	}
+	
+	
+	
+	
 }

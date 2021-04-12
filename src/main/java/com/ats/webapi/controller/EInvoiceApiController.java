@@ -85,6 +85,7 @@ public class EInvoiceApiController {
 	
 	
 	
+	
 	 @Autowired
 	    FranchiseSupRepository franchiseSupRepository;
 	
@@ -148,6 +149,30 @@ public class EInvoiceApiController {
 		return crnHeadList;
 	}
 	
+	@RequestMapping(value = { "/updateIRNForEInvInCN" }, method = RequestMethod.POST)
+	public @ResponseBody ErrorMessage updateIRNForEInvInCN(@RequestParam int billNo,
+			@RequestParam String irnAndAckNo) {
+		//System.err.println("Hiiii");
+		ErrorMessage errorMessage = new ErrorMessage();
+		errorMessage.setError(true);
+		try {
+			int x = 0;
+			x = eInvBillHeader.updateIRNForEInvInCN(irnAndAckNo, billNo);
+			if (x > 0) {
+				errorMessage = new ErrorMessage();
+				errorMessage.setError(false);
+				errorMessage.setMessage("success");
+			}
+			// errorMessage.set
+		} catch (Exception e) {
+			errorMessage = new ErrorMessage();
+			errorMessage.setError(true);
+			errorMessage.setMessage("exception " + e.getMessage());
+			e.printStackTrace();
+			
+		}
+		return errorMessage;
+	}
 	
 	
 	

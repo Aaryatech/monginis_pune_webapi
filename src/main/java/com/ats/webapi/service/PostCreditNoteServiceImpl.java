@@ -1,13 +1,16 @@
 package com.ats.webapi.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ats.webapi.model.bill.Company;
 import com.ats.webapi.model.grngvn.PostCreditNoteDetails;
 import com.ats.webapi.model.grngvn.PostCreditNoteHeader;
+import com.ats.webapi.repository.CompanyRepository;
 import com.ats.webapi.repository.FrItemStockConfigureRepository;
 import com.ats.webapi.repository.PostCreditNoteDetailsRepository;
 import com.ats.webapi.repository.PostCreditNoteHeaderRepository;
@@ -36,7 +39,7 @@ public class PostCreditNoteServiceImpl implements PostCreditNoteService {
 	
 	@Autowired
 	UpdateSeetingForPBRepo updateSeetingForPBRepo;
-	
+	@Autowired CompanyRepository companyRepository;
 	@Override
 	public List<PostCreditNoteHeader> savePostCreditNote(List<PostCreditNoteHeader> postCreditNoteHeader) {
 
@@ -47,8 +50,28 @@ public class PostCreditNoteServiceImpl implements PostCreditNoteService {
 
 			creditNoteHeader = new PostCreditNoteHeader();
 			int crnSrNo=frItemStockConfRepo.findBySettingKey("CRE_NOTE_NO");
+			
+			
+			Company company = null;
+			try {
+				String pattern = "yyyy-MM-dd";
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+				String date = simpleDateFormat.format(new java.util.Date());
+				 company=companyRepository.findByBillDate(date);
+
+			} catch (Exception e) {
+				System.out.println(" Exce in bill Header List for Print " + e.getMessage());
+				e.printStackTrace();
+			}
+			
+			
 			//System.err.println("crnSrNo"+crnSrNo);
-			postCreditNoteHeader.get(i).setCrnNo(""+crnSrNo);
+			String credNotePrefix=null;
+			credNotePrefix=company.getExVar6();
+			String strCrnNo = String.format("%03d", crnSrNo);
+
+			postCreditNoteHeader.get(i).setCrnNo(credNotePrefix+strCrnNo);
 
 			creditNoteHeader = postCreditNoteHeaderRepository.save(postCreditNoteHeader.get(i));
 

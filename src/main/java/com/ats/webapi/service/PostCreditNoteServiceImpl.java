@@ -69,9 +69,9 @@ public class PostCreditNoteServiceImpl implements PostCreditNoteService {
 			//System.err.println("crnSrNo"+crnSrNo);
 			String credNotePrefix=null;
 			credNotePrefix=company.getExVar6();
-			String strCrnNo = String.format("%03d", crnSrNo);
+			//String strCrnNo = String.format("%03d", crnSrNo);
 
-			postCreditNoteHeader.get(i).setCrnNo(credNotePrefix+strCrnNo);
+			postCreditNoteHeader.get(i).setCrnNo(credNotePrefix+crnSrNo);
 
 			creditNoteHeader = postCreditNoteHeaderRepository.save(postCreditNoteHeader.get(i));
 
